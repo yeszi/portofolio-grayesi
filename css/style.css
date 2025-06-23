@@ -21,7 +21,7 @@
 :root {
     --bg-color: #fdfdfd;
     --text-color: #333;
-    --main-color: #689197;
+    --main-color: #754ef9;
     --white-color: #fdfdfd;
     --black-color: #000;
     --shadow-color: rgba(0, 0, 0, .2);
@@ -32,7 +32,7 @@
 .dark-mode {
     --bg-color: #0b061f;
     --text-color: #fdfdfd;
-    --main-color: #689197;
+    --main-color: #9f7bff;
     --white-color: #1a1a1a;
     --black-color: #fdfdfd;
     --shadow-color: rgba(0, 0, 0, .7);
@@ -320,16 +320,18 @@ section {
     display: block;
 }
 
-/* HOME IMAGE (YOUR PROFILE PICTURE) - Revised for placement */
+/* HOME IMAGE (YOUR PROFILE PICTURE) - MASUK KE DALAM AREA BERWARNA */
 .home-img {
-    position: absolute; /* Tetap absolute */
-    right: 300px; /* Posisikan ke kiri dari profession-container */
-    bottom: 0; /* Posisikan di bagian bawah section home */
-    width: 450px; /* Sesuaikan lebar container gambar */
-    height: 100%; /* Agar gambar bisa menempati tinggi penuh home section jika diinginkan */
+    position: relative;
+    /* Posisikan relatif terhadap .home */
+    top: 50%; /* Tengah secara vertikal dari section home */
+    right: 100; /* Posisikan di paling kanan dari section home */
+    transform: translateY(-100%); /* Penyesuaian untuk tengah vertikal */
+    width: 450px; /* Lebar container gambar, sesuaikan ini */
+    height: 150%; /* Agar gambar bisa menempati tinggi penuh home section jika diinginkan */
     display: flex;
-    justify-content: center; /* Pusatkan gambar secara horizontal dalam container ini */
-    align-items: flex-end; /* Pusatkan gambar secara vertikal (di bagian bawah) */
+    justify-content: flex-start; /* Posisikan gambar di kiri container ini (yang ada di paling kanan) */
+    align-items: cenleftter; /* Pusatkan gambar secara vertikal dalam container ini */
     z-index: 10; /* Pastikan di atas profession-container dan overlay */
     pointer-events: none;
     overflow: hidden; /* Penting untuk memotong gambar jika terlalu besar */
@@ -340,9 +342,13 @@ section {
     height: auto; /* Jaga rasio aspek */
     display: block;
     object-fit: contain; /* Pastikan gambar masuk tanpa terpotong */
-    /* Jika gambar Anda terlalu tinggi dan memotong di desktop, coba: */
-    max-height: 90vh; /* Sesuaikan jika perlu */
+    /* Mungkin perlu penyesuaian posisi gambar di dalam .home-img jika gambar tidak simetris */
+    /* Contoh: transform: translateX(-20px); atau margin-left: -20px; */
+    transform: translateX(-20px); /* Adjust to move image more into the colored area */
+    max-height: 90vh; /* Sesuaikan jika gambar terlalu tinggi */
+    margin-left: -20px;
 }
+
 
 
 /* Warna Span (Aksen) */
@@ -942,7 +948,7 @@ span {
     }
 }
 
-/* Mobile Sangat Kecil (max-width: 500px) */
+/* Mobile Sangat Kecil (max-width: 450px) */
 @media (max-width: 450px) {
     html {
         font-size: 45%;
