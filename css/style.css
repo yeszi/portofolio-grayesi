@@ -325,10 +325,10 @@ section {
     position: absolute;
     /* Posisikan relatif terhadap .home */
     top: 50%; /* Tengah secara vertikal dari section home */
-    right: 100px; /* Posisikan di paling kanan dari section home */
+    right: 55px; /* Posisikan di paling kanan dari section home */
     transform: translateY(-50%); /* Penyesuaian untuk tengah vertikal */
-    width: 450px; /* Lebar container gambar, sesuaikan ini */
-    height: 150%; /* Agar gambar bisa menempati tinggi penuh home section jika diinginkan */
+    width: 400px; /* Lebar container gambar, sesuaikan ini */
+    height: 100%; /* Agar gambar bisa menempati tinggi penuh home section jika diinginkan */
     display: flex;
     justify-content: flex-start; /* Posisikan gambar di kiri container ini (yang ada di paling kanan) */
     align-items: center; /* Pusatkan gambar secara vertikal dalam container ini */
