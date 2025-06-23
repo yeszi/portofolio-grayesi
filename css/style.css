@@ -322,16 +322,16 @@ section {
 
 /* HOME IMAGE (YOUR PROFILE PICTURE) - MASUK KE DALAM AREA BERWARNA */
 .home-img {
-    position: relative;
+    position: absolute;
     /* Posisikan relatif terhadap .home */
     top: 50%; /* Tengah secara vertikal dari section home */
-    right: 100; /* Posisikan di paling kanan dari section home */
-    transform: translateY(-100%); /* Penyesuaian untuk tengah vertikal */
+    right: 100px; /* Posisikan di paling kanan dari section home */
+    transform: translateY(-50%); /* Penyesuaian untuk tengah vertikal */
     width: 450px; /* Lebar container gambar, sesuaikan ini */
     height: 150%; /* Agar gambar bisa menempati tinggi penuh home section jika diinginkan */
     display: flex;
     justify-content: flex-start; /* Posisikan gambar di kiri container ini (yang ada di paling kanan) */
-    align-items: cenleftter; /* Pusatkan gambar secara vertikal dalam container ini */
+    align-items: center; /* Pusatkan gambar secara vertikal dalam container ini */
     z-index: 10; /* Pastikan di atas profession-container dan overlay */
     pointer-events: none;
     overflow: hidden; /* Penting untuk memotong gambar jika terlalu besar */
