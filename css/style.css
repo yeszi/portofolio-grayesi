@@ -11,7 +11,6 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* Ini sepertinya untuk debugging atau fitur edit-in-place, bisa dihapus jika tidak digunakan */
 [contenteditable="true"] {
     background-color: rgba(255, 255, 0, 0.1);
 }
@@ -24,7 +23,7 @@
     --white-color: #fdfdfd; /* Warna putih */
     --black-color: #000; /* Warna hitam */
     --shadow-color: rgba(0, 0, 0, .2); /* Warna bayangan */
-    --second-bg-color: #f8f8f8; /* Warna latar belakang sekunder, disarankan konsisten */
+    --second-bg-color: #f8f8f8; /* Warna latar belakang sekunder */
 }
 
 /* Definisi Variabel untuk Mode Gelap */
@@ -43,7 +42,8 @@ body, .header, .navbar a, #darkMode-icon, .home .profession-box .profession,
 .home .profession-box .circle, .home .profession-container .overlay,
 .social-media a, .btn, .about-img img, .services-container .services-box,
 .testimonial-content .testimonial-slide, .contact form .input-box input,
-.contact form textarea, .footer, .footer-iconTop a {
+.contact form textarea, .footer, .footer-iconTop a,
+.project-box .portfolio-layer { /* Tambahkan portfolio-layer untuk transisi warna overlay */
     transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
@@ -54,7 +54,7 @@ body, .header, .navbar a, #darkMode-icon, .home .profession-box .profession,
 
 html {
     font-size: 62.5%;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
 }
 
 body {
@@ -68,15 +68,15 @@ body {
     left: 0;
     width: 100%;
     padding: 2rem 7%;
-    background: transparent; /* Awalnya transparan */
+    background: transparent;
     display: flex;
     align-items: center;
     z-index: 100;
 }
 
 .header.sticky {
-    background: var(--bg-color); /* Menggunakan variabel */
-    box-shadow: 0 .1rem 1rem var(--shadow-color); /* Menggunakan variabel */
+    background: var(--bg-color);
+    box-shadow: 0 .1rem 1rem var(--shadow-color);
 }
 
 .logo {
@@ -89,13 +89,13 @@ body {
 .navbar a {
     position: relative;
     font-size: 1.7rem;
-    color: var(--white-color); /* Menggunakan white-color untuk teks navbar di header transparan */
+    color: var(--white-color);
     font-weight: 500;
     margin-right: 3.5rem;
 }
 
 .header.sticky .navbar a {
-    color: var(--text-color); /* Menggunakan text-color saat sticky */
+    color: var(--text-color);
 }
 
 .header.sticky .navbar a.active {
@@ -109,7 +109,7 @@ body {
     bottom: -6px;
     width: 100%;
     height: .2rem;
-    background: var(--white-color); /* Menggunakan white-color */
+    background: var(--white-color);
 }
 
 .header.sticky .navbar a::before {
@@ -119,60 +119,60 @@ body {
 
 #darkMode-icon {
     font-size: 2.4rem;
-    color: var(--white-color); /* Menggunakan white-color */
+    color: var(--white-color);
     cursor: pointer;
 }
 
 .header.sticky #darkMode-icon {
-    color: var(--text-color); /* Menggunakan text-color saat sticky */
+    color: var(--text-color);
     opacity: .9;
 }
 
 #menu-icon {
     font-size: 3.6rem;
-    color: var(--text-color); /* Menggunakan text-color */
-    display: none;
+    color: var(--text-color);
+    display: none; /* Defaultnya tersembunyi di desktop */
 }
 
 section {
     min-height: 100vh;
     padding: 10rem 7% 2rem;
-    background: var(--second-bg-color); /* Tambahkan latar belakang sekunder untuk section */
+    background: var(--second-bg-color);
 }
 
 /* Home Section */
 .home {
     display: flex;
     align-items: center;
-    /* max-width dihapus karena konflik dengan layout responsif */
-    /* width: 100vw; ini juga bisa menyebabkan masalah di beberapa kasus */
-    padding: 10rem 7% 2rem; /* Tambahkan padding ke section home */
-    background: var(--bg-color); /* Latar belakang utama untuk home */
+    /* max-width dan width: 100vw; dihapus di sini karena akan diatur oleh padding dan media queries */
+    padding: 10rem 7% 2rem; /* Penting agar konten tidak terlalu menepi */
+    background: var(--bg-color);
+    position: relative; /* Penting untuk positioning elemen di dalamnya */
 }
 
 .home .home-content {
     max-width: 44rem;
-    position: relative; /* Penting untuk z-index jika ada overlap */
-    z-index: 10; /* Pastikan konten di atas elemen profesi */
+    position: relative;
+    z-index: 10;
 }
 
 .home-content h3 {
     font-size: 3.2rem;
     font-weight: 700;
     line-height: .3;
-    color: var(--text-color); /* Menggunakan text-color */
+    color: var(--text-color);
 }
 
 .home-content h1 {
     font-size: 5.6rem;
     font-weight: 700;
     margin-bottom: .3rem;
-    color: var(--text-color); /* Menggunakan text-color */
+    color: var(--text-color);
 }
 
 .home-content p {
     font-size: 1.6rem;
-    color: var(--text-color); /* Menggunakan text-color */
+    color: var(--text-color);
 }
 
 .home-content .social-media a {
@@ -225,14 +225,14 @@ section {
     height: 100vh;
     overflow: hidden;
     pointer-events: none;
-    z-index: 5; /* Di bawah konten utama */
+    z-index: 5;
 }
 
 .home .profession-container .profession-box {
     position: absolute;
     top: 0;
     right: 0;
-    width: 768px;
+    width: 768px; /* Ukuran ini adalah titik pivot untuk rotasi */
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -250,19 +250,19 @@ section {
 
 .home .profession-box .profession {
     position: absolute;
-    left: 0;
+    left: 0; /* Penting agar elemen menempel ke kiri box rotasi */
     display: flex;
     align-items: center;
     flex-direction: column;
     color: var(--main-color);
     transform: rotate(calc(360deg / 4 * var(--i)));
-    transform-origin: 384px;
-    background: var(--bg-color); /* Menggunakan variabel */
+    transform-origin: 384px; /* Pusat rotasi */
+    background: var(--bg-color);
     padding: 13px 0;
 }
 
 .home .profession-box .profession:nth-child(1) i {
-    margin-right: 15px;
+    margin-right: 15px; /* Sesuaikan margin jika diperlukan */
 }
 
 .home .profession-box .profession:nth-child(2),
@@ -307,7 +307,7 @@ section {
     pointer-events: none;
     max-width: 480px;
     max-height: 100vh;
-    z-index: 1; /* Di atas overlay, di bawah konten utama */
+    z-index: 1;
 }
 
 span {
@@ -319,40 +319,41 @@ span {
     justify-content: center;
     align-items: center;
     gap: 4rem;
-    background: var(--bg-color); /* Menggunakan bg-color */
+    background: var(--second-bg-color); /* Umumnya menggunakan second-bg-color untuk section */
 }
 
 .about-img img {
     width: 40vw;
+    border-radius: 20px; /* Ditambahkan dari bagian bawah */
 }
 
 .heading {
     font-size: 4.5rem;
     text-align: center;
-    color: var(--text-color); /* Menggunakan text-color */
+    color: var(--text-color);
 }
 
 .about-content h2 {
     text-align: left;
     line-height: 1.2;
-    color: var(--text-color); /* Menggunakan text-color */
+    color: var(--text-color);
 }
 
 .about-content h3 {
     font-size: 2rem;
-    color: var(--text-color); /* Menggunakan text-color */
+    color: var(--text-color);
 }
 
 .about-content p {
     font-size: 1.6rem;
     margin: 2rem 0 3rem;
-    color: var(--text-color); /* Menggunakan text-color */
+    color: var(--text-color);
 }
 
 .services {
     min-height: auto;
     padding-bottom: 10rem;
-    background: var(--second-bg-color); /* Menggunakan second-bg-color */
+    background: var(--bg-color); /* Umumnya menggunakan bg-color untuk section */
 }
 
 .services h2 {
@@ -369,10 +370,10 @@ span {
 
 .services-container .services-box {
     flex: 1 1 30rem;
-    background: var(--bg-color); /* Menggunakan bg-color */
+    background: var(--second-bg-color); /* Box di services menggunakan second-bg-color */
     padding: 3rem 2rem 4rem;
     border-radius: 2rem;
-    box-shadow: 0 .1rem .5rem var(--shadow-color); /* Menggunakan variabel */
+    box-shadow: 0 .1rem .5rem var(--shadow-color);
     text-align: center;
     border-top: .6rem solid var(--main-color);
     border-bottom: .6rem solid var(--main-color);
@@ -380,7 +381,7 @@ span {
 }
 
 .services-container .services-box:hover {
-    box-shadow: 0 .1rem 2rem var(--shadow-color); /* Menggunakan variabel */
+    box-shadow: 0 .1rem 2rem var(--shadow-color);
     transform: scale(1.02);
 }
 
@@ -392,7 +393,7 @@ span {
 .services-box h3 {
     font-size: 2.6rem;
     transition: .5s ease;
-    color: var(--text-color); /* Menggunakan text-color */
+    color: var(--text-color);
 }
 
 .services-box:hover h3 {
@@ -402,50 +403,51 @@ span {
 .services-box p {
     font-size: 1.6rem;
     margin: 1rem 0 3rem;
-    color: var(--text-color); /* Menggunakan text-color */
+    color: var(--text-color);
 }
 
 .project {
     min-height: auto;
     padding-bottom: 10rem;
-    background: var(--bg-color); /* Menggunakan bg-color */
+    background: var(--second-bg-color); /* Umumnya menggunakan second-bg-color untuk section */
 }
 
 .project h2 {
     margin-bottom: 4rem;
 }
 
-.project .project-container { /* Mengubah portfolio-container menjadi project-container sesuai HTML */
+.project .project-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
     gap: 2.5rem;
 }
 
-.project-container .project-box { /* Mengubah portfolio-box menjadi project-box sesuai HTML */
+.project-container .project-box {
     position: relative;
     display: flex;
     border-radius: 2rem;
-    box-shadow: 0 0 1rem var(--shadow-color); /* Menggunakan variabel */
+    box-shadow: 0 0 1rem var(--shadow-color);
     overflow: hidden;
 }
 
 .project-box img {
     width: 100%;
     transition: .5s ease;
+    border-radius: 20px; /* Tambahkan border-radius di sini juga */
 }
 
 .project-box:hover img {
     transform: scale(1.1);
 }
 
-.project-box .portfolio-layer { /* Konsisten dengan HTML */
+.project-box .portfolio-layer {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    /* Gunakan rgba dengan warna dasar atau kalkulasi jika perlu */
+    /* Pastikan warna overlay menyesuaikan dark mode. Jika main-color sudah OK, ini akan OK. */
     background: linear-gradient(rgba(0, 0, 0, .1), var(--main-color));
     color: var(--white-color);
     display: flex;
@@ -455,7 +457,6 @@ span {
     text-align: center;
     padding: 0 4rem;
     opacity: 0;
-    transition: .5s ease;
 }
 
 .project-box:hover .portfolio-layer {
@@ -492,7 +493,7 @@ span {
     flex-direction: column;
     width: 100%;
     padding: 5rem 1rem;
-    background: var(--second-bg-color); /* Menggunakan second-bg-color */
+    background: var(--bg-color); /* Umumnya menggunakan bg-color untuk section */
 }
 
 .testimonial-container .testimonial-wrapper {
@@ -512,9 +513,9 @@ span {
     display: flex;
     align-items: center;
     flex-direction: column;
-    background: var(--bg-color); /* Menggunakan bg-color */
+    background: var(--second-bg-color); /* Slide di testimoni menggunakan second-bg-color */
     border-radius: 2rem;
-    box-shadow: 0 .1rem .5rem var(--shadow-color); /* Menggunakan variabel */
+    box-shadow: 0 .1rem .5rem var(--shadow-color);
     padding: 3rem 5rem;
     border-top: .8rem solid var(--main-color);
     border-bottom: .8rem solid var(--main-color);
@@ -525,20 +526,20 @@ span {
     height: 14rem;
     object-fit: cover;
     border-radius: 50%;
-    border: .5rem solid var(--bg-color); /* Menggunakan bg-color */
+    border: .5rem solid var(--bg-color);
     outline: .5rem solid var(--main-color);
 }
 
 .testimonial-slide h3 {
     font-size: 2.5rem;
     margin: 2rem 0;
-    color: var(--text-color); /* Menggunakan text-color */
+    color: var(--text-color);
 }
 
 .testimonial-slide p {
     font-size: 1.4rem;
     text-align: center;
-    color: var(--text-color); /* Menggunakan text-color */
+    color: var(--text-color);
 }
 
 .testimonial-box .swiper-button-next,
@@ -547,7 +548,7 @@ span {
 }
 
 .testimonial-box .swiper-pagination-bullet {
-    background: var(--shadow-color); /* Menggunakan variabel */
+    background: var(--shadow-color);
 }
 
 .testimonial-box .swiper-pagination-bullet-active {
@@ -557,7 +558,7 @@ span {
 .contact {
     min-height: auto;
     padding-bottom: 7rem;
-    background: var(--second-bg-color); /* Menggunakan second-bg-color */
+    background: var(--bg-color); /* Umumnya menggunakan bg-color untuk section */
 }
 
 .contact h2 {
@@ -569,10 +570,10 @@ span {
     margin: 1rem auto;
     text-align: center;
     margin-bottom: 3rem;
-    background: var(--bg-color); /* Menggunakan bg-color */
-    padding: 3rem; /* Tambahkan padding agar form terlihat rapi */
-    border-radius: 1rem; /* Tambahkan border-radius */
-    box-shadow: 0 .1rem .5rem var(--shadow-color); /* Tambahkan shadow */
+    background: var(--second-bg-color); /* Form di contact menggunakan second-bg-color */
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 .1rem .5rem var(--shadow-color);
 }
 
 .contact form .input-box {
@@ -587,7 +588,7 @@ span {
     padding: 1.5rem;
     font-size: 1.6rem;
     color: var(--text-color);
-    background: var(--second-bg-color); /* Menggunakan second-bg-color untuk input/textarea */
+    background: var(--bg-color); /* Input field menggunakan bg-color */
     border-radius: .8rem;
     margin: .7rem 0;
     box-shadow: 0 .1rem .5rem var(--shadow-color);
@@ -612,12 +613,12 @@ span {
     align-items: center;
     flex-wrap: wrap;
     padding: 2rem 7%;
-    background: var(--main-color); /* Menggunakan main-color */
+    background: var(--main-color);
 }
 
 .footer-text p {
     font-size: 1.6rem;
-    color: var(--white-color); /* Menggunakan white-color */
+    color: var(--white-color);
 }
 
 .footer-iconTop a {
@@ -625,7 +626,7 @@ span {
     justify-content: center;
     align-items: center;
     padding: .8rem;
-    background: var(--white-color); /* Menggunakan white-color */
+    background: var(--white-color);
     border-radius: .8rem;
     border: .2rem solid var(--main-color);
     outline: .2rem solid transparent;
@@ -633,10 +634,306 @@ span {
 }
 
 .footer-iconTop a:hover {
-    outline-color: var(--white-color); /* Menggunakan white-color */
+    outline-color: var(--white-color);
 }
 
 .footer-iconTop a i {
     font-size: 2.4rem;
-    color: var(--text-color); /* Menggunakan text-color agar berubah dengan tema */
+    color: var(--text-color);
+}
+
+
+/* --- BREAKPOINTS UNTUK RESPONSIVITAS --- */
+
+/* Tablet & Smaller Desktop */
+@media (max-width: 1200px) {
+    html {
+        font-size: 55%; /* Mengecilkan ukuran font dasar */
+    }
+
+    .home .profession-container .profession-box {
+        right: -10%; /* Sesuaikan posisi box profesi */
+    }
+
+    .home .profession-container .overlay {
+        right: -6%; /* Sesuaikan posisi overlay */
+    }
+
+    .home-img img {
+        right: 0;
+    }
+}
+
+@media (max-width: 1100px) {
+    .home .profession-container .profession-box {
+        right: -15%;
+    }
+
+    .home-img img {
+        max-width: 420px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .header {
+        padding: 2rem 3%; /* Kurangi padding header */
+    }
+
+    section {
+        padding: 10rem 3% 2rem; /* Kurangi padding section */
+    }
+
+    .home .profession-container .profession-box {
+        right: -20%;
+    }
+
+    .home .profession-container .overlay {
+        right: -12%;
+    }
+
+    .home-img img {
+        max-width: 400px;
+    }
+}
+
+/* Tablet Portrait & Mobile Landscape (Large) */
+@media (max-width: 991px) {
+    /* Navbar dan icon menu untuk mobile */
+    #menu-icon {
+        display: block; /* Tampilkan icon menu */
+    }
+
+    /* Ubah posisi darkMode-icon agar tidak menempel menu-icon */
+    #darkMode-icon {
+        position: absolute;
+        right: 7rem; /* Jauhkan dari menu-icon */
+        font-size: 2.6rem;
+        color: var(--text-color);
+        margin-bottom: .1rem;
+    }
+
+    .navbar {
+        position: absolute;
+        top: 100%; /* Turunkan navbar ke bawah header */
+        left: 0;
+        width: 100%;
+        padding: 1rem 3%;
+        background: var(--bg-color); /* Latar belakang navbar saat aktif */
+        border-top: .1rem solid var(--shadow-color);
+        box-shadow: 0 .5rem 1rem var(--shadow-color);
+        display: none; /* Sembunyikan default */
+    }
+
+    .navbar.active {
+        display: block; /* Tampilkan saat menu aktif */
+    }
+
+    .navbar a {
+        display: block; /* Jadikan link blok untuk setiap baris */
+        font-size: 2rem;
+        margin: 3rem 0;
+        color: var(--text-color); /* Warna teks link di menu mobile */
+    }
+
+    /* Hilangkan garis bawah aktif di navbar mobile */
+    .navbar a.active::before {
+        display: none;
+    }
+
+    .home {
+        flex-direction: column; /* Ubah layout home menjadi kolom */
+        text-align: center;
+        padding: 0 3% 23rem; /* Sesuaikan padding agar tidak terlalu mepet */
+    }
+
+    .home-content {
+        max-width: 100%; /* Konten home penuhi lebar */
+        margin-top: 5rem; /* Beri sedikit ruang dari atas */
+    }
+
+    .home .profession-container {
+        position: relative; /* Ubah posisi menjadi relatif */
+        width: 100%;
+        height: 100%;
+        margin-top: 5rem; /* Tambahkan margin atas untuk menjauh dari konten */
+    }
+
+    .home .profession-container .profession-box {
+        position: relative; /* Ubah menjadi relatif dalam container */
+        top: 0;
+        left: 50%; /* Pusatkan box */
+        transform: translateX(-50%); /* Geser ke kiri setengah lebarnya */
+        width: 600px; /* Ukuran yang lebih kecil untuk box rotasi */
+        height: 600px;
+        animation: none; /* Nonaktifkan animasi rotasi untuk mobile agar tidak membingungkan */
+        display: block; /* Agar elemen profesi bisa diatur secara individu */
+    }
+
+    .home .profession-box .profession {
+        position: absolute;
+        left: 50%; /* Pusatkan masing-masing profesi */
+        transform-origin: 0; /* Ubah titik origin rotasi */
+        transform: translateX(-50%) rotate(calc(360deg / 4 * var(--i))); /* Sesuaikan rotasi */
+        padding: 10px 0;
+        width: 180px; /* Lebar yang lebih kecil untuk setiap profesi */
+        box-shadow: 0 .1rem .5rem var(--shadow-color); /* Tambahkan shadow */
+    }
+
+    /* Sesuaikan posisi setiap profesi secara manual untuk tampilan statis yang rapi */
+    .home .profession-box .profession:nth-child(1) { transform: translate(-50%, -150px); } /* Web Developer */
+    .home .profession-box .profession:nth-child(2) { transform: translate(-50%, 0px); }    /* UI/UX Designer */
+    .home .profession-box .profession:nth-child(3) { transform: translate(-50%, 150px); }  /* Music Addicted */
+    .home .profession-box .profession:nth-child(4) { transform: translate(-50%, 300px); } /* Writing */
+
+
+    .home .profession-box .circle {
+        display: none; /* Sembunyikan lingkaran di mobile */
+    }
+
+    .home .profession-container .overlay {
+        display: none; /* Sembunyikan overlay di mobile */
+    }
+
+    .home-img img {
+        display: none; /* Sembunyikan gambar utama di mobile */
+    }
+
+    .about {
+        flex-direction: column-reverse; /* Tumpuk bagian about */
+        text-align: center;
+    }
+
+    .about-content h2 {
+        text-align: center;
+    }
+
+    .about-img img {
+        width: 70vw; /* Sesuaikan ukuran gambar about */
+        margin-top: -2rem;
+    }
+
+    .project .project-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 kolom untuk tablet */
+    }
+
+    .testimonial-container .testimonial-wrapper {
+        padding: 5rem 0;
+    }
+
+    .testimonial-content .testimonial-slide {
+        padding: 3rem 2rem;
+    }
+
+    .testimonial-box .swiper-button-next,
+    .testimonial-box .swiper-button-prev {
+        display: none; /* Sembunyikan tombol navigasi swiper di mobile */
+    }
+
+    .footer {
+        padding: 2rem 3%; /* Kurangi padding footer */
+    }
+}
+
+/* Mobile Portrait */
+@media (max-width: 768px) {
+    html {
+        font-size: 50%; /* Kecilkan font dasar lagi */
+    }
+
+    .home {
+        padding-bottom: 30rem; /* Beri ruang lebih di bawah home */
+    }
+
+    .home .profession-container .profession-box {
+        width: 100%; /* Penuhi lebar */
+        height: auto; /* Tinggi otomatis */
+        top: auto;
+        bottom: 5rem; /* Letakkan di bagian bawah home section */
+        left: 0;
+        transform: none; /* Reset transform */
+        display: flex; /* Kembalikan ke flex untuk wrap */
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .home .profession-box .profession {
+        position: relative; /* Jadikan relatif */
+        left: auto;
+        transform: none; /* Reset rotasi */
+        flex: 1 1 150px; /* Lebar fleksibel untuk setiap profesi */
+        height: 120px; /* Tinggi tetap */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        box-shadow: 0 .1rem .5rem var(--shadow-color);
+    }
+
+    .home .profession-box .profession:nth-child(1),
+    .home .profession-box .profession:nth-child(2),
+    .home .profession-box .profession:nth-child(3),
+    .home .profession-box .profession:nth-child(4) {
+        margin: 0; /* Reset margin manual */
+        padding-bottom: 13px; /* Sesuaikan padding default */
+    }
+    .home .profession-box .profession:nth-child(1) i {
+        margin-right: 0;
+    }
+
+    .project .project-container {
+        grid-template-columns: 1fr; /* Hanya 1 kolom untuk mobile */
+    }
+
+    .contact form .input-box input {
+        width: 100%; /* Input form jadi 100% lebar */
+    }
+
+    .footer {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .footer p {
+        margin-top: 2rem;
+    }
+}
+
+/* Very small devices */
+@media (max-width: 450px) {
+    html {
+        font-size: 45%; /* Lebih kecil lagi untuk layar sangat kecil */
+    }
+
+    #darkMode-icon {
+        right: 5rem; /* Sesuaikan posisi icon gelap/terang */
+    }
+
+    .home-content h1 {
+        font-size: 4.5rem; /* Kecilkan font judul utama */
+    }
+
+    .home .profession-box .profession {
+        flex: 1 1 120px; /* Lebih kecil lagi untuk setiap profesi */
+        height: 100px;
+        font-size: 1.8rem; /* Ukuran font profesi */
+    }
+    .home .profession i {
+        font-size: 3rem; /* Ukuran icon profesi */
+    }
+    .home .profession h3 {
+        font-size: 2rem; /* Ukuran text profesi */
+    }
+    .home .profession-container .profession-box {
+        bottom: 3rem; /* Sesuaikan jarak dari bawah */
+        gap: 0.5rem;
+    }
+
+    .about-img img {
+        width: 90vw;
+    }
+
+    .footer p {
+        font-size: 1.4rem; /* Ukuran font footer */
+    }
 }
