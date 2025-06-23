@@ -1,4 +1,4 @@
-@import url('https://fonts.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 /* Reset dan Box Sizing */
 * {
@@ -139,7 +139,7 @@ body {
 #menu-icon {
     font-size: 3.6rem;
     color: var(--text-color);
-    display: none; /* Tersembunyi di desktop */
+    display: none;
 }
 
 /* Semua Section */
@@ -153,18 +153,21 @@ section {
 .home {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Menjaga konten kiri & kanan terpisah */
+    /* justify-content: space-between;  Kita akan atur manual posisi gambar */
     padding: 10rem 7% 2rem;
     background: var(--bg-color);
     position: relative;
-    overflow: hidden; /* Penting untuk efek profession-container */
+    overflow: hidden;
+    height: 100vh;
 }
 
-.home .home-content {
+.home-content {
     max-width: 44rem;
     position: relative;
     z-index: 10;
-    text-align: left; /* Teks rata kiri di desktop */
+    text-align: left;
+    /* PENTING: Beri ruang di kanan untuk gambar dan profesi box */
+    margin-right: 30%; /* Atau sesuaikan sesuai kebutuhan Anda */
 }
 
 .home-content h3 {
@@ -231,16 +234,16 @@ section {
 
 /* Profession Container - Desktop Specific */
 .home .profession-container {
-    position: absolute; /* Tetap absolute untuk desktop */
+    position: absolute;
     top: 50%;
-    right: 0;
+    right: 0; /* Posisikan ke paling kanan */
     transform: translateY(-50%);
-    width: 100vw;
+    width: 768px; /* Lebar sesuai desain segitiga/lingkaran */
     height: 100vh;
     overflow: hidden;
     pointer-events: none;
-    z-index: 5;
-    display: block; /* Pastikan terlihat di desktop */
+    z-index: 5; /* Pastikan di bawah gambar profil */
+    display: block;
 }
 
 .home .profession-container .profession-box {
@@ -301,7 +304,7 @@ section {
     border: 3px solid var(--main-color);
     border-radius: 50%;
     z-index: -1;
-    display: block; /* Pastikan terlihat di desktop */
+    display: block;
 }
 
 .home .profession-container .overlay {
@@ -314,19 +317,33 @@ section {
     border-right: 384px solid var(--main-color);
     border-bottom: 50vh solid var(--main-color);
     border-left: 384px solid transparent;
-    display: block; /* Pastikan terlihat di desktop */
+    display: block;
+}
+
+/* HOME IMAGE (YOUR PROFILE PICTURE) - Revised for placement */
+.home-img {
+    position: absolute; /* Tetap absolute */
+    right: 300px; /* Posisikan ke kiri dari profession-container */
+    bottom: 0; /* Posisikan di bagian bawah section home */
+    width: 450px; /* Sesuaikan lebar container gambar */
+    height: 100%; /* Agar gambar bisa menempati tinggi penuh home section jika diinginkan */
+    display: flex;
+    justify-content: center; /* Pusatkan gambar secara horizontal dalam container ini */
+    align-items: flex-end; /* Pusatkan gambar secara vertikal (di bagian bawah) */
+    z-index: 10; /* Pastikan di atas profession-container dan overlay */
+    pointer-events: none;
+    overflow: hidden; /* Penting untuk memotong gambar jika terlalu besar */
 }
 
 .home-img img {
-    position: absolute;
-    bottom: 0;
-    right: 40px;
-    pointer-events: none;
-    max-width: 480px;
-    max-height: 100vh;
-    z-index: 1;
-    display: block; /* Pastikan terlihat di desktop */
+    max-width: 100%; /* Gambar akan mengisi lebar container home-img */
+    height: auto; /* Jaga rasio aspek */
+    display: block;
+    object-fit: contain; /* Pastikan gambar masuk tanpa terpotong */
+    /* Jika gambar Anda terlalu tinggi dan memotong di desktop, coba: */
+    max-height: 90vh; /* Sesuaikan jika perlu */
 }
+
 
 /* Warna Span (Aksen) */
 span {
@@ -414,7 +431,7 @@ span {
 .services-box h3 {
     font-size: 2.6rem;
     transition: .5s ease;
-    color: var(--text-color);
+    color: var(--main-color);
 }
 
 .services-box:hover h3 {
@@ -674,22 +691,32 @@ span {
     html {
         font-size: 55%;
     }
-    /* Posisi profession-container disesuaikan untuk layar lebih kecil dari desktop */
+    .home-content {
+        margin-right: 25%; /* Sesuaikan margin-right */
+    }
     .home .profession-container .profession-box {
         right: -10%;
     }
     .home .profession-container .overlay {
         right: -6%;
     }
+    .home-img {
+        right: 250px; /* Geser gambar lebih ke kiri */
+        width: 400px; /* Sesuaikan lebar */
+    }
 }
 
 /* Desktop Menengah (max-width: 1100px) */
 @media (max-width: 1100px) {
+    .home-content {
+        margin-right: 20%;
+    }
     .home .profession-container .profession-box {
         right: -15%;
     }
-    .home-img img {
-        max-width: 420px;
+    .home-img {
+        right: 200px;
+        width: 350px;
     }
 }
 
@@ -701,19 +728,22 @@ span {
     section {
         padding: 10rem 3% 2rem;
     }
+    .home-content {
+        margin-right: 15%;
+    }
     .home .profession-container .profession-box {
         right: -20%;
     }
     .home .profession-container .overlay {
         right: -12%;
     }
-    .home-img img {
-        max-width: 400px;
+    .home-img {
+        right: 150px; /* Geser lebih ke kiri */
+        width: 300px; /* Kecilkan lagi */
     }
 }
 
 /* Tablet Portrait & Mobile Landscape (max-width: 991px) */
-/* Gaya ini akan MENIMPA gaya desktop untuk perangkat yang lebih kecil */
 @media (max-width: 991px) {
     /* Header & Navbar Mobile */
     #menu-icon {
@@ -752,41 +782,45 @@ span {
 
     /* HOME SECTION - MOBILE SPECIFIC STYLES */
     .home {
-        flex-direction: column; /* Menumpuk elemen */
-        padding: 10rem 3% 5rem; /* Sesuaikan padding */
-        min-height: auto; /* Tinggi home menyesuaikan konten */
-        text-align: center; /* Teks rata tengah di mobile */
+        flex-direction: column;
+        padding: 10rem 3% 5rem;
+        min-height: auto;
+        text-align: center;
+        height: auto;
     }
     .home-content {
-        order: 1; /* Pastikan konten teks di atas */
+        order: 1;
         margin-top: 0;
-        text-align: center; /* Penting: teks di home-content juga rata tengah */
+        text-align: center;
+        margin-right: 0; /* Reset margin untuk mobile */
     }
     .home-content .social-media a {
-        margin: 2.5rem 1.5rem 3rem 1.5rem; /* Sesuaikan margin untuk rata tengah */
+        margin: 2.5rem 1.5rem 3rem 1.5rem;
     }
 
     .home .profession-container {
-        position: relative; /* Kunci: jadikan relatif untuk mobile */
+        position: relative;
         width: 100%;
         height: auto;
-        transform: none; /* Reset transform */
+        transform: none;
         top: auto;
         right: auto;
-        margin-top: 5rem; /* Jarak dari home-content */
-        order: 2; /* Box profesi di bawah */
-        pointer-events: auto; /* Aktifkan interaksi */
-        overflow: visible; /* Konten tidak terpotong */
-        display: block; /* Pastikan container terlihat */
+        margin-top: 5rem;
+        order: 2;
+        pointer-events: auto;
+        overflow: visible;
+        display: block;
+        /* Hapus properti lebar dari desktop jika mengganggu */
+        width: auto;
     }
     .home .profession-container .profession-box {
-        position: relative; /* Jadikan relatif di dalam container */
+        position: relative;
         width: 100%;
         height: auto;
         top: auto;
         right: auto;
         transform: none;
-        animation: none; /* Nonaktifkan animasi rotasi */
+        animation: none;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -794,10 +828,10 @@ span {
         padding: 2rem 0;
     }
     .home .profession-box .profession {
-        position: relative; /* Jadikan relatif */
+        position: relative;
         left: auto;
         transform: none;
-        flex: 1 1 calc(50% - 1.5rem); /* 2 kolom, dengan gap */
+        flex: 1 1 calc(50% - 1.5rem);
         max-width: 250px;
         display: flex;
         align-items: center;
@@ -823,11 +857,12 @@ span {
         text-align: center;
     }
     .home .profession-box .circle,
-    .home .profession-container .overlay,
-    .home-img img {
-        display: none; /* Sembunyikan elemen ini di mobile */
+    .home .profession-container .overlay {
+        display: none;
     }
-    /* END HOME SECTION MOBILE */
+    .home-img {
+        display: none; /* SEMBUNYIKAN home-img ENTIRELY DI MOBILE */
+    }
 
     /* About Section Mobile */
     .about {
@@ -888,7 +923,7 @@ span {
         margin-top: 3rem;
     }
     .home .profession-box .profession {
-        flex: 1 1 100%; /* Hanya 1 kolom */
+        flex: 1 1 100%;
         max-width: 300px;
         margin: 0 auto;
     }
