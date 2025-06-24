@@ -8,18 +8,124 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css">
-</head>
+    </head>
+        <style>
+            .article-list {
+            background: var(--bg-color); /* Warna latar belakang */
+            padding: 5rem 5% 8rem;
+        }
+
+        .article-list .heading { /* Jika Anda ingin heading di halaman artikel terpisah */
+            text-align: center;
+            font-size: 4rem;
+            margin-bottom: 3rem;
+            color: var(--text-color);
+        }
+        .article-list .heading span {
+            color: var(--main-color);
+        }
+
+
+        .article-list .article-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Responsif */
+            gap: 2.5rem;
+            max-width: 1200px; /* Batasi lebar container */
+            margin: 0 auto; /* Tengah */
+        }
+
+        .article-list .article-box {
+            background: var(--second-bg-color); /* Latar belakang setiap kotak artikel */
+            border-radius: 1rem;
+            box-shadow: 0 0 1rem var(--main-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column; /* Konten di dalam kotak */
+            transition: transform .3s ease;
+        }
+
+        .article-list .article-box:hover {
+            transform: translateY(-0.8rem); /* Efek melayang saat hover */
+            box-shadow: 0 0 2rem var(--main-color); /* Bayangan lebih kuat */
+        }
+
+        .article-list .article-box img {
+            width: 100%;
+            height: 220px; /* Tinggi thumbnail artikel */
+            object-fit: cover;
+            display: block; /* Menghilangkan spasi ekstra di bawah gambar */
+        }
+
+        .article-list .article-box .article-content {
+            padding: 1.5rem;
+            flex-grow: 1; /* Agar konten mengisi sisa ruang */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-list .article-content h4 {
+            font-size: 2.2rem;
+            color: var(--text-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .article-list .article-content p {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            flex-grow: 1; /* Agar paragraf mengisi ruang sisa sebelum tombol */
+        }
+
+        .article-list .article-content .article-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            background: var(--main-color);
+            color: var(--text-color); /* Warna teks tombol */
+            border-radius: 0.8rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.5rem;
+            transition: background .3s ease, color .3s ease;
+            align-self: flex-start; /* Agar tombol berada di awal baris */
+        }
+
+        .article-list .article-content .article-btn i {
+            margin-left: 0.8rem;
+            font-size: 1.8rem;
+            transition: margin-left .3s ease;
+        }
+
+        .article-list .article-content .article-btn:hover {
+            background: var(--text-color); /* Warna hover tombol */
+            color: var(--main-color);
+        }
+
+        .article-list .article-content .article-btn:hover i {
+            margin-left: 1.2rem; /* Efek ikon bergerak saat hover */
+        }
+
+        /* Media Queries untuk responsivitas */
+        @media (max-width: 768px) {
+            .article-list .article-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            .articles-hero .heading {
+                font-size: 4rem;
+            }
+            .articles-hero p {
+                font-size: 1.6rem;
+            }
+        }
+</style>
 <body>
-
-    <header class="header">
-
+<header class="header">
         <a href="#" class="logo">YesZie</a>
         <nav class="navbar">
             <a href="#home" class="active">Home</a>
-            <a href="#about">About</a>
-            <a href="#services">Skill-Set</a>
-            <a href="#project">Project</a>
-            <a href="#contact">Contact</a>
+            <a href="articles.html">Articles</a> <a href="#contact">Contact</a>
             <a href="src\admin\admin-login.html">Login</a>
         </nav>
         
@@ -82,8 +188,11 @@
                 Tetapi saya memiliki tingkat penasaran yang sangat tinggi terhadap appapun,salah satunya foto dan membuat editan video.
                 Jika anda penasaran bisa klik menu dibawah ini.
             </p>
-            <p>Walaupun saya memiliki kepribadian yang aneh dan cukup membingungkan orang sekitar,saya tetap terus yapping,cause yapping its my life.</p>
             <a href="https://t.me/+pz4vFmsZm7llY2I1" class="btn" target="_blank">Draft Yesi</a>
+            <p>Walaupun saya memiliki kepribadian yang aneh dan cukup membingungkan orang sekitar,saya tetap terus yapping,cause yapping its my life.
+                Mau ngobrol bareng aku? klik menu Join Room.
+            </p>
+            <a href="https://www.tiktok.com/@oraelingrek" class="btn" target="_blank">Join Room</a>
         </div>
     </section>
 
@@ -92,28 +201,23 @@
         <div class="services-container">
             <div class="services-box">
                 <i class='bx bx-code-alt'></i> <h3>FrontEnd Development</h3>
-                <p></p>
+                <p>Seorang pengembang yang membangun bagian situs web atau aplikasi yang langsung dilihat dan berinteraksi dengan pengguna. 
+                    Mereka bertanggung jawab untuk mengubah desain menjadi kode yang berfungsi.</p>
             </div>
             <div class="services-box">
                 <i class='bx bx-palette'></i> <h3>UI/UX Design</h3>
-               <p></p>
+               <p>fokus pada tampilan visual dan interaktivitas antarmuka produk (misalnya, tata letak tombol, skema warna) juga 
+                fokus pada bagaimana pengguna merasa saat berinteraksi dengan produk
+               </p>
             </div>
             <div class="services-box">
                 <i class='bx bx-music'></i> <h3>Musician</h3>
-                <p></p>
+                <p>Seseorang yang menciptakan, membawakan, 
+                    atau mengaransemen musik. Ini bisa mencakup penyanyi, instrumentalis, komposer, atau konduktor.</p>
             </div>
             <div class="services-box">
                 <i class='bx bx-paint'></i> <h3>Writing Song</h3>
-                <p></p>
-            </div>
-        <div class="services-container">
-            <div class="services-box">
-                <i class='bx bx-code-music'></i> <h3>Singing</h3>
-                <p></p>
-            </div>
-            <div class="services-box">
-                <i class='bx bx-keyboard'></i> <h3>Play Keyboard</h3>
-               <p></p>
+                <p>Proses mengarang lirik dan melodi untuk sebuah lagu.</p>
             </div>
         </div>
     </section>
@@ -122,36 +226,54 @@
         <h2 class="heading">My <span>Project</span></h2>
         <div class="project-container">
             <div class="project-box">
-                <img src="images\senar.jpeg" alt="Project 1">
-                <div class="portfolio-layer"> <h4>Mengganti Senar Gitar</h4>
-                    <p>Mengembangkan Keterampilan Terpendam yang tak didukung orang tua</p>
-                    <a href="#"><i class='bx bx-link-external'></i></a>
+                <img src="images\user booking.jpg" alt="Project 1">
+                <div class="portfolio-layer"> <h4>APK Reservasi Booking PS</h4>
+                    <p>Menggunakan bahasa pemograman dart.</p>
+                    <a href="articles.html"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
             <div class="project-box">
-                <img src="/images/project2.jpg" alt="Project 2">
+                <img src="images\pohon nyatoh.jpeg" alt="Project 2">
                 <div class="portfolio-layer">
-                    <h4>Project Aplikasi Ocean Information</h4>
-                    <p>Merancang UI/UX untuk platform informasi terkait kapal.</p>
-                    <a href="#"><i class='bx bx-link-external'></i></a>
+                    <h4>Augmanted Reality - BanyanTree</h4>
+                    <p>Membuat tampilan 3D sebuah objek.</p>
+                    <a href="articles.html"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
             <div class="project-box">
-                <img src="/images/project3.jpg" alt="Project 3">
+                <img src="images\Pencarian Dokter (1).jpg" alt="Project 3">
                 <div class="portfolio-layer">
-                    <h4>Desain U/UX APK Konsuktasi Dokter</h4>
-                    <p>Mengembangkan aplikasi Agregator berita berbasis Website</p>
-                    <a href="#"><i class='bx bx-link-external'></i></a>
+                    <h4>Desain U/UX APK Website Konsultasi Dokter</h4>
+                    <p>Desain UI/UX Konsultasi Online menggunakan Figma.</p>
+                    <a href="articles.html"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
             <div class="project-box">
-                <img src="/images/project3.jpg" alt="Project 3">
+                <img src="images\tbfo.jpeg" alt="Project 4">
                 <div class="portfolio-layer">
-                    <h4>Sistem Informasi Perpustakaan</h4>
-                    <p>Membangun sistem informasi untuk pengelolaan koleksi buku.</p>
-                    <a href="#"><i class='bx bx-link-external'></i></a>
+                    <h4>Machine Turing</h4>
+                    <p>Membangun Simulasi mata kuliah TBFO</p>
+                    <a href="articles.html"><i class='bx bx-link-external'></i></a>
                 </div>
+            </div>
+            <div>
+              <div class="project-box">
+                <img src="images\hewan.jpeg" alt="Project 5">
+                <div class="portfolio-layer">
+                    <h4>AR-Reproduksi Hewan</h4>
+                    <p>Pengenalan AR - SDS Bintan Tg.Pinang.</p>
+                    <a href="articles.html"><i class='bx bx-link-external'></i></a>
+            </div>
         </div>
+    </div>
+     <div class="project-box">
+                <img src="images\hidden balok.jpeg" alt="Project 3">
+                <div class="portfolio-layer">
+                    <h4>Desain 3D - GrafKom</h4>
+                    <p>Hidden Surface Balok.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
     </section>
 
     <div class="testimonial-container">
@@ -160,9 +282,9 @@
             <div class="testimonial-box mySwiper">
                 <div class="testimonial-content swiper-wrapper">
                     <div class="testimonial-slide swiper-slide">
-                        <img src="images\bermain2.jpeg  " alt="">
+                        <img src="images\playing 2.jpeg" alt="">
                         <img src="images\bermain.jpeg" alt="">
-                        <h3>Playing</h3>
+                        <h3>Playing With Bestie</h3>
                         <p>"Ketika saya gabut sering mengajak teman saya jalan-jalan"</p>
                         <p>#2026 Ke Semarang Naik Gunung</p>
                     </div>
@@ -171,13 +293,15 @@
                         <h3>Live Tiktok</h3>
                         <p>"Beberapa waktu belakangan saya sering Melakukan siaran live di TikTok dengan membuka Room Live lalu sharing and yapping"</p>
                         <p>#yapping is my life</p>
+                        <p>#calon konten kreator 2026</p>
                     </div>
                     <div class="testimonial-slide swiper-slide">
                         <img src="images\ukulele.jpeg" alt="">
                         <img src="images\gitary.jpeg" alt="">
                         <h3>Play Guitar / Ukulele</h3>
-                        <p>"Saya Sering memaninkan beberapa lagu dengan menggunakan alat musik. For funfact i have 2 Guitar and 1 Ukulele, Wishlistku mau punya Gitar Electric Merk Ibanez"</p>
+                        <p>"Saya Sering memainkan beberapa lagu dengan menggunakan alat musik. For funfact i have 2 Guitar and 1 Ukulele, Wishlistku mau punya Gitar Electric Merk Ibanez"</p>
                         <p>#seniman pemimpi </p>
+                        <p>#pengen punya amply </p>
                     </div>
                     <div class="testimonial-slide swiper-slide">
                         <img src="images\baking1.jpeg" alt="">
@@ -191,6 +315,9 @@
                         <img src="images\stalking.jpeg" alt="">
                         <h3>Stalking Stranger</h3>
                         <p>"Saya memiliki kebiasan yang unik ialah suka menstalking orang random di Sosial Media (Anyone)"</p>
+                        <p>#lucinta luna dan pacar</p>
+                        <p>#al ghazali dan alyysa daguize nikah</p>
+                        <p>#jadep dengan boy william</p>
                     </div>
                 </div>
                 <div class="swiper-button-next"></div>
@@ -204,32 +331,59 @@
         <h2 class="heading">My <span>Experience</span></h2>
         <div class="project-container">
             <div class="project-box">
-                <img src="images\senar.jpeg" alt="Experience 1">
+                <img src="images\mentor.jpeg" alt="Experience 1">
                 <div class="portfolio-layer"> <h4>MENTOR PPDDO</h4>
-                    <a href="#"><i class='bx bx-link-external'></i></a>
+                    <p>Di kegiatan Organisasi Kristen LKM UMRAH.</p>
                 </div>
             </div>
             <div class="project-box">
                 <img src="images\ex1.jpeg" alt="Experience 2">
                 <div class="portfolio-layer">
-                    <h4>KOMISI & STAFF DPM FTTK 25</h4>
-                    <a href="#"><i class='bx bx-link-external'></i></a>
+                    <h4>KONGRES DPM FTTK 25</h4>
+                    <p>Mensepakati aturan ormawa FTTK UMRAH.</p>
                 </div>
             </div>
             <div class="project-box">
                 <img src="images\bermain.jpeg" alt="Experience 3">
                 <div class="portfolio-layer">
-                    <h4>Tersesat</h4>
-                    <a href="#"><i class='bx bx-link-external'></i></a>
+                    <h4>TRY PHOTOOBOTH</h4>
+                <p>Mengelilingi NH lupa parkir dimana.</p>
                 </div>
             </div>
             <div class="project-box">
-                <img src="images\seminar1.jpeg" alt="Project 3">
+                <img src="images\mengajar.jpeg" alt="Project 4">
                 <div class="portfolio-layer">
-                    <h4>SEMINAR DAN KONGRES 25</h4>
-                    <a href="#"><i class='bx bx-link-external'></i></a>
+                    <h4>SOSIALISASI MENGAJAR</h4>
+                 <p>Mengajarkan Anak SDS BINTAN Kelas 3 & 4.</p>
                 </div>
         </div>
+            <div class="project-box">
+                <img src="images\experience 3.jpeg" alt="Project 4">
+                <div class="portfolio-layer">
+                    <h4>TEKNOLOGI AR TERBAIK</h4>
+                 <p>Memenangkan Kontes AR Kategori BanyanTree.</p>
+                </div>
+        </div>
+        <div class="project-box">
+                <img src="images\serti 3.jpeg" alt="Project 4">
+                <div class="portfolio-layer">
+                    <h4>SERTIFIKASI DIGITAL</h4>
+                 <p>Mengikuti Pelatihan Online.</p>
+                </div>
+        </div>
+    </section>
+
+    <section class="article-list" id="articles">
+        <h2 class="heading">My <span>Organication</span></h2>
+        <div class="article-container">
+            <div class="article-box">
+                <img src="images\seminar1.jpeg" alt="Article 1 Thumbnail">
+                <div class="article-content">
+                    <h4>Dewan Perwakilan Mahasiswa FTTK</h4>
+                    <p>Jika anda penasaran dengan kegiatan apa saja yang dilakukan oleh DPM FTTK UMRAH? klik menu dibawah ini geyss!!</p>
+                      <a href="https://www.instagram.com/dpmfttk.umrah" class="btn article-btn">Site Profil <i class='bx bx-right-arrow-alt'></i></a>
+                </div>
+            </div>
     </section>
 
     <section class="contact" id="contact">
