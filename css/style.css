@@ -366,7 +366,7 @@ span {
 }
 
 .about-img img {
-    width: 40vw;
+    width: 30vw;
     border-radius: 20px;
 }
 
@@ -543,9 +543,9 @@ span {
 
 .testimonial-container .testimonial-wrapper {
     position: relative;
-    max-width: 90rem;
+    max-width: 100rem;
     width: 100%;
-    padding: 5rem;
+    padding: 8rem;
 }
 
 .testimonial-wrapper .testimonial-box {
