@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,7 +11,6 @@
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
-
     body {
       margin: 0;
       background-color: #1f1f1f;
@@ -22,7 +20,6 @@
       align-items: center;
       height: 100vh;
     }
-
     .login-container {
       background-color: #2a2a2a;
       padding: 40px;
@@ -31,13 +28,11 @@
       max-width: 400px;
       box-shadow: 0 0 20px rgba(158, 224, 191, 0.4);
     }
-
     h1 {
       text-align: center;
       margin-bottom: 30px;
       color: #cec4b4;
     }
-
     input {
       width: 100%;
       padding: 12px;
@@ -47,7 +42,6 @@
       background-color: #444;
       color: white;
     }
-
     button {
       width: 100%;
       padding: 12px;
@@ -58,41 +52,36 @@
       border-radius: 8px;
       cursor: pointer;
     }
-
     button:hover {
       background-color: #ffaa00;
     }
-
     .error-message {
       color: #ff7070;
       text-align: center;
       margin-top: 10px;
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
-
 <body>
   <div class="login-container">
     <h1>Haii YesZie</h1>
     <form onsubmit="handleLogin(event)">
       <input type="email" id="email" placeholder="Email Admin" required />
       <input type="password" id="password" placeholder="Password" required />
-      <button a href="admin_dashboard.html">Sign In</button>
+      <button type="submit">Sign In</button>
       <p class="error-message" id="error"></p>
     </form>
   </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
+  <script>
     const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    window.login = async function () {
-      console.log("Tombol login diklik"); // TEST LOG
-      const email = document.getElementById("grayesi.silitonga@gmail.com").value;
-      const password = document.getElementById("anakrajin").value;
+    async function handleLogin(event) {
+      event.preventDefault(); // stop form from refreshing the page
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -100,14 +89,12 @@
       });
 
       if (error) {
-        alert("Login gagal: " + error.message);
+        document.getElementById("error").innerText = "Login gagal: " + error.message;
       } else {
         alert("Login berhasil!");
         window.location.href = "admin_dashboard.html";
       }
-    };
-  });
-</script>
+    }
+  </script>
 </body>
-
 </html>
