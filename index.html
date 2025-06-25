@@ -119,6 +119,55 @@
                 font-size: 1.6rem;
             }
         }
+
+        .education {
+        padding: 4rem 2rem;
+        background: #f9f9f9;
+        }
+
+        .education .heading {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        }
+
+        .education-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        }
+
+        .education-box {
+        background: white;
+        padding: 2rem;
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        transition: 0.3s ease;
+        }
+
+        .education-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .education-box h3 {
+        font-size: 1.3rem;
+        color: #333;
+        }
+
+        .education-box .year {
+        font-size: 0.9rem;
+        color: #888;
+        margin-bottom: 0.8rem;
+        display: block;
+        }
+
+        .education-box p {
+        font-size: 1rem;
+        color: #555;
+        line-height: 1.6;
+        }
+
 </style>
 <body>
 <header class="header">
@@ -196,30 +245,61 @@
         </div>
     </section>
 
+      <section class="education" id="education">
+         <h2 class="heading">My <span>Education</span></h2>
+         <div class="education-container">
+            <div class="education-box">
+            <h3>UNIVERSITAS MARITIM RAJA ALI HAJI</h3>
+            <span class="year">2022 - Sekarang</span>
+            <p>Program Studi Teknik Informatika. Fokus pada pengembangan aplikasi, UI/UX, dan teknologi AR/VR.</p>
+            </div>
+
+            <div class="education-box">
+            <h3>SMA NEGERI 14 BATAM</h3>
+            <span class="year">2019 - 2022</span>
+            <p>Jurusan IPA. Belajar Matematika,Fisika,Kimia dan Biologi.</p>
+            </div>
+
+            <div class="education-box">
+            <h3>SMP NEGERI 4 BATAM</h3>
+            <span class="year">2016 - 2019</span>
+            <p>Aktif dalam kegiatan PMR (Palang Merah Remaja).</p>
+            </div>
+
+            <div class="education-box">
+            <h3>SDN 002 BATU AMPAR</h3>
+            <span class="year">2010 - 2016</span>
+            <p>Aktif dalam kegiatan Cerdas Cermat ATB.</p>
+            </div>
+
+            <div class="education-box">
+            <h3>TK TUNAS BANGSA BATU AMPAR</h3>
+            <span class="year">2009 - 2010</span>
+            <p>Aktif dalam kegiatan Menari.</p>
+            </div>
+        </div>
+
     <section class="services" id="services">
         <h2 class="heading">Skill <span>Set</span></h2>
         <div class="services-container">
             <div class="services-box">
                 <i class='bx bx-code-alt'></i> <h3>FrontEnd Development</h3>
-                <p>Seorang pengembang yang membangun bagian situs web atau aplikasi yang langsung dilihat dan berinteraksi dengan pengguna. 
-                    Mereka bertanggung jawab untuk mengubah desain menjadi kode yang berfungsi.</p>
+                <p>🟩 HTML</p>
+                <p>🟤 JavaScript</p>
+                <p>🔹CSS</p>
             </div>
             <div class="services-box">
                 <i class='bx bx-palette'></i> <h3>UI/UX Design</h3>
-               <p>fokus pada tampilan visual dan interaktivitas antarmuka produk (misalnya, tata letak tombol, skema warna) juga 
-                fokus pada bagaimana pengguna merasa saat berinteraksi dengan produk
-               </p>
+               <p>🖍️ Figma</p>
+               <p>🖊️ Canva</p>
             </div>
             <div class="services-box">
                 <i class='bx bx-music'></i> <h3>Musician</h3>
-                <p>Seseorang yang menciptakan, membawakan, 
-                    atau mengaransemen musik. Ini bisa mencakup penyanyi, instrumentalis, komposer, atau konduktor.</p>
+                <p>🎹 Piano</p>
+                <p>🎸 Gitar & Ukulele</p>
+                <p>🎙️ Singing</p>
+                <p>✍🏼 Write a Song</p>
             </div>
-            <div class="services-box">
-                <i class='bx bx-paint'></i> <h3>Writing Song</h3>
-                <p>Proses mengarang lirik dan melodi untuk sebuah lagu.</p>
-            </div>
-        </div>
     </section>
 
     <section class="project" id="project">
@@ -237,6 +317,13 @@
                 <div class="portfolio-layer">
                     <h4>Augmanted Reality - BanyanTree</h4>
                     <p>Membuat tampilan 3D sebuah objek.</p>
+                    <a href="articles.html"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="project-box">
+                <img src="images\Login Admin.png" alt="Project 1">
+                <div class="portfolio-layer"> <h4>OCEAN INFORMATION</h4>
+                    <p>Mebuat sistem informasi seputar kapal dan keberangkatannya.</p>
                     <a href="articles.html"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
@@ -263,11 +350,11 @@
                     <h4>AR-Reproduksi Hewan</h4>
                     <p>Pengenalan AR - SDS Bintan Tg.Pinang.</p>
                     <a href="articles.html"><i class='bx bx-link-external'></i></a>
+                </div>
             </div>
         </div>
-    </div>
      <div class="project-box">
-                <img src="images\hidden balok.jpeg" alt="Project 3">
+                <img src="images\hidden balok.jpeg" alt="Project 5">
                 <div class="portfolio-layer">
                     <h4>Desain 3D - GrafKom</h4>
                     <p>Hidden Surface Balok.</p>
@@ -385,7 +472,6 @@
                 </div>
             </div>
     </section>
-
     <section class="contact" id="contact">
         <h2 class="heading">Contact <span>Me!</span></h2>
         <form action="/submit-contact-form" method="POST">
@@ -398,7 +484,7 @@
                 <input type="text" name="emailSubject" placeholder="Email Subject">
             </div>
             <textarea name="message" id="" cols="30" rows="10" placeholder="Your Message" required></textarea>
-            <input type="submit" value="Send Message" class="btn">
+            <input type="submit" valuxe="Send Message" class="btn">
         </form>
     </section>
 
