@@ -83,36 +83,31 @@
     </form>
   </div>
 
-  <script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
     const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
-
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    async function handleLogin(event) {
-      event.preventDefault();
+    window.login = async function () {
+      console.log("Tombol login diklik"); // TEST LOG
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      const errorText = document.getElementById("error");
 
-      const { data, error: loginError } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       });
 
-      if (loginError) {
-        errorText.textContent = "Login gagal: " + loginError.message;
+      if (error) {
+        alert("Login gagal: " + error.message);
       } else {
-        if (data.user.email !== "grayesi.silitonga@gmail.com") {
-          await supabase.auth.signOut();
-          errorText.textContent = "Kamu bukan admin.";
-        } else {
-          localStorage.setItem('access_token', data.session.access_token);
-          window.location.href = "admin_dashboard.html";
-        }
+        alert("Login berhasil!");
+        window.location.href = "admin_dashboard.html";
       }
-    }
-  </script>
+    };
+  });
+</script>
 </body>
 
 </html>
