@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +11,7 @@
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
+
     body {
       margin: 0;
       background-color: #1f1f1f;
@@ -19,6 +21,7 @@
       align-items: center;
       height: 100vh;
     }
+
     .login-container {
       background-color: #2a2a2a;
       padding: 40px;
@@ -27,11 +30,13 @@
       max-width: 400px;
       box-shadow: 0 0 20px rgba(158, 224, 191, 0.4);
     }
+
     h1 {
       text-align: center;
       margin-bottom: 30px;
       color: #cec4b4;
     }
+
     input {
       width: 100%;
       padding: 12px;
@@ -41,6 +46,7 @@
       background-color: #444;
       color: white;
     }
+
     button {
       width: 100%;
       padding: 12px;
@@ -51,9 +57,11 @@
       border-radius: 8px;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #ffaa00;
     }
+
     .error-message {
       color: #ff7070;
       text-align: center;
@@ -61,6 +69,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="login-container">
     <h1>Haii YesZie</h1>
@@ -75,18 +84,18 @@
   <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-  <!-- Login Script -->
+  <!-- Login Logic -->
   <script>
     const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     document.getElementById('login-form').addEventListener('submit', async function (e) {
       e.preventDefault();
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await client.auth.signInWithPassword({ email, password });
 
       if (error) {
         document.getElementById('error').innerText = "Login gagal: " + error.message;
