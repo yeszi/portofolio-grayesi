@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Admin - Grayesi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      margin: 0;
+      background-color: #1f1f1f;
+      color: white;
+    }
+    header {
+      background-color: #2e2e2e;
+      padding: 20px;
+      display: flcenex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #f9a826;
+      justify-content: space-between;
+    }
+    header button {
+      padding: 10px 16px;
+      background-color: #f9a826;
+      color: black;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    nav {
+      background-color: #333;
+      padding: 12px;
+      text-align: center;
+    }
+    nav a {
+      color: #f7f7f7;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    nav a:hover {
+      color: #f9a826;
+    }
+    .container {
+      padding: 20px;
+    }
+    section {
+      background-color: #2a2a2a;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    h2 {
+      color: #f9a826;
+      margin-top: 0;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+    input, textarea {
+      background-color: #444;
+      color: white;
+    }
+    button {
+      background-color: #f9a826;
+      color: black;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      background-color: #ffaa00;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>Admin Panel - YesZie</h1>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#about">About Me</a>
+    <a href="#projects">Project</a>
+    <a href="#experience">Experience</a>
+    <a href="#activity">My Activity</a>
+    <a href="#articles">My Articles</a>
+  </nav>
+
+  <div class="container">
+    <section id="about">
+      <h2>About Me</h2>
+      <input type="text" id="about-title" placeholder="Judul">
+      <textarea id="about-description" placeholder="Deskripsi"></textarea>
+      <input type="text" id="about-image" placeholder="Image URL">
+      <button onclick="updateAboutMe()">Update About Me</button>
+    </section>
+
+    <section id="projects">
+      <h2>Project</h2>
+      <input type="text" id="judul-project" placeholder="Judul Project">
+      <textarea id="deskripsi-project" placeholder="Deskripsi Project"></textarea>
+      <input type="text" id="gambar-project" placeholder="Gambar URL">
+      <input type="text" id="link-project" placeholder="Link Project">
+      <button id="btn-tambah-project">Tambah Project</button>
+      <div id="daftar-project"></div>
+    </section>
+
+    <section id="experience">
+      <h2>Experience</h2>
+      <input type="text" id="exp-title" placeholder="Judul">
+      <input type="text" id="exp-company" placeholder="Perusahaan">
+      <textarea id="exp-description" placeholder="Deskripsi"></textarea>
+      <input type="date" id="exp-start">
+      <input type="date" id="exp-end">
+      <button onclick="tambahExperience()">Tambah Experience</button>
+      <div id="daftar-experience"></div>
+    </section>
+
+    <section id="activity">
+      <h2>My Activity</h2>
+      <input type="text" id="act-title" placeholder="Judul Aktivitas">
+      <textarea id="act-description" placeholder="Deskripsi Aktivitas"></textarea>
+      <input type="date" id="act-date">
+      <input type="text" id="act-image" placeholder="Gambar URL (opsional)">
+      <button onclick="tambahActivity()">Tambah Aktivitas</button>
+      <div id="daftar-activity"></div>
+    </section>
+
+    <section id="articles">
+      <h2>My Articles</h2>
+      <input type="text" id="art-title" placeholder="Judul Artikel">
+      <textarea id="art-description" placeholder="Deskripsi Artikel"></textarea>
+      <input type="text" id="art-image" placeholder="Gambar URL">
+      <button onclick="tambahArticle()">Tambah Artikel</button>
+      <div id="daftar-articles"></div>
+    </section>
+
+    <section>
+      <button onclick="logout()">Logout</button>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      const email = session?.user?.email;
+      if (!session || email !== "grayesi.silitonga@gmail.com") {
+        alert("Akses ditolak.");
+        window.location.href = "login.html";
+      }
+    });
+
+    async function logout() {
+      await supabase.auth.signOut();
+      window.location.href = "login.html";
+    }
+
+    async function updateAboutMe() {
+      const title = document.getElementById('about-title').value;
+      const description = document.getElementById('about-description').value;
+      const image_url = document.getElementById('about-image').value;
+      const { error } = await supabase.from('about_me').upsert({ id: 1, title, description, image_url });
+      if (error) alert("Gagal update: " + error.message);
+      else alert("Berhasil diupdate!");
+    }
+
+    async function loadTable(table, containerId) {
+      const { data, error } = await supabase.from(table).select('*');
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      if (error) return container.innerText = error.message;
+      data.forEach(item => {
+        const el = document.createElement('div');
+        el.style.margin = '10px 0';
+        el.style.padding = '10px';
+        el.style.border = '1px solid #666';
+        el.innerText = JSON.stringify(item, null, 2);
+        container.appendChild(el);
+      });
+    }
+
+    async function tambahExperience() {
+      const title = document.getElementById('exp-title').value;
+      const company = document.getElementById('exp-company').value;
+      const description = document.getElementById('exp-description').value;
+      const start_date = document.getElementById('exp-start').value;
+      const end_date = document.getElementById('exp-end').value;
+      const { error } = await supabase.from('experience').insert([{ title, company, description, start_date, end_date }]);
+      if (error) alert('Gagal: ' + error.message);
+      else { alert('Berhasil!'); loadTable('experience', 'daftar-experience'); }
+    }
+
+    async function tambahActivity() {
+      const title = document.getElementById('act-title').value;
+      const description = document.getElementById('act-description').value;
+      const date = document.getElementById('act-date').value;
+      const image_url = document.getElementById('act-image').value;
+      const { error } = await supabase.from('activity').insert([{ title, description, date, image_url }]);
+      if (error) alert('Gagal: ' + error.message);
+      else { alert('Berhasil!'); loadTable('activity', 'daftar-activity'); }
+    }
+
+    async function tambahArticle() {
+      const title = document.getElementById('art-title').value;
+      const description = document.getElementById('art-description').value;
+      const image_url = document.getElementById('art-image').value;
+      const { error } = await supabase.from('articles').insert([{ title, description, image_url }]);
+      if (error) alert('Gagal: ' + error.message);
+      else { alert('Berhasil!'); loadTable('articles', 'daftar-articles'); }
+    }
+
+    document.getElementById('btn-tambah-project').addEventListener('click', async () => {
+      const title = document.getElementById('judul-project').value;
+      const description = document.getElementById('deskripsi-project').value;
+      const image_url = document.getElementById('gambar-project').value;
+      const link = document.getElementById('link-project').value;
+
+      const { error } = await supabase.from('projects').insert([{ title, description, image_url, link }]);
+      if (error) alert('Gagal tambah: ' + error.message);
+      else { alert('Berhasil ditambahkan!'); loadProjects(); }
+    });
+
+    async function loadProjects() {
+      const { data, error } = await supabase.from('projects').select('*');
+      const container = document.getElementById('daftar-project');
+      container.innerHTML = '';
+      if (error) return container.innerText = error.message;
+      data.forEach(item => {
+        const el = document.createElement('div');
+        el.style.margin = '10px 0';
+        el.style.padding = '10px';
+        el.style.border = '1px solid #666';
+        el.innerHTML = `<strong>${item.title}</strong><br>${item.description}<br><img src="${item.image_url}" style="max-width:100px;"><br><a href="${item.link}" target="_blank">${item.link}</a>`;
+        container.appendChild(el);
+      });
+    }
+
+    loadProjects();
+    loadTable('experience', 'daftar-experience');
+    loadTable('activity', 'daftar-activity');
+    loadTable('articles', 'daftar-articles');
+  </script>
+</body>
+</html>
