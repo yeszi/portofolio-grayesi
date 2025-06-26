@@ -499,8 +499,105 @@
         </div>
     </footer>
 
-    <script src="https://unpkg.com/scrollreveal"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    <script src="js/script.js"></script>
+    <!-- Tambahan script Supabase untuk real-time update di index.html -->
+<script>
+  const SUPABASE_URL = 'https://supabase.supabase.co';
+  const SUPABASE_KEY = 'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30'; // ganti dengan anon key kamu
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadAboutMe();
+    loadProjects();
+    loadExperience();
+    loadActivity();
+    loadArticles();
+  });
+
+  async function loadAboutMe() {
+    const { data, error } = await supabase.from('about_me').select('*').eq('id', 1).single();
+    if (error || !data) return;
+    document.querySelector(".about-img img").src = data.image_url;
+    document.querySelector(".about-content h3").innerText = data.title;
+    document.querySelector(".about-content p").innerText = data.description;
+  }
+
+  async function loadProjects() {
+    const { data, error } = await supabase.from('projects').select('*');
+    const container = document.querySelector(".project-container");
+    if (!container || error) return;
+    container.innerHTML = '';
+    data.forEach(item => {
+      const box = document.createElement('div');
+      box.className = 'project-box';
+      box.innerHTML = `
+        <img src="${item.image_url}" alt="Project">
+        <div class="portfolio-layer">
+          <h4>${item.title}</h4>
+          <p>${item.description}</p>
+          <a href="${item.link}" target="_blank"><i class='bx bx-link-external'></i></a>
+        </div>
+      `;
+      container.appendChild(box);
+    });
+  }
+
+  async function loadExperience() {
+    const { data, error } = await supabase.from('experience').select('*');
+    const container = document.querySelector("section.project#project + .project-container");
+    if (!container || error) return;
+    container.innerHTML = '';
+    data.forEach(item => {
+      const box = document.createElement('div');
+      box.className = 'project-box';
+      box.innerHTML = `
+        <img src="${item.image_url || 'images/default.jpg'}" alt="Experience">
+        <div class="portfolio-layer">
+          <h4>${item.title}</h4>
+          <p>${item.description}</p>
+        </div>
+      `;
+      container.appendChild(box);
+    });
+  }
+
+  async function loadActivity() {
+    const { data, error } = await supabase.from('activity').select('*');
+    const container = document.querySelector(".testimonial-content");
+    if (!container || error) return;
+    container.innerHTML = '';
+    data.forEach(item => {
+      const slide = document.createElement('div');
+      slide.className = 'testimonial-slide swiper-slide';
+      slide.innerHTML = `
+        <img src="${item.image_url}" alt="">
+        <h3>${item.title}</h3>
+        <p>${item.description}</p>
+        <p>#${new Date(item.date).getFullYear()}</p>
+      `;
+      container.appendChild(slide);
+    });
+  }
+
+  async function loadArticles() {
+    const { data, error } = await supabase.from('articles').select('*');
+    const container = document.querySelector(".article-container");
+    if (!container || error) return;
+    container.innerHTML = '';
+    data.forEach(item => {
+      const box = document.createElement('div');
+      box.className = 'article-box';
+      box.innerHTML = `
+        <img src="${item.image_url}" alt="Article Thumbnail">
+        <div class="article-content">
+          <h4>${item.title}</h4>
+          <p>${item.description}</p>
+          <a href="${item.link || '#'}" class="btn article-btn">Baca <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+      `;
+      container.appendChild(box);
+    });
+  }
+  
+</script>
 </body>
 </html>

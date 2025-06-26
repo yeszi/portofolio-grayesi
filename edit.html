@@ -104,7 +104,7 @@
       <h2>About Me</h2>
       <input type="text" id="about-title" placeholder="Judul">
       <textarea id="about-description" placeholder="Deskripsi"></textarea>
-      <input type="text" id="about-image" placeholder="Image URL">
+      <input type="file" id="gambar-project" accept="image/*">
       <button onclick="updateAboutMe()">Update</button>
     </section>
 
@@ -149,10 +149,9 @@
     </section>
   </div>
 
-
   <script>
-    const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJI...'; // Gunakan env var jika bisa
+    const SUPABASE_URL = 'https://supabase.supabase.co';
+    const SUPABASE_KEY = 'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30...';
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -206,6 +205,10 @@
         container.appendChild(el);
       });
     }
+
+    supabase.channel('realtime-projects')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, () => loadProjects())
+      .subscribe();
 
     loadProjects();
   </script>

@@ -90,7 +90,7 @@
 
   <header>
     <div>
-      <h1>Admin Panel - Tambah</h1>
+      <h1>Admin Panel -Tambah</h1>
     </div>
   </header>
 
@@ -104,28 +104,26 @@
       <h2>About Me</h2>
       <input type="text" id="about-title" placeholder="Judul">
       <textarea id="about-description" placeholder="Deskripsi"></textarea>
-      <input type="text" id="about-image" placeholder="Image URL">
-      <button onclick="updateAboutMe()">Tambah</button>
+      <input type="file" id="gambar-project" accept="image/*">
+      <button onclick="updateAboutMe()">Update</button>
     </section>
 
     <section id="projects">
       <h2>Project</h2>
       <input type="text" id="judul-project" placeholder="Judul Project">
       <textarea id="deskripsi-project" placeholder="Deskripsi Project"></textarea>
-      <input type="text" id="gambar-project" placeholder="Gambar URL">
+      <input type="file" id="gambar-project" accept="image/*">
       <input type="text" id="link-project" placeholder="Link Project">
-      <button id="btn-tambah-project">Tambah</button>
+      <button id="btn-tambah-project">Update</button>
       <div id="daftar-project"></div>
     </section>
 
     <section id="experience">
       <h2>Experience</h2>
       <input type="text" id="exp-title" placeholder="Judul">
-      <input type="text" id="exp-company" placeholder="Perusahaan">
+      <input type="file" id="gambar-project" accept="image/*">
       <textarea id="exp-description" placeholder="Deskripsi"></textarea>
-      <input type="date" id="exp-start">
-      <input type="date" id="exp-end">
-      <button onclick="tambahExperience()">Tambah</button>
+      <button onclick="tambahExperience()">Update</button>
       <div id="daftar-experience"></div>
     </section>
 
@@ -133,9 +131,8 @@
       <h2>My Activity</h2>
       <input type="text" id="act-title" placeholder="Judul Aktivitas">
       <textarea id="act-description" placeholder="Deskripsi Aktivitas"></textarea>
-      <input type="date" id="act-date">
-      <input type="text" id="act-image" placeholder="Gambar URL (opsional)">
-      <button onclick="tambahActivity()">Tambah</button>
+      <input type="file" id="gambar-project" accept="image/*">
+      <button onclick="tambahActivity()">Update</button>
       <div id="daftar-activity"></div>
     </section>
 
@@ -143,16 +140,15 @@
       <h2>My Articles</h2>
       <input type="text" id="art-title" placeholder="Judul Artikel">
       <textarea id="art-description" placeholder="Deskripsi Artikel"></textarea>
-      <input type="text" id="art-image" placeholder="Gambar URL">
-      <button onclick="tambahArticle()">Tambah</button>
+      <input type="file" id="gambar-project" accept="image/*">
+      <button onclick="tambahArticle()">Update</button>
       <div id="daftar-articles"></div>
     </section>
   </div>
 
-
   <script>
     const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJI...'; // Gunakan env var jika bisa
+    const SUPABASE_KEY = 'eyJhbGciOiJI...';
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -206,6 +202,10 @@
         container.appendChild(el);
       });
     }
+
+    supabase.channel('realtime-projects')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, () => loadProjects())
+      .subscribe();
 
     loadProjects();
   </script>

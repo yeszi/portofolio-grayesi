@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Gambar ke Supabase</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background-color: #f2f2f2;
+    }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+    }
+    #preview {
+      margin-top: 20px;
+    }
+    img {
+      max-width: 300px;
+      border: 2px solid #333;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Upload Gambar ke Supabase Bucket</h2>
+  <input type="file" id="fileInput" accept="image/*">
+  <br>
+  <button onclick="uploadImage()">Upload</button>
+
+  <div id="preview"></div>
+
+  <script>
+    // Ganti dengan kredensial Supabase kamu
+    const supabase = supabase.createClient(
+      'https://YOUR-PROJECT-ID.supabase.co',
+      'YOUR-ANON-KEY'
+    );
+
+    async function uploadImage() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert("Pilih file dulu!");
+        return;
+      }
+
+      const fileName = `${Date.now()}_${file.name}`;
+
+      const { data, error } = await supabase.storage
+        .from('project-images') // Ganti dengan nama bucket kamu
+        .upload(`images/${fileName}`, file);
+
+      if (error) {
+        alert("Gagal upload: " + error.message);
+        return;
+      }
+
+      // Ambil URL gambar
+      const { data: publicUrlData } = supabase
+        .storage
+        .from('project-images')
+        .getPublicUrl(`images/${fileName}`);
+
+      const imageUrl = publicUrlData.publicUrl;
+
+      // Tampilkan gambar
+      document.getElementById('preview').innerHTML = `
+        <p>Upload berhasil! Gambar:</p>
+        <img src="${imageUrl}" alt="Uploaded Image">
+        <p>URL: <a href="${imageUrl}" target="_blank">${imageUrl}</a></p>
+      `;
+    }
+  </script>
+
+</body>
+</html>
