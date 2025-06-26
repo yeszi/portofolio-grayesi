@@ -1,223 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Articles - YesZie</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css"> <link rel="stylesheet" href="css/articles-page.css"> </head>
-    <style>
-            .articles-hero {
-                min-height: 50vh; 
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-                background: var(--second-bg-color); 
-                padding: 10rem 5% 5rem; 
-            }
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Articles - YesZie</title>
 
-            .articles-hero .heading {
-                font-size: 5rem; 
-                margin-bottom: 1rem;
-                color: var(--text-color);
-            }
+  <!-- External CSS & Icon -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/articles-page.css">
 
-            .articles-hero .heading span {
-                color: var(--main-color);
-            }
+  <!-- Internal CSS Fix -->
+  <style>
+    :root {
+      --bg-color: #f5f5f5;
+      --second-bg-color: #ffffff;
+      --main-color: #3498db;
+      --text-color: #333333;
+    }
 
-            .articles-hero p {
-                font-size: 1.8rem;
-                color: var(--text-color);
-                max-width: 700px;
-                line-height: 1.5;
-            }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--second-bg-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 5%;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header .logo {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--main-color);
+      text-decoration: none;
+    }
+
+    .navbar a {
+      margin-left: 2rem;
+      font-size: 1.6rem;
+      color: var(--text-color);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .navbar a:hover,
+    .navbar a.active {
+      color: var(--main-color);
+    }
+
+    #menu-icon,
+    #darkMode-icon {
+      font-size: 2.5rem;
+      color: var(--text-color);
+      cursor: pointer;
+      margin-left: 2rem;
+    }
+
+    .articles-hero {
+      margin-top: 120px;
+      min-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: var(--second-bg-color);
+      padding: 10rem 5% 5rem;
+    }
+
+    .articles-hero .heading {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+    }
+
+    .articles-hero .heading span {
+      color: var(--main-color);
+    }
+
+    .articles-hero p {
+      font-size: 1.8rem;
+      color: var(--text-color);
+      max-width: 700px;
+    }
+
+    .article-list {
+      background: var(--bg-color);
+      padding: 5rem 5% 8rem;
+    }
+
+    .article-list .heading {
+      text-align: center;
+      font-size: 4rem;
+      margin-bottom: 3rem;
+      color: var(--text-color);
+    }
+
+    .article-list .heading span {
+      color: var(--main-color);
+    }
+
+    .article-list .article-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .article-box {
+      background: var(--second-bg-color);
+      border-radius: 1rem;
+      box-shadow: 0 0 1rem var(--main-color);
+      overflow: hidden;
+      transition: transform .3s ease;
+    }
+
+    .article-box:hover {
+      transform: translateY(-0.8rem);
+      box-shadow: 0 0 2rem var(--main-color);
+    }
+
+    .article-box img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .article-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .article-content h4 {
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+      color: var(--text-color);
+    }
+
+    .article-content p {
+      font-size: 1.3rem;
+      flex-grow: 1;
+      color: var(--text-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .article-btn {
+      padding: 1rem 2rem;
+      background: var(--main-color);
+      color: white;
+      border-radius: 0.8rem;
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: 600;
+      align-self: flex-start;
+      transition: background 0.3s ease;
+    }
+
+    .article-btn:hover {
+      background: var(--text-color);
+      color: var(--main-color);
+    }
+
+        .footer {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 2rem 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+        .footer-iconTop a {
+        color: #799c9a;
+        }
+        .footer-iconTop a:hover {
+        color: #799c9a;
+        }
 
 
-            .article-list {
-                background: var(--bg-color); 
-                padding: 5rem 5% 8rem;
-            }
+    @media (max-width: 768px) {
+      .articles-hero .heading {
+        font-size: 4rem;
+      }
+      .articles-hero p {
+        font-size: 1.6rem;
+      }
+      .article-list .article-container {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+    }
+  </style>
+</head>
 
-            .article-list .heading { 
-                text-align: center;
-                font-size: 4rem;
-                margin-bottom: 3rem;
-                color: var(--text-color);
-            }
-            .article-list .heading span {
-                color: var(--main-color);
-            }
-
-
-            .article-list .article-container {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-                gap: 2.5rem;
-                max-width: 1200px; 
-                margin: 0 auto;
-            }
-
-            .article-list .article-box {
-                background: var(--second-bg-color);
-                border-radius: 1rem;
-                box-shadow: 0 0 1rem var(--main-color);
-                overflow: hidden;
-                display: flex;
-                flex-direction: column; 
-                transition: transform .3s ease;
-            }
-
-            .article-list .article-box:hover {
-                transform: translateY(-0.8rem); 
-                box-shadow: 0 0 2rem var(--main-color); 
-            }
-
-            .article-list .article-box img {
-                width: 100%;
-                height: 220px; 
-                object-fit: cover;
-                display: block; 
-            }
-
-            .article-list .article-box .article-content {
-                padding: 1.5rem;
-                flex-grow: 1; 
-                display: flex;
-                flex-direction: column;
-            }
-
-            .article-list .article-content h4 {
-                font-size: 2.2rem;
-                color: var(--text-color);
-                margin-bottom: 0.8rem;
-            }
-
-            .article-list .article-content p {
-                font-size: 1.3rem;
-                color: var(--text-color);
-                line-height: 1.5;
-                margin-bottom: 1.5rem;
-                flex-grow: 1; 
-            }
-
-            .article-list .article-content .article-btn {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                padding: 1rem 2rem;
-                background: var(--main-color);
-                color: var(--text-color); 
-                border-radius: 0.8rem;
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 1.5rem;
-                transition: background .3s ease, color .3s ease;
-                align-self: flex-start; 
-            }
-
-            .article-list .article-content .article-btn i {
-                margin-left: 0.8rem;
-                font-size: 1.8rem;
-                transition: margin-left .3s ease;
-            }
-
-            .article-list .article-content .article-btn:hover {
-                background: var(--text-color); 
-                color: var(--main-color);
-            }
-
-            .article-list .article-content .article-btn:hover i {
-                margin-left: 1.2rem;
-            }
-
-
-            @media (max-width: 768px) {
-                .article-list .article-container {
-                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                }
-                .articles-hero .heading {
-                    font-size: 4rem;
-                }
-                .articles-hero p {
-                    font-size: 1.6rem;
-                }
-            }
-    </style>
 <body>
 
-    <header class="header">
-        <a href="index.html" class="logo">YesZie</a> <nav class="navbar">
-            <a href="index.html#home">Home</a>
-            <a href="#articles" class="active">Articles</a>
-            <a href="index.html#contact">Contact</a>
-            <a href="src\admin\admin-login.html">Login</a>
-        </nav>
-        
-        <div class="bx bx-moon" id="darkMode-icon"></div>
-        <div class="bx bx-menu" id="menu-icon"></div>
-    </header>
+  <header class="header">
+    <a href="index.html" class="logo">YesZie</a>
+    <nav class="navbar">
+      <a href="index.html#home">Home</a>
+      <a href="#articles" class="active">Articles</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="login.html">Sign In</a>
+    </nav>
+    <div class="bx bx-moon" id="darkMode-icon"></div>
+    <div class="bx bx-menu" id="menu-icon"></div>
+  </header>
 
-    <section class="articles-hero">
-        <h1 class="heading">My <span>Articles</span></h1>
-        <p>Explore my thoughts, tutorials, and insights on various topics.</p>
-    </section>
+  <section class="articles-hero">
+    <h1 class="heading">My <span>Articles</span></h1>
+    <p>Explore my thoughts, tutorials, and insights on various topics.</p>
+  </section>
 
-    <section class="article-list" id="articles">
-        <div class="article-container">
-            <div class="article-box">
-                <img src="images\user booking.jpg" alt="Article 1 Thumbnail">
-                <div class="article-content">
-                    <h4>APK Reservasi Booking PS</h4>
-                    <p>Artikel ini membahas tentang bagaimana struktur dari pembuatan dan perancangan aplikasi ini di bangun</p>
-                </div>
-            </div>
-
-            <div class="article-box">
-                <img src="images\pohon nyatoh.jpeg" alt="Article 2 Thumbnail">
-                <div class="article-content">
-                    <h4>Augmanted Reality - BanyanTree</h4>
-                    <p>Mempelajari </p>
-                </div>
-            </div>
-
-            <div class="article-box">
-                <img src="images\Pencarian Dokter (1).jpg" alt="Article 3 Thumbnail">
-                <div class="article-content">
-                    <h4>Desain U/UX APK Website Konsultasi Dokter</h4>
-                    <p>Panduan awal untuk memahami dasar-dasar JavaScript, termasuk variabel, tipe data, fungsi, dan DOM manipulation untuk interaktivitas.</p>
-                </div>
-            </div>
-
-            <div class="article-box">
-                <img src="images\tbfo.jpeg" alt="Article 4 Thumbnail">
-                <div class="article-content">
-                    <h4>Machine Turing</h4>
-                    <p>Kumpulan tips praktis </p>
-                </div>
-            </div>
-
-            </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-text">
-            <p>Made by © Grayesi Silitonga | All Rights Reserved.</p>
+  <section class="article-list" id="articles">
+    <div class="article-container">
+      <div class="article-box">
+        <img src="images/user booking.jpg" alt="Article 1 Thumbnail">
+        <div class="article-content">
+          <h4>APK Reservasi Booking PS</h4>
+          <p>Artikel ini membahas tentang bagaimana struktur dari pembuatan dan perancangan aplikasi ini di bangun</p>
         </div>
-        <div class="footer-iconTop">
-            <a href="index.html"><i class='bx bx-left-arrow-alt'></i></a>
-        </div>
-    </footer>
+      </div>
 
-    <script src="https://unpkg.com/scrollreveal"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    <script src="js/script.js"></script> <script>
-        // Script spesifik untuk halaman artikel jika ada, misalnya inisialisasi ScrollReveal
-        ScrollReveal().reveal('.articles-hero, .article-box', { origin: 'top' });
-    </script>
+      <div class="article-box">
+        <img src="images/pohon nyatoh.jpeg" alt="Article 2 Thumbnail">
+        <div class="article-content">
+          <h4>Augmented Reality - BanyanTree</h4>
+          <p>Mempelajari </p>
+        </div>
+      </div>
+
+      <div class="article-box">
+        <img src="images/Pencarian Dokter (1).jpg" alt="Article 3 Thumbnail">
+        <div class="article-content">
+          <h4>Desain UI/UX APK Website Konsultasi Dokter</h4>
+          <p>Panduan awal untuk memahami dasar-dasar JavaScript, termasuk variabel, tipe data, fungsi, dan DOM manipulation untuk interaktivitas.</p>
+        </div>
+      </div>
+
+      <div class="article-box">
+        <img src="images/tbfo.jpeg" alt="Article 4 Thumbnail">
+        <div class="article-content">
+          <h4>Machine Turing</h4>
+          <p>Kumpulan tips praktis</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-text">
+      <p>Made by © Grayesi Silitonga | All Rights Reserved.</p>
+    </div>
+    <div class="footer-iconTop">
+      <a href="index.html"><i class='bx bx-left-arrow-alt'></i></a>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    ScrollReveal().reveal('.articles-hero, .article-box', { origin: 'top', distance: '50px', duration: 800, delay: 100 });
+  </script>
 </body>
 </html>

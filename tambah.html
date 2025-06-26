@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Admin - Grayesi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      margin: 0;
+      background-color: #1f1f1f;
+      color: white;
+    }
+    header {
+      background-color: #2e2e2e;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #f9a826;
+    }
+    header button {
+      padding: 10px 16px;
+      background-color: #f9a826;
+      color: black;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    nav {
+      background-color: #333;
+      padding: 12px;
+      text-align: center;
+    }
+    nav a {
+      color: #f7f7f7;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    nav a:hover {
+      color: #f9a826;
+    }
+    .container {
+      padding: 20px;
+    }
+    section {
+      background-color: #2a2a2a;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    h2 {
+      color: #f9a826;
+      margin-top: 0;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+    input, textarea {
+      background-color: #444;
+      color: white;
+    }
+    button {
+      background-color: #f9a826;
+      color: black;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      background-color: #ffaa00;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>Admin Panel - Tambah</h1>
+    </div>
+  </header>
+
+  <nav>
+    <a href="admin_dashboard.html">Home Admin</a>
+    <a href="index.html">Log Out</a>
+  </nav>
+
+   <div class="container">
+    <section id="edit" >
+      <h2>About Me</h2>
+      <input type="text" id="about-title" placeholder="Judul">
+      <textarea id="about-description" placeholder="Deskripsi"></textarea>
+      <input type="text" id="about-image" placeholder="Image URL">
+      <button onclick="updateAboutMe()">Tambah</button>
+    </section>
+
+    <section id="projects">
+      <h2>Project</h2>
+      <input type="text" id="judul-project" placeholder="Judul Project">
+      <textarea id="deskripsi-project" placeholder="Deskripsi Project"></textarea>
+      <input type="text" id="gambar-project" placeholder="Gambar URL">
+      <input type="text" id="link-project" placeholder="Link Project">
+      <button id="btn-tambah-project">Tambah</button>
+      <div id="daftar-project"></div>
+    </section>
+
+    <section id="experience">
+      <h2>Experience</h2>
+      <input type="text" id="exp-title" placeholder="Judul">
+      <input type="text" id="exp-company" placeholder="Perusahaan">
+      <textarea id="exp-description" placeholder="Deskripsi"></textarea>
+      <input type="date" id="exp-start">
+      <input type="date" id="exp-end">
+      <button onclick="tambahExperience()">Tambah</button>
+      <div id="daftar-experience"></div>
+    </section>
+
+    <section id="activity">
+      <h2>My Activity</h2>
+      <input type="text" id="act-title" placeholder="Judul Aktivitas">
+      <textarea id="act-description" placeholder="Deskripsi Aktivitas"></textarea>
+      <input type="date" id="act-date">
+      <input type="text" id="act-image" placeholder="Gambar URL (opsional)">
+      <button onclick="tambahActivity()">Tambah</button>
+      <div id="daftar-activity"></div>
+    </section>
+
+    <section id="articles">
+      <h2>My Articles</h2>
+      <input type="text" id="art-title" placeholder="Judul Artikel">
+      <textarea id="art-description" placeholder="Deskripsi Artikel"></textarea>
+      <input type="text" id="art-image" placeholder="Gambar URL">
+      <button onclick="tambahArticle()">Tambah</button>
+      <div id="daftar-articles"></div>
+    </section>
+  </div>
+
+
+  <script>
+    const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJI...'; // Gunakan env var jika bisa
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
+        alert("Akses ditolak.");
+        window.location.href = "login.html";
+      }
+    });
+
+    async function logout() {
+      await supabase.auth.signOut();
+      window.location.href = "login.html";
+    }
+
+    async function updateAboutMe() {
+      const title = document.getElementById('about-title').value;
+      const description = document.getElementById('about-description').value;
+      const image_url = document.getElementById('about-image').value;
+      const { error } = await supabase.from('about_me').upsert({ id: 1, title, description, image_url });
+      if (error) alert("Gagal update: " + error.message);
+      else alert("Berhasil diupdate!");
+    }
+
+    document.getElementById('btn-tambah-project').addEventListener('click', async () => {
+      const title = document.getElementById('judul-project').value;
+      const description = document.getElementById('deskripsi-project').value;
+      const image_url = document.getElementById('gambar-project').value;
+      const link = document.getElementById('link-project').value;
+
+      const { error } = await supabase.from('projects').insert([{ title, description, image_url, link }]);
+      if (error) alert('Gagal tambah: ' + error.message);
+      else { alert('Berhasil ditambahkan!'); loadProjects(); }
+    });
+
+    async function loadProjects() {
+      const { data, error } = await supabase.from('projects').select('*');
+      const container = document.getElementById('daftar-project');
+      container.innerHTML = '';
+      if (error) return container.innerText = error.message;
+      data.forEach(item => {
+        const el = document.createElement('div');
+        el.style.margin = '10px 0';
+        el.style.padding = '10px';
+        el.style.border = '1px solid #666';
+        el.innerHTML = `
+          <strong>${item.title}</strong><br>
+          ${item.description}<br>
+          <img src="${item.image_url}" style="max-width:100px;"><br>
+          <a href="${item.link}" target="_blank">${item.link}</a>
+        `;
+        container.appendChild(el);
+      });
+    }
+
+    loadProjects();
+  </script>
+</body>
+</html>
