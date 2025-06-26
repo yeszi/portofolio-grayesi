@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Login - Grayesi</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <!-- SweetAlert2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -69,7 +72,6 @@
     }
   </style>
 </head>
-
 <body>
   <div class="login-container">
     <h1>Haii YesZie</h1>
@@ -84,7 +86,7 @@
   <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-  <!-- Login Logic -->
+  <!-- Login Logic with SweetAlert -->
   <script>
     const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
@@ -98,10 +100,20 @@
       const { data, error } = await client.auth.signInWithPassword({ email, password });
 
       if (error) {
-        document.getElementById('error').innerText = "Login gagal: " + error.message;
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Gagal!',
+          text: error.message,
+        });
       } else {
-        alert("Login berhasil!");
-        window.location.href = "admin_dashboard.html";
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Berhasil!',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+          window.location.href = "admin_dashboard.html";
+        });
       }
     });
   </script>
