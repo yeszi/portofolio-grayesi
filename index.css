@@ -1203,57 +1203,97 @@ span {
 }
 
 
-/* --- Updated Menu Card Styling --- */
-.profile-navigator {
-    display: flex; /* Use flexbox for horizontal arrangement */
-    flex-wrap: wrap; /* Allow cards to wrap to the next line */
-    gap: 20px; /* Space between cards */
-    max-width: 1200px;
-    margin: 30px auto; /* Center the navigator */
-    padding: 20px;
-    justify-content: center; /* Center cards horizontally when not full */
+/* --- Floating Menu (Profile Navigator) Styles --- */
+.profile-navigator.floating-menu {
+    position: fixed; /* Membuatnya melayang di layar */
+    top: 180px; /* Jarak dari atas layar */
+    right: 20px; /* Jarak dari kanan layar */
+    z-index: 990; /* Pastikan di atas konten normal, tapi di bawah pop-up utama jika ada */
+    display: flex; /* Tetap flex untuk menata card */
+    flex-direction: column; /* Mengatur card secara vertikal */
+    gap: 5px; /* Jarak antar card */
+    padding: 5px; /* Padding di sekitar semua card */
+    background-color: rgb(202, 203, 218); /* Latar belakang semi-transparan */
+    border-radius: 8px;
+    box-shadow: 0 8px 25px #9f72d38f; /* Shadow lebih kuat */
+    max-height: calc(150vh - 40px); /* Batasi tinggi agar tidak melebihi viewport */
+    overflow-y: auto; /* Aktifkan scroll jika card terlalu banyak */
+    align-items: flex-end; /* Memastikan card rata kanan di dalam floating menu */
 }
 
-.nav-card {
-    background: var(--second-bg-color);
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    padding: 20px;
-    width: calc(33.33% - 20px); /* Roughly three cards per row on larger screens */
-    min-width: 200px; /* Minimum width for each card */
-    text-align: center;
-    text-decoration: none;
-    color: var(--text-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+/* Sesuaikan gaya .nav-card di dalam floating menu */
+.profile-navigator.floating-menu .nav-card {
+    width: 30px; /* Lebar tetap untuk setiap card agar konsisten */
+    padding: 15px 10px; /* Sesuaikan padding */
+    box-shadow: none; /* Hapus shadow individual card jika sudah ada shadow di container */
+    background-color: transparent; /* Atau warna yang lebih ringan */
+    border: none; /* Hapus border jika tidak diperlukan */
+    flex-direction: row; /* Kembali ke tata letak ikon + teks horizontal */
+    justify-content: flex-start; /* Rata kiri */
+    gap: 5px; /* Jarak antara ikon dan teks */
+    text-align: left; /* Teks rata kiri */
 }
 
-.nav-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+.profile-navigator.floating-menu .nav-card:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* Latar belakang hover yang ringan */
+    transform: translateX(-5px); /* Geser sedikit ke kiri saat hover */
 }
 
-.nav-card-icon {
-    font-size: 36px;
-    color: #007bff; /* Primary color for icons */
-    margin-bottom: 10px;
+.profile-navigator.floating-menu .nav-card-icon {
+    font-size: 14px; /* Ukuran ikon lebih kecil */
+    margin-bottom: 0; /* Hapus margin bawah */
+    flex-shrink: 0; /* Pastikan ikon tidak menyusut */
 }
 
-.nav-card h3 {
-    margin-top: 0;
-    margin-bottom: 5px;
-    font-size: 1.2em;
-    color: var(--text-color);
+.profile-navigator.floating-menu .nav-card h3 {
+    font-size: 1em; /* Ukuran heading lebih kecil */
+    margin-bottom: 0;
 }
 
-.nav-card p {
-    margin: 0;
-    font-size: 0.9em;
-    color: #666;
+.profile-navigator.floating-menu .nav-card p {
+    display: none; /* Sembunyikan deskripsi singkat agar menu lebih ringkas */
 }
+
+/* --- Media Queries untuk Responsivitas Floating Menu --- */
+@media (max-width: 992px) {
+    /* Mungkin ingin menyembunyikan floating menu di layar kecil
+       atau mengubahnya menjadi tombol hamburger */
+    .profile-navigator.floating-menu {
+        display: none; /* Contoh: sembunyikan di layar tablet ke bawah */
+        /* Alternatif: mengubahnya menjadi sticky bar di bawah atau samping */
+    }
+
+    /* Jika ingin mengubahnya menjadi sticky bar di bawah, tambahkan ini: */
+    /*
+    .profile-navigator.floating-menu {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px 0;
+        border-radius: 0;
+        box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
+    }
+    .profile-navigator.floating-menu .nav-card {
+        width: auto;
+        padding: 10px;
+        text-align: center;
+        flex-direction: column;
+    }
+    .profile-navigator.floating-menu .nav-card p {
+        display: block; // Tampilkan lagi deskripsi jika diinginkan
+    }
+    */
+}
+
+
+/* --- Other existing CSS styles (keep them as is) --- */
+/* Your existing CSS for .main-header, .content-sections-wrapper, .content-detail-section, etc. */
+/* ... */
 
 /* Responsive adjustments for the card layout */
 @media (max-width: 992px) {
@@ -1267,3 +1307,58 @@ span {
         width: calc(100% - 20px); /* One card per row on smaller screens */
     }
 }
+
+       .footer {
+      background: #3f6399;
+      color: #1b1c1d;
+      padding: 2rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+    }
+
+    .footer-iconTop a {
+      color: #3f6399;
+    }
+
+    .footer-iconTop a:hover {
+      color: #3f6399;
+    }
+
+    .floating-back-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #79bbb8;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    z-index: 1000;
+    transition: background 0.3s, transform 0.2s;
+    }
+
+    .floating-back-btn:hover {
+    background-color: #3f6399;
+    transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .articles-hero .heading {
+        font-size: 4rem;
+      }
+      .articles-hero p {
+        font-size: 1.6rem;
+      }
+      .article-list .article-container {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+    }

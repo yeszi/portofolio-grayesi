@@ -288,3 +288,76 @@ ScrollReveal().reveal('.home-content, .heading', { origin: 'top' });
 ScrollReveal().reveal('.home-img, .services-container, .project-box, .testimonial-wrapper, .contact form, .education-container, .article-container', { origin: 'bottom' });
 ScrollReveal().reveal('.home-content h1, .about-img', { origin: 'left' });
 ScrollReveal().reveal('.home-content p, .about-content', { origin: 'right' });
+
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Removed: Menu Pop-up related code ---
+    // (openMenuButton, menuPopup, closeBtn, their event listeners)
+
+    const navCards = document.querySelectorAll('.profile-navigator .nav-card');
+    const sections = document.querySelectorAll('.content-detail-section, .education');
+
+    // Handle navigation when a card is clicked (still needed for smooth scroll)
+    navCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+
+            if (targetSection) {
+                // No need to close popup here, just scroll
+                window.scrollTo({
+                    top: targetSection.offsetTop - 70, // Adjust offset if you have a fixed header
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Highlight active nav card based on scroll position
+    function highlightActiveSection() {
+        let currentActiveSectionId = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100; // Adjust offset as needed
+            const sectionHeight = section.clientHeight;
+            if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                currentActiveSectionId = section.id;
+            }
+        });
+
+        navCards.forEach(card => {
+            card.classList.remove('active');
+            if (card.getAttribute('href') === `#${currentActiveSectionId}`) {
+                card.classList.add('active');
+            }
+        });
+    }
+
+    highlightActiveSection();
+    window.addEventListener('scroll', highlightActiveSection);
+
+    // --- Back to Top Pop-up Button Code (kept as is) ---
+    const backToTopPopup = document.getElementById('backToTopPopup');
+    const scrollThreshold = 300; // Jarak scroll ke bawah sebelum tombol muncul (dalam piksel)
+
+    function toggleBackToTopButton() {
+        if (window.scrollY > scrollThreshold) {
+            backToTopPopup.classList.add('show');
+        } else {
+            backToTopPopup.classList.remove('show');
+        }
+    }
+
+    window.addEventListener('scroll', toggleBackToTopButton);
+    toggleBackToTopButton(); // Initial check
+
+    if (backToTopPopup) {
+        backToTopPopup.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+});
