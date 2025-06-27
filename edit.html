@@ -24,6 +24,7 @@
       background-color: #f9a826; color: black; font-weight: 600; cursor: pointer;
     }
     button:hover { background-color: #ffaa00; }
+    img { max-width: 100%; border-radius: 10px; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -81,12 +82,13 @@
     <textarea id="deskripsi-about" placeholder="Deskripsi"></textarea>
     <input type="file" id="gambar-about" accept="image/*">
     <button onclick="updateAboutMe()">Update</button>
+    <div id="daftar-about"></div>
   </section>
 </div>
 
 <script>
 const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
-const SUPABASE_KEY = 'YOUR_PUBLIC_ANON_KEY';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 supabase.auth.getSession().then(({ data: { session } }) => {
@@ -95,15 +97,6 @@ supabase.auth.getSession().then(({ data: { session } }) => {
     window.location.href = "login.html";
   }
 });
-
-async function updateAboutMe() {
-  const title = document.getElementById('judul-about').value;
-  const description = document.getElementById('deskripsi-about').value;
-  const file = document.getElementById('gambar-about').files[0];
-  const image_url = await uploadImage('about-images', file);
-  if (!image_url) return;
-  await supabase.from('about_me').upsert({ id: 1, title, description, image_url });
-}
 
 async function uploadImage(bucket, file) {
   const fileName = `${Date.now()}_${file.name}`;
@@ -121,6 +114,7 @@ async function tambahProject() {
   const image_url = await uploadImage('project-images', file);
   if (!image_url) return;
   await supabase.from('projects').insert([{ title, description, link, image_url }]);
+  fetchData();
 }
 
 async function tambahExperience() {
@@ -130,6 +124,7 @@ async function tambahExperience() {
   const image_url = await uploadImage('experience-images', file);
   if (!image_url) return;
   await supabase.from('experience').insert([{ title, description, image_url }]);
+  fetchData();
 }
 
 async function tambahActivity() {
@@ -139,6 +134,7 @@ async function tambahActivity() {
   const image_url = await uploadImage('activity-images', file);
   if (!image_url) return;
   await supabase.from('activity').insert([{ title, description, image_url }]);
+  fetchData();
 }
 
 async function tambahArticle() {
@@ -148,8 +144,48 @@ async function tambahArticle() {
   const image_url = await uploadImage('article-images', file);
   if (!image_url) return;
   await supabase.from('articles').insert([{ title, description, image_url }]);
+  fetchData();
 }
 
+async function updateAboutMe() {
+  const title = document.getElementById('judul-about').value;
+  const description = document.getElementById('deskripsi-about').value;
+  const file = document.getElementById('gambar-about').files[0];
+  const image_url = await uploadImage('about-images', file);
+  if (!image_url) return;
+  await supabase.from('about_me').upsert({ id: 1, title, description, image_url });
+  fetchData();
+}
+
+async function fetchData() {
+  const dataSets = [
+    { table: 'projects', container: 'daftar-project', extra: item => `<p><a href="${item.link}" target="_blank">${item.link}</a></p>` },
+    { table: 'experience', container: 'daftar-experience' },
+    { table: 'activity', container: 'daftar-activity' },
+    { table: 'articles', container: 'daftar-articles' },
+    { table: 'about_me', container: 'daftar-about' }
+  ];
+
+  for (const { table, container, extra } of dataSets) {
+    const { data, error } = await supabase.from(table).select('*');
+    const wrapper = document.getElementById(container);
+    if (error || !data) {
+      wrapper.innerHTML = '<p>Error memuat data</p>';
+      continue;
+    }
+    wrapper.innerHTML = data.map(item => `
+      <div>
+        <p><strong>${item.title}</strong>: ${item.description}</p>
+        <img src="${item.image_url}" alt="image"/>
+        ${extra ? extra(item) : ''}
+      </div>
+    `).join('');
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  fetchData();
+});
 </script>
 </body>
 </html>
