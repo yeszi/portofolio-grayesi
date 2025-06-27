@@ -7,6 +7,7 @@
     <title>My-Portofolio</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     </head>
@@ -469,22 +470,6 @@
                 </div>
             </div>
     </section>
-    <section class="contact" id="contact">
-        <h2 class="heading">Contact <span>Me!</span></h2>
-        <form action="/submit-contact-form" method="POST">
-            <div class="input-box">
-                <input type="text" name="fullName" placeholder="Full Name" required>
-                <input type="email" name="emailAddress" placeholder="Email Address" required>
-            </div>
-            <div class="input-box">
-                <input type="number" name="mobileNumber" placeholder="Mobile Number">
-                <input type="text" name="emailSubject" placeholder="Email Subject">
-            </div>
-            <textarea name="message" id="" cols="30" rows="10" placeholder="Your Message" required></textarea>
-            <input type="submit" valuxe="Send Message" class="btn">
-        </form>
-    </section>
-
     <footer class="footer">
         <div class="footer-text">
             <p>Made by © Grayesi Silitonga | All Rights Reserved.</p>
@@ -614,6 +599,15 @@
             `).join('')}
         </div>`;
         }
+
+        let menuIcon = document.querySelector('#menu-icon');
+        let navbar = document.querySelector('.navbar');
+
+        menuIcon.onclick = () => {
+        menuIcon.classList.toggle('bx-x');
+        navbar.classList.toggle('active');
+    };
+
         </script>
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
