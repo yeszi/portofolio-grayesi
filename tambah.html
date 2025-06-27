@@ -37,6 +37,15 @@
   <a href="index.html">Log Out</a>
 </nav>
 
+  <section id="about">
+    <h2>About Me</h2>
+    <input type="text" id="judul-about" placeholder="Judul">
+    <textarea id="deskripsi-about" placeholder="Deskripsi"></textarea>
+    <input type="file" id="gambar-about" accept="image/*">
+    <button onclick="updateAboutMe()">Update</button>
+  </section>
+</div>
+
 <div class="container">
   <section id="projects">
     <h2>Projects</h2>
@@ -74,15 +83,6 @@
     <button onclick="tambahArticle()">Tambah</button>
     <div id="daftar-articles"></div>
   </section>
-
-  <section id="about">
-    <h2>About Me</h2>
-    <input type="text" id="judul-about" placeholder="Judul">
-    <textarea id="deskripsi-about" placeholder="Deskripsi"></textarea>
-    <input type="file" id="gambar-about" accept="image/*">
-    <button onclick="updateAboutMe()">Update</button>
-  </section>
-</div>
 
 <script>
 const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
