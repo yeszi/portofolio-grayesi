@@ -16,15 +16,17 @@
     .container { padding: 20px; }
     section { background-color: #2a2a2a; padding: 20px; border-radius: 10px; margin-bottom: 30px; }
     h2 { color: #f9a826; }
-    input, textarea, button {
-      width: 100%; margin: 10px 0; padding: 10px; border-radius: 8px; border: none;
+    .item { margin-bottom: 20px; padding: 10px; background: #333; border-radius: 8px; }
+    .item input, .item textarea {
+      width: 100%; margin: 5px 0; padding: 10px; border-radius: 8px; border: none;
       background-color: #444; color: white;
     }
-    button {
-      background-color: #f9a826; color: black; font-weight: 600; cursor: pointer;
+    .item button {
+      background-color: #f9a826; color: black; font-weight: 600; padding: 10px; border: none;
+      border-radius: 8px; cursor: pointer; margin-top: 5px;
     }
-    button:hover { background-color: #ffaa00; }
-    img { max-width: 100%; border-radius: 10px; margin-top: 10px; }
+    .item button:hover { background-color: #ffaa00; }
+    img { max-width: 100px; display: block; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -38,154 +40,84 @@
   <a href="index.html">Log Out</a>
 </nav>
 
-<div class="container">
-  <section id="projects">
-    <h2>Projects</h2>
-    <input type="text" id="judul-project" placeholder="Judul Project">
-    <textarea id="deskripsi-project" placeholder="Deskripsi Project"></textarea>
-    <input type="file" id="gambar-project" accept="image/*">
-    <input type="text" id="link-project" placeholder="Link Project">
-    <button onclick="tambahProject()">Update</button>
-    <div id="daftar-project"></div>
-  </section>
-
-  <section id="experience">
-    <h2>Experience</h2>
-    <input type="text" id="judul-exp" placeholder="Judul Pengalaman">
-    <textarea id="deskripsi-exp" placeholder="Deskripsi Pengalaman"></textarea>
-    <input type="file" id="gambar-exp" accept="image/*">
-    <button onclick="tambahExperience()">Update</button>
-    <div id="daftar-experience"></div>
-  </section>
-
-  <section id="activity">
-    <h2>My Activity</h2>
-    <input type="text" id="judul-activity" placeholder="Judul Aktivitas">
-    <textarea id="deskripsi-activity" placeholder="Deskripsi Aktivitas"></textarea>
-    <input type="file" id="gambar-activity" accept="image/*">
-    <button onclick="tambahActivity()">Update</button>
-    <div id="daftar-activity"></div>
-  </section>
-
-  <section id="articles">
-    <h2>My Articles</h2>
-    <input type="text" id="judul-article" placeholder="Judul Artikel">
-    <textarea id="deskripsi-article" placeholder="Deskripsi Artikel"></textarea>
-    <input type="file" id="gambar-article" accept="image/*">
-    <button onclick="tambahArticle()">Update</button>
-    <div id="daftar-articles"></div>
-  </section>
-
-  <section id="about">
-    <h2>About Me</h2>
-    <input type="text" id="judul-about" placeholder="Judul">
-    <textarea id="deskripsi-about" placeholder="Deskripsi"></textarea>
-    <input type="file" id="gambar-about" accept="image/*">
-    <button onclick="updateAboutMe()">Update</button>
-    <div id="daftar-about"></div>
-  </section>
-</div>
+<div class="container" id="content"></div>
 
 <script>
 const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-supabase.auth.getSession().then(({ data: { session } }) => {
-  if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
-    alert("Akses ditolak.");
-    window.location.href = "login.html";
-  }
-});
+const menus = [
+  { table: 'projects', title: 'Projects', bucket: 'projectimages' },
+  { table: 'experience', title: 'Experience', bucket: 'experienceimages' },
+  { table: 'activity', title: 'My Activity', bucket: 'activityimages' },
+  { table: 'articles', title: 'My Articles', bucket: 'articleimages' },
+  { table: 'about_me', title: 'About Me', bucket: 'aboutimages' }
+];
 
 async function uploadImage(bucket, file) {
-  const fileName = `${Date.now()}_${file.name}`;
+  const fileName = `${Date.now()}-${file.name}`;
   const { error } = await supabase.storage.from(bucket).upload(fileName, file);
   if (error) return null;
-  const { data: { publicUrl } } = supabase.storage.from(bucket).getPublicUrl(fileName);
-  return publicUrl;
+  return supabase.storage.from(bucket).getPublicUrl(fileName).data.publicUrl;
 }
 
-async function tambahProject() {
-  const title = document.getElementById('judul-project').value;
-  const description = document.getElementById('deskripsi-project').value;
-  const link = document.getElementById('link-project').value;
-  const file = document.getElementById('gambar-project').files[0];
-  const image_url = await uploadImage('project-images', file);
-  if (!image_url) return;
-  await supabase.from('projects').insert([{ title, description, link, image_url }]);
-  fetchData();
+async function updateItem(table, id, title, description, image_url, link = null) {
+  const updateData = { title, description, image_url };
+  if (link) updateData.link = link;
+  const { error } = await supabase.from(table).update(updateData).eq('id', id);
+  if (error) alert('Gagal update: ' + error.message);
 }
 
-async function tambahExperience() {
-  const title = document.getElementById('judul-exp').value;
-  const description = document.getElementById('deskripsi-exp').value;
-  const file = document.getElementById('gambar-exp').files[0];
-  const image_url = await uploadImage('experience-images', file);
-  if (!image_url) return;
-  await supabase.from('experience').insert([{ title, description, image_url }]);
-  fetchData();
+function renderSection({ table, title, bucket }) {
+  const section = document.createElement('section');
+  section.innerHTML = `<h2>${title}</h2><div id="list-${table}">Loading...</div>`;
+  document.getElementById('content').appendChild(section);
+  fetchData(table, bucket);
+
+  supabase.channel(`realtime:${table}`).on('postgres_changes', { event: '*', schema: 'public', table }, payload => {
+    fetchData(table, bucket);
+  }).subscribe();
 }
 
-async function tambahActivity() {
-  const title = document.getElementById('judul-activity').value;
-  const description = document.getElementById('deskripsi-activity').value;
-  const file = document.getElementById('gambar-activity').files[0];
-  const image_url = await uploadImage('activity-images', file);
-  if (!image_url) return;
-  await supabase.from('activity').insert([{ title, description, image_url }]);
-  fetchData();
+async function fetchData(table, bucket) {
+  const { data, error } = await supabase.from(table).select('*');
+  if (error) return;
+  const container = document.getElementById(`list-${table}`);
+  container.innerHTML = '';
+  data.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <input value="${item.title}" id="title-${table}-${item.id}" />
+      <textarea id="desc-${table}-${item.id}">${item.description}</textarea>
+      ${item.link !== undefined ? `<input value="${item.link}" id="link-${table}-${item.id}" />` : ''}
+      <input type="file" id="file-${table}-${item.id}" />
+      <img src="${item.image_url}" />
+      <button onclick="handleEdit('${table}', ${item.id}, '${bucket}', ${item.link !== undefined})">Update</button>
+    `;
+    container.appendChild(div);
+  });
 }
 
-async function tambahArticle() {
-  const title = document.getElementById('judul-article').value;
-  const description = document.getElementById('deskripsi-article').value;
-  const file = document.getElementById('gambar-article').files[0];
-  const image_url = await uploadImage('article-images', file);
-  if (!image_url) return;
-  await supabase.from('articles').insert([{ title, description, image_url }]);
-  fetchData();
-}
-
-async function updateAboutMe() {
-  const title = document.getElementById('judul-about').value;
-  const description = document.getElementById('deskripsi-about').value;
-  const file = document.getElementById('gambar-about').files[0];
-  const image_url = await uploadImage('about-images', file);
-  if (!image_url) return;
-  await supabase.from('about_me').upsert({ id: 1, title, description, image_url });
-  fetchData();
-}
-
-async function fetchData() {
-  const dataSets = [
-    { table: 'projects', container: 'daftar-project', extra: item => `<p><a href="${item.link}" target="_blank">${item.link}</a></p>` },
-    { table: 'experience', container: 'daftar-experience' },
-    { table: 'activity', container: 'daftar-activity' },
-    { table: 'articles', container: 'daftar-articles' },
-    { table: 'about_me', container: 'daftar-about' }
-  ];
-
-  for (const { table, container, extra } of dataSets) {
-    const { data, error } = await supabase.from(table).select('*');
-    const wrapper = document.getElementById(container);
-    if (error || !data) {
-      wrapper.innerHTML = '<p>Error memuat data</p>';
-      continue;
-    }
-    wrapper.innerHTML = data.map(item => `
-      <div>
-        <p><strong>${item.title}</strong>: ${item.description}</p>
-        <img src="${item.image_url}" alt="image"/>
-        ${extra ? extra(item) : ''}
-      </div>
-    `).join('');
+async function handleEdit(table, id, bucket, hasLink) {
+  const title = document.getElementById(`title-${table}-${id}`).value;
+  const description = document.getElementById(`desc-${table}-${id}`).value;
+  const fileInput = document.getElementById(`file-${table}-${id}`);
+  let image_url = null;
+  if (fileInput.files[0]) image_url = await uploadImage(bucket, fileInput.files[0]);
+  if (!image_url) {
+    const { data } = await supabase.from(table).select('image_url').eq('id', id).single();
+    image_url = data.image_url;
   }
+  const link = hasLink ? document.getElementById(`link-${table}-${id}`).value : null;
+  updateItem(table, id, title, description, image_url, link);
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  fetchData();
+  menus.forEach(menu => renderSection(menu));
 });
 </script>
+
 </body>
 </html>
