@@ -1201,3 +1201,69 @@ span {
         padding: 0.8rem 0;
     }
 }
+
+
+/* --- Updated Menu Card Styling --- */
+.profile-navigator {
+    display: flex; /* Use flexbox for horizontal arrangement */
+    flex-wrap: wrap; /* Allow cards to wrap to the next line */
+    gap: 20px; /* Space between cards */
+    max-width: 1200px;
+    margin: 30px auto; /* Center the navigator */
+    padding: 20px;
+    justify-content: center; /* Center cards horizontally when not full */
+}
+
+.nav-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    width: calc(33.33% - 20px); /* Roughly three cards per row on larger screens */
+    min-width: 200px; /* Minimum width for each card */
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.nav-card-icon {
+    font-size: 36px;
+    color: #007bff; /* Primary color for icons */
+    margin-bottom: 10px;
+}
+
+.nav-card h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    color: #2c3e50;
+}
+
+.nav-card p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Responsive adjustments for the card layout */
+@media (max-width: 992px) {
+    .nav-card {
+        width: calc(50% - 20px); /* Two cards per row on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-card {
+        width: calc(100% - 20px); /* One card per row on smaller screens */
+    }
+}
