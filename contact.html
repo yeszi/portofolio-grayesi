@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact - YesZie</title>
+
+  <!-- External CSS & Icon -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    :root {
+      --bg-color: #f5f5f5;
+      --second-bg-color: #ffffff;
+      --main-color: #79bbb8;
+      --text-color: #333333;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--second-bg-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 5%;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header .logo {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--main-color);
+      text-decoration: none;
+    }
+
+    .navbar a {
+      margin-left: 2rem;
+      font-size: 1.6rem;
+      color: var(--text-color);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .navbar a:hover,
+    .navbar a.active {
+      color: var(--main-color);
+    }
+
+    .contact-hero {
+      margin-top: 120px;
+      text-align: center;
+      padding: 8rem 5% 4rem;
+      background: var(--second-bg-color);
+    }
+
+    .contact-hero h1 {
+      font-size: 4.5rem;
+      color: var(--text-color);
+    }
+
+    .contact-hero h1 span {
+      color: var(--main-color);
+    }
+
+    .contact-hero p {
+      font-size: 1.8rem;
+      color: var(--text-color);
+      max-width: 700px;
+      margin: auto;
+      margin-top: 1rem;
+    }
+
+    .contact-section {
+      padding: 5rem 5%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 3rem;
+    }
+
+    .contact-box {
+      background: var(--second-bg-color);
+      border-radius: 1rem;
+      box-shadow: 0 0 1rem rgba(0,0,0,0.05);
+      padding: 2rem;
+    }
+
+    .contact-box h3 {
+      font-size: 2rem;
+      color: var(--text-color);
+      margin-bottom: 1rem;
+    }
+
+    .contact-box p,
+    .contact-box li {
+      font-size: 1.3rem;
+      color: var(--text-color);
+      margin-bottom: 0.8rem;
+    }
+
+    .contact-box ul {
+      padding-left: 1.5rem;
+    }
+
+    form.contact-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+      font-size: 1.3rem;
+    }
+
+    .contact-form button {
+      padding: 1rem;
+      font-size: 1.4rem;
+      background-color: var(--main-color);
+      color: white;
+      border: none;
+      border-radius: 0.8rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .contact-form button:hover {
+      background-color: var(--text-color);
+      color: var(--main-color);
+    }
+
+    .footer {
+      background: #79bbb8;
+      color: #1b1c1d;
+      padding: 2rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+    }
+
+    .footer-iconTop a {
+      color: #79bbb8;
+    }
+
+    .footer-iconTop a:hover {
+      color: #79bbb8;
+    }
+
+    .floating-back-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #79bbb8;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    z-index: 1000;
+    transition: background 0.3s, transform 0.2s;
+    }
+
+    .floating-back-btn:hover {
+    background-color: #79bbb8;
+    transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+    <header class="header">
+    <a href="index.html" class="logo">YesZie</a>
+    <nav class="navbar">
+      <a href="index.html#home">Home</a>
+      <a href="articles.html" >Articles</a>
+      <a href="contact.html" class="active">Contact</a>
+      <a href="login.html">Sign In</a>
+    </nav>
+    <div class="bx bx-moon" id="darkMode-icon"></div>
+    <div class="bx bx-menu" id="menu-icon"></div>
+  </header>
+
+  <section class="contact-hero">
+    <h1>Contact <span>Me</span></h1>
+    <p>Ada pertanyaan? Kerja sama? Atau cuma mau ngobrol? Kirimkan saja pesanmu di bawah ini ya!</p>
+  </section>
+
+  <section class="contact-section">
+    <div class="contact-box">
+      <h3>Informasi Kontak</h3>
+      <p><strong>Email:</strong> grayesi@email.com</p>
+      <p><strong>WhatsApp:</strong> +62 812-3456-7890</p>
+      <p><strong>Lokasi:</strong> Tanjungpinang, Kepulauan Riau</p>
+    </div>
+
+    <div class="contact-box">
+      <h3>Harga Jasa</h3>
+      <ul>
+        <li>Desain UI/UX: Rp 200.000 - 500.000</li>
+        <li>Website Portfolio: Rp 400.000 - 1.000.000</li>
+        <li>Edit Video / Musik: Rp 150.000 - 300.000</li>
+      </ul>
+    </div>
+
+    <div class="contact-box">
+      <h3>Form Kirim Pesan</h3>
+      <form action="https://formspree.io/f/your-form-id" method="POST" class="contact-form">
+        <input type="text" name="name" placeholder="Nama Lengkap" required>
+        <input type="email" name="email" placeholder="Email Kamu" required>
+        <textarea name="message" rows="5" placeholder="Pesan Kamu..." required></textarea>
+        <button type="submit">Kirim Pesan</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-text">
+      <p>Made by © Grayesi Silitonga | All Rights Reserved.</p>
+    </div>
+    <div class="footer-iconTop">
+    <a href="index.html" class="floating-back-btn" title="Kembali ke Beranda"><i class='bx bx-left-arrow-alt'></i></a>
+    </div>
+  </footer>
+</body>
+</html>
