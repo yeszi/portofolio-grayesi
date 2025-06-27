@@ -37,15 +37,6 @@
   <a href="index.html">Log Out</a>
 </nav>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <input type="text" id="judul-about" placeholder="Judul">
-    <textarea id="deskripsi-about" placeholder="Deskripsi"></textarea>
-    <input type="file" id="gambar-about" accept="image/*">
-    <button onclick="updateAboutMe()">Tambah</button>
-  </section>
-</div>
-
 <div class="container">
   <section id="projects">
     <h2>Projects</h2>
@@ -84,6 +75,15 @@
     <div id="daftar-articles"></div>
   </section>
 
+  <section id="about">
+    <h2>About Me</h2>
+    <input type="text" id="judul-about" placeholder="Judul">
+    <textarea id="deskripsi-about" placeholder="Deskripsi"></textarea>
+    <input type="file" id="gambar-about" accept="image/*">
+    <button onclick="updateAboutMe()">Update</button>
+  </section>
+</div>
+
 <script>
 const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
 const SUPABASE_KEY = 'YOUR_PUBLIC_ANON_KEY';
@@ -95,15 +95,6 @@ supabase.auth.getSession().then(({ data: { session } }) => {
     window.location.href = "login.html";
   }
 });
-
-async function updateAboutMe() {
-  const title = document.getElementById('judul-about').value;
-  const description = document.getElementById('deskripsi-about').value;
-  const file = document.getElementById('gambar-about').files[0];
-  const image_url = await uploadImage('about-images', file);
-  if (!image_url) return;
-  await supabase.from('about_me').upsert({ id: 1, title, description, image_url });
-}
 
 async function uploadImage(bucket, file) {
   if (!file) {
@@ -127,7 +118,10 @@ async function tambahProject() {
   const file = document.getElementById('gambar-project').files[0];
   const image_url = await uploadImage('project-images', file);
   if (!image_url) return;
-  await supabase.from('projects').insert([{ title, description, link, image_url }]);
+
+  const { error } = await supabase.from('projects').insert([{ title, description, link, image_url }]);
+  if (error) alert('Gagal menambahkan: ' + error.message);
+  else alert('Project berhasil ditambahkan!');
 }
 
 async function tambahExperience() {
@@ -136,7 +130,10 @@ async function tambahExperience() {
   const file = document.getElementById('gambar-exp').files[0];
   const image_url = await uploadImage('experience-images', file);
   if (!image_url) return;
-  await supabase.from('experience').insert([{ title, description, image_url }]);
+
+  const { error } = await supabase.from('experience').insert([{ title, description, image_url }]);
+  if (error) alert('Gagal menambahkan: ' + error.message);
+  else alert('Experience berhasil ditambahkan!');
 }
 
 async function tambahActivity() {
@@ -145,7 +142,10 @@ async function tambahActivity() {
   const file = document.getElementById('gambar-activity').files[0];
   const image_url = await uploadImage('activity-images', file);
   if (!image_url) return;
-  await supabase.from('activity').insert([{ title, description, image_url }]);
+
+  const { error } = await supabase.from('activity').insert([{ title, description, image_url }]);
+  if (error) alert('Gagal menambahkan: ' + error.message);
+  else alert('Aktivitas berhasil ditambahkan!');
 }
 
 async function tambahArticle() {
@@ -154,9 +154,23 @@ async function tambahArticle() {
   const file = document.getElementById('gambar-article').files[0];
   const image_url = await uploadImage('article-images', file);
   if (!image_url) return;
-  await supabase.from('articles').insert([{ title, description, image_url }]);
+
+  const { error } = await supabase.from('articles').insert([{ title, description, image_url }]);
+  if (error) alert('Gagal menambahkan: ' + error.message);
+  else alert('Artikel berhasil ditambahkan!');
 }
 
+async function updateAboutMe() {
+  const title = document.getElementById('judul-about').value;
+  const description = document.getElementById('deskripsi-about').value;
+  const file = document.getElementById('gambar-about').files[0];
+  const image_url = await uploadImage('about-images', file);
+  if (!image_url) return;
+
+  const { error } = await supabase.from('about_me').upsert({ id: 1, title, description, image_url });
+  if (error) alert('Gagal update: ' + error.message);
+  else alert('About Me berhasil diupdate!');
+}
 </script>
 </body>
 </html>
