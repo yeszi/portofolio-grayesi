@@ -1,302 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard Admin - Grayesi</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-    body {
-      margin: 0;
-      background-color: #1f1f1f;
-      color: white;
-    }
-    header {
-      background-color: #2e2e2e;
-      padding: 20px;
-      display: flcenex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 1.5rem;
-      color: #89c3f3;
-      justify-content: space-between;
-    }
-    header button {
-      padding: 10px 16px;
-      background-color: #0c521d;
-      color: black;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    nav {
-      background-color: #333;
-      padding: 12px;
-      text-align: center;
-    }
-    nav a {
-      color: #f7f7f7;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    nav a:hover {
-      color: #aa80c7;
-    }
-    .container {
-      padding: 20px;
-    }
-    section {
-      background-color: #2a2a2a;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-    }
-    h2 {
-      color: #aa80c7;
-      margin-top: 0;
-    }
-    input, textarea, button {
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-    }
-    input, textarea {
-      background-color: #444;
-      color: white;
-    }
-    button {
-      background-color: #aa80c7;
-      color: black;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    button:hover {
-      background-color: #aa80c7;
-    }
-      * {
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-    body {
-      margin: 0;
-      background-color: #1f1f1f;
-      color: white;
-    }
-    header {
-      background-color: #2e2e2e;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 1.5rem;
-      color: #aa80c7;
-    }
-    header button {
-      padding: 10px 16px;
-      background-color: #aa80c7;
-      color: black;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    nav {
-      background-color: #333;
-      padding: 12px;
-      text-align: center;
-    }
-    nav a {
-      color: #f7f7f7;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    nav a:hover {
-      color: #aa80c7;
-    }
-    .container {
-      padding: 20px;
-    }
-    section {
-      background-color: #2a2a2a;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-    }
-    h2 {
-      color: #1d632e;
-      margin-top: 0;
-    }
-    input, textarea, button {
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-    }
-    input, textarea {
-      background-color: #444;
-      color: white;
-    }
-    button {
-      background-color: #70a77e;
-      color: black;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    button:hover {
-      background-color: #0c521d;
-    }
-    .home-links a {
-      display: block;
-      margin: 10px 0;
-      padding: 10px;
-      background: #3a3a3a;
-      color: #89c3f3;
-      border-radius: 6px;
-      text-decoration: none;
-      text-align: center;
-    }
-    .home-links a:hover {
-      background-color: #4a4a4a;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Admin Dashboard - YesZie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script> <style>
+        /* ... (CSS Anda, tidak perlu diubah, asumsi sudah benar) ... */
+        :root {
+            --primary-bg: #273760;
+            --secondary-bg: #1f2a40;
+            --accent-color: #89c3f3;
+            --purple-accent: #aa80c7;
+            --text-color: #f7f7f7;
+            --button-color: #0c521d;
+            --button-hover: #1d632e;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            margin: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: var(--secondary-bg);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        header .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        header nav a {
+            color: var(--text-color);
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        header nav a:hover {
+            color: var(--purple-accent);
+        }
+        .container {
+            flex-grow: 1;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        section {
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: var(--accent-color);
+            margin-top: 0;
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .admin-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .admin-options a,
+        .admin-options button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            background: var(--primary-bg);
+            color: var(--text-color);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .admin-options a:hover,
+        .admin-options button:hover {
+            background-color: #3a4a70;
+            transform: translateY(-5px);
+        }
+        .admin-options a span,
+        .admin-options button span {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+        .admin-options button.logout {
+            background-color: #dc3545;
+        }
+        .admin-options button.logout:hover {
+            background-color: #c82333;
+        }
+        footer {
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
 <body onload="window.location.hash = '#home'">
-  <header>
-    <h1>Admin Panel - YesZie</h1>
-  </header>
+    <header>
+        <a href="#" class="logo">YesZie Admin</a>
+    </header>
 
-  <div class="container">
-    <section id="home">
-      <div class="home-links">
-        <a href="edit.html">✏️ Edit Konten</a>
-        <a href="tambah.html">➕ Tambah Konten</a>
-        <button onclick="location.href='index.html'">Log Out</button>
-      </div>
-    </section>
-  </div>
+    <div class="container">
+        <section id="home">
+            <h2>Welcome, Grayesi!</h2>
+            <div class="admin-options">
+                <a href="edit.html">
+                    <span>✏️</span>
+                    Edit Content
+                </a>
+                <a href="tambah.html">
+                    <span>➕</span>
+                    Add New Content
+                </a>
+                <button onclick="logout()" class="logout">
+                    <span>👋</span>
+                    Log Out
+                </button>
+            </div>
+        </section>
+    </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script>
-    const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    <footer>
+        &copy; 2025 YesZie Admin Panel
+    </footer>
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      const email = session?.user?.email;
-      if (!session || email !== "grayesi.silitonga@gmail.com") {
-        alert("Akses ditolak.");
-        window.location.href = "login.html";
-      }
-    });
+    <script>
+        // Supabase client initialization
+        // Pastikan ini benar. createClient adalah method dari objek `supabase` global yang di-load dari CDN.
+        const supabase = window.supabase.createClient(
+            'https://owqdtbzhnxbxdsjrlzsa.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA'
+        );
 
-    async function logout() {
-      await supabase.auth.signOut();
-      window.location.href = "login.html";
-    }
+        // Fungsi Autentikasi
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            console.log("Current session data on dashboard:", session);
+            const email = session?.user?.email;
+            if (!session || email !== "grayesi.silitonga@gmail.com") {
+                alert("Akses ditolak. Silakan login kembali.");
+                window.location.href = "login.html";
+            } else {
+                console.log("Pengguna terautentikasi:", email);
+            }
+        }).catch(err => {
+            console.error("Error fetching session on dashboard:", err);
+            alert("Terjadi kesalahan saat memverifikasi sesi. Silakan coba lagi.");
+            window.location.href = "login.html";
+        });
 
-    async function updateAboutMe() {
-      const title = document.getElementById('about-title').value;
-      const description = document.getElementById('about-description').value;
-      const image_url = document.getElementById('about-image').value;
-      const { error } = await supabase.from('about_me').upsert({ id: 1, title, description, image_url });
-      if (error) alert("Gagal update: " + error.message);
-      else alert("Berhasil diupdate!");
-    }
+        // Fungsi Logout
+        async function logout() {
+            console.log("Fungsi logout dipanggil dari admin_dashboard.html.");
+            try {
+                const { error } = await supabase.auth.signOut();
 
-    async function loadTable(table, containerId) {
-      const { data, error } = await supabase.from(table).select('*');
-      const container = document.getElementById(containerId);
-      container.innerHTML = '';
-      if (error) return container.innerText = error.message;
-      data.forEach(item => {
-        const el = document.createElement('div');
-        el.style.margin = '10px 0';
-        el.style.padding = '10px';
-        el.style.border = '1px solid #666';
-        el.innerText = JSON.stringify(item, null, 2);
-        container.appendChild(el);
-      });
-    }
+                if (error) {
+                    console.error('Error during logout:', error.message);
+                    alert('Gagal logout: ' + error.message);
+                } else {
+                    console.log("Logout berhasil. Mengarahkan ke login.html.");
+                    window.location.href = "login.html"; // Ini adalah redirect yang benar
+                }
+            } catch (e) {
+                console.error("Unexpected error in logout function (admin_dashboard.html):", e);
+                alert("Terjadi kesalahan tak terduga saat logout.");
+            }
+        }
 
-    async function tambahExperience() {
-      const title = document.getElementById('exp-title').value;
-      const company = document.getElementById('exp-company').value;
-      const description = document.getElementById('exp-description').value;
-      const start_date = document.getElementById('exp-start').value;
-      const end_date = document.getElementById('exp-end').value;
-      const { error } = await supabase.from('experience').insert([{ title, company, description, start_date, end_date }]);
-      if (error) alert('Gagal: ' + error.message);
-      else { alert('Berhasil!'); loadTable('experience', 'daftar-experience'); }
-    }
-
-    async function tambahActivity() {
-      const title = document.getElementById('act-title').value;
-      const description = document.getElementById('act-description').value;
-      const date = document.getElementById('act-date').value;
-      const image_url = document.getElementById('act-image').value;
-      const { error } = await supabase.from('activity').insert([{ title, description, date, image_url }]);
-      if (error) alert('Gagal: ' + error.message);
-      else { alert('Berhasil!'); loadTable('activity', 'daftar-activity'); }
-    }
-
-    async function tambahArticle() {
-      const title = document.getElementById('art-title').value;
-      const description = document.getElementById('art-description').value;
-      const image_url = document.getElementById('art-image').value;
-      const { error } = await supabase.from('articles').insert([{ title, description, image_url }]);
-      if (error) alert('Gagal: ' + error.message);
-      else { alert('Berhasil!'); loadTable('articles', 'daftar-articles'); }
-    }
-
-    document.getElementById('btn-tambah-project').addEventListener('click', async () => {
-      const title = document.getElementById('judul-project').value;
-      const description = document.getElementById('deskripsi-project').value;
-      const image_url = document.getElementById('gambar-project').value;
-      const link = document.getElementById('link-project').value;
-
-      const { error } = await supabase.from('projects').insert([{ title, description, image_url, link }]);
-      if (error) alert('Gagal tambah: ' + error.message);
-      else { alert('Berhasil ditambahkan!'); loadProjects(); }
-    });
-
-    async function loadProjects() {
-      const { data, error } = await supabase.from('projects').select('*');
-      const container = document.getElementById('daftar-project');
-      container.innerHTML = '';
-      if (error) return container.innerText = error.message;
-      data.forEach(item => {
-        const el = document.createElement('div');
-        el.style.margin = '10px 0';
-        el.style.padding = '10px';
-        el.style.border = '1px solid #666';
-        el.innerHTML = `<strong>${item.title}</strong><br>${item.description}<br><img src="${item.image_url}" style="max-width:100px;"><br><a href="${item.link}" target="_blank">${item.link}</a>`;
-        container.appendChild(el);
-
-        
-      });
-    }
-
-    loadProjects();
-    loadTable('experience', 'daftar-experience');
-    loadTable('activity', 'daftar-activity');
-    loadTable('articles', 'daftar-articles');
-  </script>
+        // --- Fungsi-fungsi lain dari halaman lain tidak perlu ada di sini, kecuali jika memang digunakan di halaman ini ---
+        // Contoh: Jika Anda memanggil `loadProjects()` di halaman ini, maka fungsi `loadProjects` harus didefinisikan di sini.
+        // Jika tidak, hapus panggilan atau definisinya untuk menghindari error "function not found".
+    </script>
 </body>
 </html>
