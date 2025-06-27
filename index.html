@@ -498,7 +498,97 @@
             <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
         </div>
     </footer>
+<script>
+const supabase = supabase.createClient(
+  'https://owqdtbzhnxbxdsjrlzsa.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA'
+);
 
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadSection('about_me', 'about', renderAboutMe);
+  await loadSection('projects', 'project', renderProject);
+  await loadSection('experience', 'experience', renderExperience);
+  await loadSection('activity', 'testimonial-wrapper', renderActivity);
+  await loadSection('articles', 'articles', renderArticle);
+});
+
+async function loadSection(table, sectionId, renderer) {
+  const { data, error } = await supabase.from(table).select('*');
+  if (error) return console.error(`Error fetching ${table}:`, error);
+  const container = document.getElementById(sectionId);
+  if (!container) return;
+  container.innerHTML = renderer(data);
+}
+
+function renderAboutMe(data) {
+  if (!data.length) return '';
+  const about = data[0];
+  return `
+    <div class="about-img">
+      <img src="${about.image_url}" alt="About Image">
+    </div>
+    <div class="about-content">
+      <h2 class="heading">About <span>Me</span></h2>
+      <h3>${about.title}</h3>
+      <p>${about.description}</p>
+    </div>`;
+}
+
+function renderProject(data) {
+  return `
+    <div class="project-container">${data.map(project => `
+      <div class="project-box">
+        <img src="${project.image_url}" alt="">
+        <div class="portfolio-layer">
+          <h4>${project.title}</h4>
+          <p>${project.description}</p>
+          <a href="${project.link}" target="_blank"><i class='bx bx-link-external'></i></a>
+        </div>
+      </div>`).join('')}</div>`;
+}
+
+function renderExperience(data) {
+  return `
+    <div class="project-container">${data.map(exp => `
+      <div class="project-box">
+        <img src="${exp.image_url}" alt="">
+        <div class="portfolio-layer">
+          <h4>${exp.title}</h4>
+          <p>${exp.description}</p>
+        </div>
+      </div>`).join('')}</div>`;
+}
+
+function renderActivity(data) {
+  return `
+    <div class="testimonial-box mySwiper">
+      <div class="testimonial-content swiper-wrapper">
+        ${data.map(act => `
+          <div class="testimonial-slide swiper-slide">
+            <img src="${act.image_url}" alt="">
+            <h3>${act.title}</h3>
+            <p>${act.description}</p>
+          </div>`).join('')}
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-pagination"></div>
+    </div>`;
+}
+
+function renderArticle(data) {
+  return `
+    <div class="article-container">${data.map(article => `
+      <div class="article-box">
+        <img src="${article.image_url}" alt="">
+        <div class="article-content">
+          <h4>${article.title}</h4>
+          <p>${article.description}</p>
+          <a href="${article.link || '#'}" class="btn article-btn" target="_blank">Lihat <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+      </div>`).join('')}</div>`;
+}
+</script>
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="js/script.js"></script>
