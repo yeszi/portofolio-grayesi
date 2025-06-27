@@ -21,7 +21,7 @@
 :root {
     --bg-color: #fdfdfd;
     --text-color: #333;
-    --main-color: #89c3f3;
+    --main-color: #79bbb8;
     --white-color: #fdfdfd;
     --black-color: #000;
     --shadow-color: rgba(0, 0, 0, .2);
@@ -32,7 +32,7 @@
 .dark-mode {
     --bg-color: #0b061f;
     --text-color: #fdfdfd;
-    --main-color: #89c3f3;
+    --main-color: #79bbb8;
     --white-color: #1a1a1a;
     --black-color: #fdfdfd;
     --shadow-color: rgba(0, 0, 0, .7);
