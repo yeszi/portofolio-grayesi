@@ -3,214 +3,153 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard Admin - Grayesi</title>
+  <title>Edit Konten - Admin Grayesi</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-    body {
-      margin: 0;
-      background-color: #1f1f1f;
-      color: white;
-    }
-    header {
-      background-color: #2e2e2e;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 1.5rem;
-      color: #f9a826;
-    }
-    header button {
-      padding: 10px 16px;
-      background-color: #f9a826;
-      color: black;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    nav {
-      background-color: #333;
-      padding: 12px;
-      text-align: center;
-    }
-    nav a {
-      color: #f7f7f7;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    nav a:hover {
-      color: #f9a826;
-    }
-    .container {
-      padding: 20px;
-    }
-    section {
-      background-color: #2a2a2a;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-    }
-    h2 {
-      color: #f9a826;
-      margin-top: 0;
-    }
+    * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { margin: 0; background-color: #1f1f1f; color: white; }
+    header, nav { background-color: #2e2e2e; padding: 20px; text-align: center; }
+    header h1 { color: #f9a826; }
+    nav a { color: #f7f7f7; margin: 0 10px; text-decoration: none; font-weight: 500; }
+    nav a:hover { color: #f9a826; }
+    .container { padding: 20px; }
+    section { background-color: #2a2a2a; padding: 20px; border-radius: 10px; margin-bottom: 30px; }
+    h2 { color: #f9a826; }
     input, textarea, button {
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-    }
-    input, textarea {
-      background-color: #444;
-      color: white;
+      width: 100%; margin: 10px 0; padding: 10px; border-radius: 8px; border: none;
+      background-color: #444; color: white;
     }
     button {
-      background-color: #f9a826;
-      color: black;
-      cursor: pointer;
-      font-weight: 600;
+      background-color: #f9a826; color: black; font-weight: 600; cursor: pointer;
     }
-    button:hover {
-      background-color: #ffaa00;
-    }
+    button:hover { background-color: #ffaa00; }
   </style>
 </head>
 <body>
 
-  <header>
-    <div>
-      <h1>Admin Panel - Edit</h1>
-    </div>
-  </header>
+<header>
+  <h1>Edit Konten - Admin Grayesi</h1>
+</header>
 
-  <nav>
-    <a href="admin_dashboard.html">Home Admin</a>
-    <a href="index.html">Log Out</a>
-  </nav>
+<nav>
+  <a href="admin_dashboard.html">Home Admin</a>
+  <a href="index.html">Log Out</a>
+</nav>
 
-   <div class="container">
-    <section id="edit" >
-      <h2>About Me</h2>
-      <input type="text" id="about-title" placeholder="Judul">
-      <textarea id="about-description" placeholder="Deskripsi"></textarea>
-      <input type="file" id="gambar-project" accept="image/*">
-      <button onclick="updateAboutMe()">Update</button>
-    </section>
+<div class="container">
+  <section id="projects">
+    <h2>Projects</h2>
+    <input type="text" id="judul-project" placeholder="Judul Project">
+    <textarea id="deskripsi-project" placeholder="Deskripsi Project"></textarea>
+    <input type="file" id="gambar-project" accept="image/*">
+    <input type="text" id="link-project" placeholder="Link Project">
+    <button onclick="tambahProject()">Update</button>
+    <div id="daftar-project"></div>
+  </section>
 
-    <section id="projects">
-      <h2>Project</h2>
-      <input type="text" id="judul-project" placeholder="Judul Project">
-      <textarea id="deskripsi-project" placeholder="Deskripsi Project"></textarea>
-      <input type="text" id="gambar-project" placeholder="Gambar URL">
-      <input type="text" id="link-project" placeholder="Link Project">
-      <button id="btn-tambah-project">Update</button>
-      <div id="daftar-project"></div>
-    </section>
+  <section id="experience">
+    <h2>Experience</h2>
+    <input type="text" id="judul-exp" placeholder="Judul Pengalaman">
+    <textarea id="deskripsi-exp" placeholder="Deskripsi Pengalaman"></textarea>
+    <input type="file" id="gambar-exp" accept="image/*">
+    <button onclick="tambahExperience()">Update</button>
+    <div id="daftar-experience"></div>
+  </section>
 
-    <section id="experience">
-      <h2>Experience</h2>
-      <input type="text" id="exp-title" placeholder="Judul">
-      <input type="text" id="exp-company" placeholder="Perusahaan">
-      <textarea id="exp-description" placeholder="Deskripsi"></textarea>
-      <input type="date" id="exp-start">
-      <input type="date" id="exp-end">
-      <button onclick="tambahExperience()">Update</button>
-      <div id="daftar-experience"></div>
-    </section>
+  <section id="activity">
+    <h2>My Activity</h2>
+    <input type="text" id="judul-activity" placeholder="Judul Aktivitas">
+    <textarea id="deskripsi-activity" placeholder="Deskripsi Aktivitas"></textarea>
+    <input type="file" id="gambar-activity" accept="image/*">
+    <button onclick="tambahActivity()">Update</button>
+    <div id="daftar-activity"></div>
+  </section>
 
-    <section id="activity">
-      <h2>My Activity</h2>
-      <input type="text" id="act-title" placeholder="Judul Aktivitas">
-      <textarea id="act-description" placeholder="Deskripsi Aktivitas"></textarea>
-      <input type="date" id="act-date">
-      <input type="text" id="act-image" placeholder="Gambar URL (opsional)">
-      <button onclick="tambahActivity()">Update</button>
-      <div id="daftar-activity"></div>
-    </section>
+  <section id="articles">
+    <h2>My Articles</h2>
+    <input type="text" id="judul-article" placeholder="Judul Artikel">
+    <textarea id="deskripsi-article" placeholder="Deskripsi Artikel"></textarea>
+    <input type="file" id="gambar-article" accept="image/*">
+    <button onclick="tambahArticle()">Update</button>
+    <div id="daftar-articles"></div>
+  </section>
 
-    <section id="articles">
-      <h2>My Articles</h2>
-      <input type="text" id="art-title" placeholder="Judul Artikel">
-      <textarea id="art-description" placeholder="Deskripsi Artikel"></textarea>
-      <input type="text" id="art-image" placeholder="Gambar URL">
-      <button onclick="tambahArticle()">Update</button>
-      <div id="daftar-articles"></div>
-    </section>
-  </div>
+  <section id="about">
+    <h2>About Me</h2>
+    <input type="text" id="judul-about" placeholder="Judul">
+    <textarea id="deskripsi-about" placeholder="Deskripsi"></textarea>
+    <input type="file" id="gambar-about" accept="image/*">
+    <button onclick="updateAboutMe()">Update</button>
+  </section>
+</div>
 
-  <script>
-    const SUPABASE_URL = 'https://supabase.supabase.co';
-    const SUPABASE_KEY = 'eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30...';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+<script>
+const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+const SUPABASE_KEY = 'YOUR_PUBLIC_ANON_KEY';
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
-        alert("Akses ditolak.");
-        window.location.href = "login.html";
-      }
-    });
+supabase.auth.getSession().then(({ data: { session } }) => {
+  if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
+    alert("Akses ditolak.");
+    window.location.href = "login.html";
+  }
+});
 
-    async function logout() {
-      await supabase.auth.signOut();
-      window.location.href = "login.html";
-    }
+async function updateAboutMe() {
+  const title = document.getElementById('judul-about').value;
+  const description = document.getElementById('deskripsi-about').value;
+  const file = document.getElementById('gambar-about').files[0];
+  const image_url = await uploadImage('about-images', file);
+  if (!image_url) return;
+  await supabase.from('about_me').upsert({ id: 1, title, description, image_url });
+}
 
-    async function updateAboutMe() {
-      const title = document.getElementById('about-title').value;
-      const description = document.getElementById('about-description').value;
-      const image_url = document.getElementById('about-image').value;
-      const { error } = await supabase.from('about_me').upsert({ id: 1, title, description, image_url });
-      if (error) alert("Gagal update: " + error.message);
-      else alert("Berhasil diupdate!");
-    }
+async function uploadImage(bucket, file) {
+  const fileName = `${Date.now()}_${file.name}`;
+  const { error } = await supabase.storage.from(bucket).upload(fileName, file);
+  if (error) return null;
+  const { data: { publicUrl } } = supabase.storage.from(bucket).getPublicUrl(fileName);
+  return publicUrl;
+}
 
-    document.getElementById('btn-tambah-project').addEventListener('click', async () => {
-      const title = document.getElementById('judul-project').value;
-      const description = document.getElementById('deskripsi-project').value;
-      const image_url = document.getElementById('gambar-project').value;
-      const link = document.getElementById('link-project').value;
+async function tambahProject() {
+  const title = document.getElementById('judul-project').value;
+  const description = document.getElementById('deskripsi-project').value;
+  const link = document.getElementById('link-project').value;
+  const file = document.getElementById('gambar-project').files[0];
+  const image_url = await uploadImage('project-images', file);
+  if (!image_url) return;
+  await supabase.from('projects').insert([{ title, description, link, image_url }]);
+}
 
-      const { error } = await supabase.from('projects').insert([{ title, description, image_url, link }]);
-      if (error) alert('Gagal tambah: ' + error.message);
-      else { alert('Berhasil ditambahkan!'); loadProjects(); }
-    });
+async function tambahExperience() {
+  const title = document.getElementById('judul-exp').value;
+  const description = document.getElementById('deskripsi-exp').value;
+  const file = document.getElementById('gambar-exp').files[0];
+  const image_url = await uploadImage('experience-images', file);
+  if (!image_url) return;
+  await supabase.from('experience').insert([{ title, description, image_url }]);
+}
 
-    async function loadProjects() {
-      const { data, error } = await supabase.from('projects').select('*');
-      const container = document.getElementById('daftar-project');
-      container.innerHTML = '';
-      if (error) return container.innerText = error.message;
-      data.forEach(item => {
-        const el = document.createElement('div');
-        el.style.margin = '10px 0';
-        el.style.padding = '10px';
-        el.style.border = '1px solid #666';
-        el.innerHTML = `
-          <strong>${item.title}</strong><br>
-          ${item.description}<br>
-          <img src="${item.image_url}" style="max-width:100px;"><br>
-          <a href="${item.link}" target="_blank">${item.link}</a>
-        `;
-        container.appendChild(el);
-      });
-    }
+async function tambahActivity() {
+  const title = document.getElementById('judul-activity').value;
+  const description = document.getElementById('deskripsi-activity').value;
+  const file = document.getElementById('gambar-activity').files[0];
+  const image_url = await uploadImage('activity-images', file);
+  if (!image_url) return;
+  await supabase.from('activity').insert([{ title, description, image_url }]);
+}
 
-    supabase.channel('realtime-projects')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, () => loadProjects())
-      .subscribe();
+async function tambahArticle() {
+  const title = document.getElementById('judul-article').value;
+  const description = document.getElementById('deskripsi-article').value;
+  const file = document.getElementById('gambar-article').files[0];
+  const image_url = await uploadImage('article-images', file);
+  if (!image_url) return;
+  await supabase.from('articles').insert([{ title, description, image_url }]);
+}
 
-    loadProjects();
-  </script>
+</script>
 </body>
 </html>
