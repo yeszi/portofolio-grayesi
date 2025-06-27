@@ -17,7 +17,7 @@
 :root {
     --bg-color: #fdfdfd;
     --text-color: #333;
-    --main-color: #79bbb8;
+    --main-color: #3f6399;
     --white-color: #fdfdfd;
     --black-color: #000;
     --shadow-color: rgba(0, 0, 0, .2);
@@ -28,7 +28,7 @@
 .dark-mode {
     --bg-color: #0b061f;
     --text-color: #fdfdfd;
-    --main-color: #79bbb8;
+    --main-color: #3f6399;
     --white-color: #1a1a1a;
     --black-color: #fdfdfd;
     --shadow-color: rgba(0, 0, 0, .7);
@@ -1215,7 +1215,7 @@ span {
 }
 
 .nav-card {
-    background-color: #ffffff;
+    background: var(--second-bg-color);
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     padding: 20px;
@@ -1223,7 +1223,7 @@ span {
     min-width: 200px; /* Minimum width for each card */
     text-align: center;
     text-decoration: none;
-    color: #333;
+    color: var(--text-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
@@ -1246,7 +1246,7 @@ span {
     margin-top: 0;
     margin-bottom: 5px;
     font-size: 1.2em;
-    color: #2c3e50;
+    color: var(--text-color);
 }
 
 .nav-card p {
