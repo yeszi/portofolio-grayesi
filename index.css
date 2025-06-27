@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 /* Reset dan Box Sizing */
 * {
@@ -10,11 +11,6 @@
     outline: none;
     scroll-behavior: smooth;
     font-family: 'Poppins', sans-serif;
-}
-
-/* Optional: Untuk debugging konten yang bisa diedit */
-[contenteditable="true"] {
-    background-color: rgba(255, 255, 0, 0.1);
 }
 
 /* Definisi Variabel Warna untuk Mode Terang (Default) */
@@ -45,7 +41,8 @@ body, .header, .navbar a, #darkMode-icon, .home .profession-box .profession,
 .social-media a, .btn, .about-img img, .services-container .services-box,
 .testimonial-content .testimonial-slide, .contact form .input-box input,
 .contact form textarea, .footer, .footer-iconTop a,
-.project-box .portfolio-layer {
+.project-box .portfolio-layer, .article-list .article-box,
+.education-box {
     transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
@@ -126,8 +123,9 @@ body {
 /* Dark Mode Icon */
 #darkMode-icon {
     font-size: 2.4rem;
-    color: var(--white-color);
+    color: var(--white-color); /* Warna default untuk mode terang */
     cursor: pointer;
+    margin-left: 2rem; /* Memberi sedikit jarak dari navbar */
 }
 
 .header.sticky #darkMode-icon {
@@ -138,9 +136,14 @@ body {
 /* Menu Icon (Hanya untuk Mobile) */
 #menu-icon {
     font-size: 3.6rem;
-    color: var(--text-color);
-    display: none;
+    color: var(--text-color); /* Warna default untuk menu icon */
+    display: none; /* Sembunyikan secara default di desktop */
+    cursor: pointer;
 }
+.header.sticky #menu-icon {
+    color: var(--text-color);
+}
+
 
 /* Semua Section */
 section {
@@ -153,7 +156,6 @@ section {
 .home {
     display: flex;
     align-items: center;
-    /* justify-content: space-between;  Kita akan atur manual posisi gambar */
     padding: 10rem 7% 2rem;
     background: var(--bg-color);
     position: relative;
@@ -166,8 +168,7 @@ section {
     position: relative;
     z-index: 10;
     text-align: left;
-    /* PENTING: Beri ruang di kanan untuk gambar dan profesi box */
-    margin-right: 30%; /* Atau sesuaikan sesuai kebutuhan Anda */
+    margin-right: 30%;
 }
 
 .home-content h3 {
@@ -236,13 +237,13 @@ section {
 .home .profession-container {
     position: absolute;
     top: 50%;
-    right: 0; /* Posisikan ke paling kanan */
+    right: 0;
     transform: translateY(-50%);
-    width: 768px; /* Lebar sesuai desain segitiga/lingkaran */
+    width: 768px;
     height: 100vh;
     overflow: hidden;
     pointer-events: none;
-    z-index: 5; /* Pastikan di bawah gambar profil */
+    z-index: 5;
     display: block;
 }
 
@@ -323,33 +324,28 @@ section {
 /* HOME IMAGE (YOUR PROFILE PICTURE) - MASUK KE DALAM AREA BERWARNA */
 .home-img {
     position: absolute;
-    /* Posisikan relatif terhadap .home */
-    top: 50%; /* Tengah secara vertikal dari section home */
-    right: 55px; /* Posisikan di paling kanan dari section home */
-    transform: translateY(-50%); /* Penyesuaian untuk tengah vertikal */
-    width: 400px; /* Lebar container gambar, sesuaikan ini */
-    height: 100%; /* Agar gambar bisa menempati tinggi penuh home section jika diinginkan */
+    top: 50%;
+    right: 55px;
+    transform: translateY(-50%);
+    width: 400px;
+    height: 100%;
     display: flex;
-    justify-content: flex-start; /* Posisikan gambar di kiri container ini (yang ada di paling kanan) */
-    align-items: center; /* Pusatkan gambar secara vertikal dalam container ini */
-    z-index: 10; /* Pastikan di atas profession-container dan overlay */
+    justify-content: flex-start;
+    align-items: center;
+    z-index: 10;
     pointer-events: none;
-    overflow: hidden; /* Penting untuk memotong gambar jika terlalu besar */
+    overflow: hidden;
 }
 
 .home-img img {
-    max-width: 100%; /* Gambar akan mengisi lebar container home-img */
-    height: auto; /* Jaga rasio aspek */
+    max-width: 100%;
+    height: auto;
     display: block;
-    object-fit: contain; /* Pastikan gambar masuk tanpa terpotong */
-    /* Mungkin perlu penyesuaian posisi gambar di dalam .home-img jika gambar tidak simetris */
-    /* Contoh: transform: translateX(-20px); atau margin-left: -20px; */
-    transform: translateX(-20px); /* Adjust to move image more into the colored area */
-    max-height: 90vh; /* Sesuaikan jika gambar terlalu tinggi */
+    object-fit: contain;
+    transform: translateX(-20px);
+    max-height: 90vh;
     margin-left: -20px;
 }
-
-
 
 /* Warna Span (Aksen) */
 span {
@@ -446,7 +442,7 @@ span {
 
 .services-box p {
     font-size: 1.6rem;
-    margin: 1rem 0 3rem;
+    margin: 1rem 0 0.5rem; /* Adjusted margin */
     color: var(--text-color);
 }
 
@@ -478,6 +474,8 @@ span {
 
 .project-box img {
     width: 100%;
+    height: 200px; /* Set a fixed height for project images */
+    object-fit: cover; /* Cover the area, cropping if necessary */
     transition: .5s ease;
     border-radius: 20px;
 }
@@ -552,6 +550,8 @@ span {
     padding: 1rem;
     border-radius: 2rem;
     overflow: hidden;
+    /* Pastikan swiper-button-next/prev tidak terpotong */
+    position: relative; /* Penting untuk posisi tombol */
 }
 
 .testimonial-content .testimonial-slide {
@@ -575,6 +575,15 @@ span {
     outline: .5rem solid var(--main-color);
 }
 
+/* Jika ada dua gambar dalam satu slide, atur tampilan agar berdampingan atau berjarak */
+.testimonial-slide img + img {
+    margin-left: 1rem; /* Beri jarak antar gambar jika ada lebih dari satu */
+}
+.testimonial-slide img:first-of-type {
+    margin-bottom: 1rem; /* Beri jarak di bawah gambar pertama ke teks */
+}
+
+
 .testimonial-slide h3 {
     font-size: 2.5rem;
     margin: 2rem 0;
@@ -587,11 +596,14 @@ span {
     color: var(--text-color);
 }
 
+/* Styling untuk Swiper navigation buttons */
 .testimonial-box .swiper-button-next,
 .testimonial-box .swiper-button-prev {
     color: var(--main-color);
+    font-size: 3rem; /* Memperbesar ukuran ikon */
 }
 
+/* Styling untuk Swiper pagination dots */
 .testimonial-box .swiper-pagination-bullet {
     background: var(--shadow-color);
 }
@@ -601,55 +613,155 @@ span {
 }
 
 
+/* Education Section */
 .education {
-        padding: 4rem 2rem;
-        background: #f9f9f9;
-        }
+    padding: 4rem 2rem;
+    background: var(--bg-color);
+}
 
-        .education .heading {
-        text-align: center;
-        font-size: 2.5rem;
-        margin-bottom: 2rem;
-        }
+.education .heading {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
 
-        .education-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-        }
+.education-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
 
-        .education-box {
-        background: white;
-        padding: 2rem;
-        border-radius: 1.5rem;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-        transition: 0.3s ease;
-        }
+.education-box {
+    background: var(--second-bg-color);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 20px var(--shadow-color);
+    transition: 0.3s ease;
+}
 
-        .education-box:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-        }
+.education-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px var(--shadow-color);
+}
 
-        .education-box h3 {
-        font-size: 1.3rem;
-        color: #333;
-        }
+.education-box h3 {
+    font-size: 1.3rem;
+    color: var(--text-color);
+}
 
-        .education-box .year {
-        font-size: 0.9rem;
-        color: #888;
-        margin-bottom: 0.8rem;
-        display: block;
-        }
+.education-box .year {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-bottom: 0.8rem;
+    display: block;
+}
 
-        .education-box p {
-        font-size: 1rem;
-        color: #555;
-        line-height: 1.6;
-        }
+.education-box p {
+    font-size: 1rem;
+    color: var(--text-color);
+    line-height: 1.6;
+}
 
-/* Contact Section */
+/* Article List Section (My Organization) */
+.article-list {
+    background: var(--bg-color);
+    padding: 5rem 5% 8rem;
+}
+
+.article-list .heading {
+    text-align: center;
+    font-size: 4rem;
+    margin-bottom: 3rem;
+    color: var(--text-color);
+}
+.article-list .heading span {
+    color: var(--main-color);
+}
+
+.article-list .article-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.article-list .article-box {
+    background: var(--second-bg-color);
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem var(--shadow-color); /* Changed to var(--shadow-color) */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform .3s ease;
+}
+
+.article-list .article-box:hover {
+    transform: translateY(-0.8rem);
+    box-shadow: 0 0 2rem var(--shadow-color); /* Changed to var(--shadow-color) */
+}
+
+.article-list .article-box img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.article-list .article-box .article-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.article-list .article-content h4 {
+    font-size: 2.2rem;
+    color: var(--text-color);
+    margin-bottom: 0.8rem;
+}
+
+.article-list .article-content p {
+    font-size: 1.3rem;
+    color: var(--text-color);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.article-list .article-content .article-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    background: var(--main-color);
+    color: var(--white-color); /* Changed to white-color for better contrast */
+    border-radius: 0.8rem;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.5rem;
+    transition: background .3s ease, color .3s ease;
+    align-self: flex-start;
+}
+
+.article-list .article-content .article-btn i {
+    margin-left: 0.8rem;
+    font-size: 1.8rem;
+    transition: margin-left .3s ease;
+}
+
+.article-list .article-content .article-btn:hover {
+    background: var(--text-color);
+    color: var(--main-color);
+}
+
+.article-list .article-content .article-btn:hover i {
+    margin-left: 1.2rem;
+}
+
+
+/* Contact Section (Keeping it generic as you linked to contact.html) */
 .contact {
     min-height: auto;
     padding-bottom: 7rem;
@@ -747,7 +859,7 @@ span {
         font-size: 55%;
     }
     .home-content {
-        margin-right: 25%; /* Sesuaikan margin-right */
+        margin-right: 25%;
     }
     .home .profession-container .profession-box {
         right: -10%;
@@ -756,8 +868,8 @@ span {
         right: -6%;
     }
     .home-img {
-        right: 250px; /* Geser gambar lebih ke kiri */
-        width: 400px; /* Sesuaikan lebar */
+        right: 250px;
+        width: 400px;
     }
 }
 
@@ -793,8 +905,8 @@ span {
         right: -12%;
     }
     .home-img {
-        right: 150px; /* Geser lebih ke kiri */
-        width: 300px; /* Kecilkan lagi */
+        right: 150px;
+        width: 300px;
     }
 }
 
@@ -802,13 +914,13 @@ span {
 @media (max-width: 991px) {
     /* Header & Navbar Mobile */
     #menu-icon {
-        display: block;
+        display: block; /* Tampilkan menu icon */
     }
     #darkMode-icon {
-        position: absolute;
-        right: 7rem;
+        position: absolute; /* Posisikan Dark Mode icon secara absolute */
+        right: 7rem; /* Jarak dari kanan */
         font-size: 2.6rem;
-        color: var(--text-color);
+        color: var(--text-color); /* Warna di mode mobile */
         margin-bottom: .1rem;
     }
     .navbar {
@@ -820,19 +932,49 @@ span {
         background: var(--bg-color);
         border-top: .1rem solid var(--shadow-color);
         box-shadow: 0 .5rem 1rem var(--shadow-color);
-        display: none;
+        display: none; /* Sembunyikan secara default */
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+        pointer-events: none;
+        z-index: 99;
     }
     .navbar.active {
-        display: block;
+        display: block; /* Tampilkan saat aktif */
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
     }
     .navbar a {
         display: block;
         font-size: 2rem;
-        margin: 3rem 0;
+        margin: 1.5rem 0;
         color: var(--text-color);
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .navbar a:last-child {
+        border-bottom: none;
+    }
+    .navbar a:hover {
+        background-color: var(--second-bg-color);
+        color: var(--main-color);
+    }
+    .navbar a.active {
+        color: var(--main-color);
+        font-weight: 700;
     }
     .navbar a.active::before {
         display: none;
+    }
+    .header.sticky .navbar {
+        background: var(--bg-color);
+        box-shadow: 0 .5rem 1rem var(--shadow-color);
+    }
+    #darkMode-icon, #menu-icon {
+        z-index: 101;
     }
 
     /* HOME SECTION - MOBILE SPECIFIC STYLES */
@@ -847,7 +989,7 @@ span {
         order: 1;
         margin-top: 0;
         text-align: center;
-        margin-right: 0; /* Reset margin untuk mobile */
+        margin-right: 0;
     }
     .home-content .social-media a {
         margin: 2.5rem 1.5rem 3rem 1.5rem;
@@ -865,7 +1007,6 @@ span {
         pointer-events: auto;
         overflow: visible;
         display: block;
-        /* Hapus properti lebar dari desktop jika mengganggu */
         width: auto;
     }
     .home .profession-container .profession-box {
@@ -934,7 +1075,7 @@ span {
 
     /* Project Section Mobile */
     .project .project-container {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr); /* 1 kolom di mobile */
     }
 
     /* Testimonial Section Mobile */
@@ -946,12 +1087,27 @@ span {
     }
     .testimonial-box .swiper-button-next,
     .testimonial-box .swiper-button-prev {
-        display: none;
+        display: none; /* Sembunyikan tombol navigasi di mobile jika tidak diinginkan */
     }
 
     /* Footer Mobile */
     .footer {
-        padding: 2rem 3%;
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+    .footer p {
+        margin-top: 2rem;
+    }
+
+    /* Article Section Mobile */
+    .article-list .article-container {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .articles-hero .heading {
+        font-size: 4rem;
+    }
+    .articles-hero p {
+        font-size: 1.6rem;
     }
 }
 
@@ -995,6 +1151,13 @@ span {
     .footer p {
         margin-top: 2rem;
     }
+    /* Swiper slide show 1 per view on smaller screens */
+    .testimonial-container .testimonial-wrapper .testimonial-box {
+        padding: 0; /* Sesuaikan padding agar lebih pas di mobile */
+    }
+    .testimonial-content .testimonial-slide {
+        padding: 2rem; /* Kurangi padding di dalam slide */
+    }
 }
 
 /* Mobile Sangat Kecil (max-width: 450px) */
@@ -1032,107 +1195,9 @@ span {
     .home .profession-container .profession-box {
         gap: 1rem;
     }
-}
-
-
-/* --- Tambahan CSS untuk Responsivitas Mobile (Di dalam @media (max-width: 991px)) --- */
-
-@media (max-width: 991px) {
-    /* Pastikan kode CSS Anda yang sudah ada di media query ini tetap ada. */
-    /* Contohnya: */
-    /*
-    #menu-icon {
-        display: block;
-    }
-    #darkMode-icon {
-        position: absolute;
-        right: 7rem;
-        font-size: 2.6rem;
-        color: var(--text-color);
-        margin-bottom: .1rem;
-    }
-    */
-
-    /* Navbar pada mode mobile */
-    .navbar {
-        position: absolute;
-        top: 100%; /* Pastikan di bawah header */
-        left: 0;
-        width: 100%;
-        padding: 1rem 3%;
-        background: var(--bg-color);
-        border-top: .1rem solid var(--shadow-color);
-        box-shadow: 0 .5rem 1rem var(--shadow-color);
-        display: none; /* Default hidden */
-        /* Animasi slide-down */
-        transform: translateY(-100%); /* Mulai dari atas */
-        opacity: 0;
-        transition: transform 0.4s ease-out, opacity 0.4s ease-out;
-        pointer-events: none; /* Mencegah interaksi saat tersembunyi */
-        z-index: 99; /* Pastikan di atas konten lain, tapi di bawah ikon header */
-    }
-
-    .navbar.active {
-        display: block; /* Tampilkan saat aktif */
-        transform: translateY(0); /* Geser ke posisi normal */
-        opacity: 1;
-        pointer-events: all; /* Izinkan interaksi saat terlihat */
-    }
-
     .navbar a {
-        display: block;
-        font-size: 2rem;
-        margin: 1.5rem 0; /* Kurangi margin vertikal antar item */
-        color: var(--text-color);
-        padding: 1rem 0; /* Tambahkan padding agar area klik lebih besar */
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Garis pemisah antar menu */
-        text-align: center; /* Pusatkan teks menu */
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    /* Hilangkan border-bottom untuk item terakhir */
-    .navbar a:last-child {
-        border-bottom: none;
-    }
-
-    .navbar a:hover {
-        background-color: var(--second-bg-color); /* Ubah warna latar belakang saat hover */
-        color: var(--main-color);
-    }
-
-    .navbar a.active {
-        color: var(--main-color);
-        font-weight: 700; /* Tebalkan teks menu aktif */
-    }
-
-    .navbar a.active::before {
-        display: none; /* Pastikan tidak ada pseudo-element di mobile */
-    }
-
-    /* Penyesuaian untuk header saat navbar aktif (penting untuk sticky header) */
-    .header.sticky .navbar {
-        background: var(--bg-color); /* Pastikan background tetap konsisten */
-        box-shadow: 0 .5rem 1rem var(--shadow-color); /* Pertahankan shadow dari sticky header */
-    }
-
-    /* Posisi ikon menu dan dark mode untuk memastikan di atas navbar */
-    #darkMode-icon, #menu-icon {
-        z-index: 101; /* Pastikan di atas navbar saat dibuka */
-    }
-
-    /* --- Penyesuaian untuk ukuran layar yang lebih kecil lagi --- */
-
-    @media (max-width: 768px) {
-        .navbar a {
-            font-size: 1.8rem; /* Sedikit perkecil font pada layar sangat kecil */
-        }
-    }
-
-    @media (max-width: 450px) {
-        .navbar a {
-            font-size: 1.6rem;
-            margin: 1rem 0; /* Kurangi margin lebih lanjut */
-            padding: 0.8rem 0;
-        }
+        font-size: 1.6rem;
+        margin: 1rem 0;
+        padding: 0.8rem 0;
     }
 }
