@@ -290,74 +290,96 @@ ScrollReveal().reveal('.home-content h1, .about-img', { origin: 'left' });
 ScrollReveal().reveal('.home-content p, .about-content', { origin: 'right' });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Removed: Menu Pop-up related code ---
-    // (openMenuButton, menuPopup, closeBtn, their event listeners)
+    // === Bagian 1: Highlight Navigasi Saat Scroll & Smooth Scroll ===
+    // Pastikan selector ini cocok dengan elemen nav-card Anda
+    // Jika Anda menggunakan floating-menu (kanan atas) atau mobile-nav (bawah), selector ini akan menangkap keduanya.
+    const navCards = document.querySelectorAll('.profile-navigator.floating-menu .nav-card');
 
-    const navCards = document.querySelectorAll('.profile-navigator .nav-card');
-    const sections = document.querySelectorAll('.content-detail-section, .education');
+    // Pastikan semua section konten Anda memiliki ID yang benar dan tercakup di sini
+    const sections = document.querySelectorAll(
+        '#about-section, #education-section, #skills-section, #projects-section, #experiences-section, #organization-section'
+    );
 
-    // Handle navigation when a card is clicked (still needed for smooth scroll)
+    // Fungsi untuk smooth scroll saat nav-card diklik
     navCards.forEach(card => {
         card.addEventListener('click', function(e) {
-            e.preventDefault();
+            e.preventDefault(); // Mencegah perilaku link default
 
-            const targetId = this.getAttribute('href').substring(1);
+            const targetId = this.getAttribute('href').substring(1); // Mendapatkan ID dari href
             const targetSection = document.getElementById(targetId);
 
             if (targetSection) {
-                // No need to close popup here, just scroll
+                // Scroll mulus ke section
                 window.scrollTo({
-                    top: targetSection.offsetTop - 70, // Adjust offset if you have a fixed header
+                    top: targetSection.offsetTop - 70, // Sesuaikan offset ini jika Anda memiliki fixed header atau elemen lain di atas konten
                     behavior: 'smooth'
                 });
             }
         });
     });
 
-    // Highlight active nav card based on scroll position
+    // Fungsi untuk menyorot nav-card yang aktif saat scroll
     function highlightActiveSection() {
         let currentActiveSectionId = '';
+        const scrollPosition = window.scrollY; // Posisi scroll saat ini
+
         sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100; // Adjust offset as needed
+            // Sesuaikan offset ini agar highlight lebih akurat.
+            // Nilai yang lebih kecil (misal 50) akan membuat highlight aktif lebih cepat saat section terlihat.
+            // Nilai yang lebih besar (misal 150) akan membuat highlight aktif lebih lambat.
+            const sectionTop = section.offsetTop - 150;
             const sectionHeight = section.clientHeight;
-            if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+
+            // Jika posisi scroll berada di dalam rentang section
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
                 currentActiveSectionId = section.id;
             }
         });
 
         navCards.forEach(card => {
-            card.classList.remove('active');
+            card.classList.remove('active'); // Hapus kelas 'active' dari semua card
+            // Tambahkan kelas 'active' jika href card cocok dengan ID section yang aktif
             if (card.getAttribute('href') === `#${currentActiveSectionId}`) {
                 card.classList.add('active');
             }
         });
     }
 
+    // Panggil fungsi highlight saat halaman dimuat dan saat di-scroll
     highlightActiveSection();
     window.addEventListener('scroll', highlightActiveSection);
 
-    // --- Back to Top Pop-up Button Code (kept as is) ---
+    // === Bagian 2: Tombol Pop-up Back to Top ===
     const backToTopPopup = document.getElementById('backToTopPopup');
-    const scrollThreshold = 300; // Jarak scroll ke bawah sebelum tombol muncul (dalam piksel)
+    const scrollThreshold = 300; // Tombol akan muncul setelah menggulir 300px ke bawah
 
+    // Fungsi untuk menampilkan atau menyembunyikan tombol back to top
     function toggleBackToTopButton() {
         if (window.scrollY > scrollThreshold) {
-            backToTopPopup.classList.add('show');
+            backToTopPopup.classList.add('show'); // Tambahkan kelas 'show' untuk menampilkan
         } else {
-            backToTopPopup.classList.remove('show');
+            backToTopPopup.classList.remove('show'); // Hapus kelas 'show' untuk menyembunyikan
         }
     }
 
+    // Panggil fungsi saat halaman dimuat dan saat di-scroll
     window.addEventListener('scroll', toggleBackToTopButton);
-    toggleBackToTopButton(); // Initial check
+    toggleBackToTopButton(); // Panggilan awal saat halaman dimuat
 
+    // Fungsi untuk scroll ke atas saat tombol diklik
     if (backToTopPopup) {
         backToTopPopup.addEventListener('click', function(e) {
-            e.preventDefault();
+            e.preventDefault(); // Mencegah perilaku default link
             window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+                top: 0, // Scroll ke paling atas halaman
+                behavior: 'smooth' // Efek scroll yang mulus
             });
         });
     }
+
+    // Catatan Penting:
+    // Pastikan ID section Anda di HTML sesuai dengan href di nav-card.
+    // Contoh: <a href="#about-section" ...> harus cocok dengan <section id="about-section">.
+    // Jika Anda menggunakan ID seperti #about, #services, #project, dll., pastikan juga array 'sections' di atas diperbarui.
+    // Contoh: const sections = document.querySelectorAll('#about, #education, #services, #project, #experience, #organization');
 });

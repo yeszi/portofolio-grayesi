@@ -1203,7 +1203,7 @@ span {
 }
 
 
-/* --- Floating Menu (Profile Navigator) Styles --- */
+/* --- Floating Menu (Profile Navigator) Styles - Desktop View --- */
 .profile-navigator.floating-menu {
     position: fixed; /* Membuatnya melayang di layar */
     top: 180px; /* Jarak dari atas layar */
@@ -1216,43 +1216,101 @@ span {
     background-color: rgb(202, 203, 218); /* Latar belakang semi-transparan */
     border-radius: 8px;
     box-shadow: 0 8px 25px #9f72d38f; /* Shadow lebih kuat */
-    max-height: calc(150vh - 40px); /* Batasi tinggi agar tidak melebihi viewport */
+    max-height: calc(100vh - 200px); /* Batasi tinggi agar tidak melebihi viewport */
     overflow-y: auto; /* Aktifkan scroll jika card terlalu banyak */
-    align-items: flex-end; /* Memastikan card rata kanan di dalam floating menu */
+    align-items: center; /* Pusat ikon secara horizontal di dalam floating menu */
+    /* Pastikan transisi untuk perpindahan posisi di mobile */
+    transition: all 0.3s ease-in-out;
 }
 
-/* Sesuaikan gaya .nav-card di dalam floating menu */
+/* Sesuaikan gaya .nav-card di dalam floating menu (Desktop) */
 .profile-navigator.floating-menu .nav-card {
     width: 30px; /* Lebar tetap untuk setiap card agar konsisten */
-    padding: 15px 10px; /* Sesuaikan padding */
-    box-shadow: none; /* Hapus shadow individual card jika sudah ada shadow di container */
-    background-color: transparent; /* Atau warna yang lebih ringan */
-    border: none; /* Hapus border jika tidak diperlukan */
-    flex-direction: row; /* Kembali ke tata letak ikon + teks horizontal */
-    justify-content: flex-start; /* Rata kiri */
-    gap: 5px; /* Jarak antara ikon dan teks */
-    text-align: left; /* Teks rata kiri */
+    height: 30px; /* Tambahkan tinggi agar menjadi persegi atau lingkaran */
+    padding: 0; /* Hapus padding agar ikon saja yang mengisi */
+    display: flex; /* Gunakan flexbox untuk mempusatkan ikon */
+    justify-content: center; /* Pusatkan ikon horizontal */
+    align-items: center; /* Pusatkan ikon vertikal */
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    border-radius: 50%; /* Membuatnya bulat */
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .profile-navigator.floating-menu .nav-card:hover {
-    background-color: rgba(0, 123, 255, 0.1); /* Latar belakang hover yang ringan */
-    transform: translateX(-5px); /* Geser sedikit ke kiri saat hover */
+    background-color: rgba(0, 123, 255, 0.2); /* Latar belakang hover yang sedikit transparan */
+    transform: scale(1.1); /* Sedikit membesar saat hover */
 }
 
 .profile-navigator.floating-menu .nav-card-icon {
-    font-size: 14px; /* Ukuran ikon lebih kecil */
-    margin-bottom: 0; /* Hapus margin bawah */
-    flex-shrink: 0; /* Pastikan ikon tidak menyusut */
+    font-size: 16px; /* Ukuran ikon */
+    color: #333; /* Warna ikon default */
+    margin: 0;
+    line-height: 1;
 }
 
-.profile-navigator.floating-menu .nav-card h3 {
-    font-size: 1em; /* Ukuran heading lebih kecil */
-    margin-bottom: 0;
-}
-
+.profile-navigator.floating-menu .nav-card h3,
 .profile-navigator.floating-menu .nav-card p {
-    display: none; /* Sembunyikan deskripsi singkat agar menu lebih ringkas */
+    display: none; /* Sembunyikan teks di desktop */
 }
+
+/* --- Media Queries untuk Mobile View --- */
+@media (max-width: 768px) { /* Breakpoint untuk sebagian besar mobile phones */
+    .profile-navigator.floating-menu {
+        top: auto; /* Hapus posisi top */
+        bottom: 0; /* Pindahkan ke bagian bawah layar */
+        left: 0; /* Menempel di kiri */
+        right: 0; /* Menempel di kanan */
+        width: 100%; /* Lebar penuh layar */
+        height: auto; /* Tinggi menyesuaikan konten */
+        max-height: auto; /* Hapus batasan tinggi */
+        flex-direction: row; /* Tata letak horizontal untuk navigasi bar */
+        justify-content: space-around; /* Distribusi ruang antar item secara merata */
+        padding: 10px 0; /* Padding vertikal lebih besar, horizontal nol */
+        border-radius: 0; /* Hapus border-radius (menjadi persegi) */
+        box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15); /* Shadow di atas */
+        background-color: rgb(202, 203, 218); /* Sesuaikan warna latar belakang jika perlu */
+    }
+
+    .profile-navigator.floating-menu .nav-card {
+        width: auto; /* Lebar otomatis */
+        height: auto; /* Tinggi otomatis */
+        padding: 5px 0; /* Padding kecil untuk ikon dan teks */
+        flex-direction: column; /* Ikon di atas teks */
+        border-radius: 0; /* Hapus border-radius bulat */
+        color: #333; /* Warna teks default */
+    }
+
+    .profile-navigator.floating-menu .nav-card:hover {
+        background-color: transparent; /* Hapus background hover jika tidak diinginkan */
+        transform: none; /* Hapus efek scale hover */
+    }
+
+    .profile-navigator.floating-menu .nav-card-icon {
+        font-size: 20px; /* Ukuran ikon lebih besar di mobile */
+        margin-bottom: 5px; /* Jarak antara ikon dan teks */
+        color: #007bff; /* Warna ikon yang lebih menonjol */
+    }
+
+    .profile-navigator.floating-menu .nav-card h3 {
+        display: block; /* Tampilkan teks di mobile */
+        font-size: 0.7em; /* Ukuran teks lebih kecil */
+        text-align: center;
+        margin: 0;
+    }
+
+    /* Pastikan konten utama tidak tertutup oleh menu di bawah */
+    body {
+        padding-bottom: 60px; /* Beri ruang di bagian bawah untuk floating menu */
+    }
+}
+
+/* Jika Anda memiliki breakpoint lain (misalnya untuk tablet) yang sebelumnya menyembunyikan menu,
+   pastikan untuk menghapusnya atau mengubahnya sesuai kebutuhan.
+   Contoh: @media (max-width: 992px) yang mungkin punya display: none;
+*/
 
 /* --- Media Queries untuk Responsivitas Floating Menu --- */
 @media (max-width: 992px) {
