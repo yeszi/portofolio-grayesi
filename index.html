@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     </head>
         <style>
             .article-list {
@@ -169,30 +168,18 @@
         line-height: 1.6;
         }
 
-        #darkMode-icon {
-        font-size: 2rem;
-        color: var(--text-color); /* Sesuai warna teks agar terlihat */
-        cursor: pointer;
-        margin-left: 2rem;
-        transition: color 0.3s;
-        }
-
-        #darkMode-icon:hover {
-        color: var(--main-color);
-        }
-
 </style>
 <body>
 <header class="header">
         <a href="#" class="logo">YesZie</a>
         <nav class="navbar">
             <a href="#home" class="active">Home</a>
-            <a href="articles.html">Articles</a> 
-            <a href="contact.html">Contact</a>
-            <a href="login.html">Sign In</a>
-        </nav>      
-        <i class="bx bx-moon" id="darkMode-icon"></i>
-        <i class="bx bx-menu" id="menu-icon"></i>
+            <a href="articles.html">Articles</a> <a href="#contact">Contact</a>
+            <a href="login.html">Login</a>
+        </nav>
+        
+        <div class="bx bx-moon" id="darkMode-icon"></div>
+        <div class="bx bx-menu" id="menu-icon"></div>
     </header>
 
     <section class="home" id="home">
@@ -222,6 +209,10 @@
                 <div class="profession" style="--i:2;">
                     <i class='bx bx-music'></i>
                     <h3>Musician</h3>
+                </div>
+                <div class="profession" style="--i:3;">
+                    <i class='bx bx-pen'></i>
+                    <h3>Writing Song</h3>
                 </div>
                 <div class="circle"></div>
             </div>
@@ -339,7 +330,7 @@
             <div class="project-box">
                 <img src="images\Pencarian Dokter (1).jpg" alt="Project 3">
                 <div class="portfolio-layer">
-                    <h4>Desain UI/UX APK Website Konsultasi Dokter</h4>
+                    <h4>Desain U/UX APK Website Konsultasi Dokter</h4>
                     <p>Desain UI/UX Konsultasi Online menggunakan Figma.</p>
                     <a href="articles.html"><i class='bx bx-link-external'></i></a>
                 </div>
@@ -481,6 +472,22 @@
                 </div>
             </div>
     </section>
+    <section class="contact" id="contact">
+        <h2 class="heading">Contact <span>Me!</span></h2>
+        <form action="/submit-contact-form" method="POST">
+            <div class="input-box">
+                <input type="text" name="fullName" placeholder="Full Name" required>
+                <input type="email" name="emailAddress" placeholder="Email Address" required>
+            </div>
+            <div class="input-box">
+                <input type="number" name="mobileNumber" placeholder="Mobile Number">
+                <input type="text" name="emailSubject" placeholder="Email Subject">
+            </div>
+            <textarea name="message" id="" cols="30" rows="10" placeholder="Your Message" required></textarea>
+            <input type="submit" valuxe="Send Message" class="btn">
+        </form>
+    </section>
+
     <footer class="footer">
         <div class="footer-text">
             <p>Made by © Grayesi Silitonga | All Rights Reserved.</p>
@@ -489,137 +496,7 @@
             <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
         </div>
     </footer>
-    
-        <script>
-        const supabase = supabase.createClient(
-        'https://owqdtbzhnxbxdsjrlzsa.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA'
-        );
 
-        document.addEventListener('DOMContentLoaded', async () => {
-        await loadSection('about_me', 'about', renderAboutMe);
-        await loadSection('projects', 'project', renderProject);
-        await loadSection('experience', 'experience', renderExperience);
-        await loadSection('activity', 'testimonial-wrapper', renderActivity);
-        await loadSection('articles', 'articles', renderArticle);
-
-        // Aktifkan realtime
-        listenRealtime('about_me', 'about', renderAboutMe);
-        listenRealtime('projects', 'project', renderProject);
-        listenRealtime('experience', 'experience', renderExperience);
-        listenRealtime('activity', 'testimonial-wrapper', renderActivity);
-        listenRealtime('articles', 'articles', renderArticle);
-        });
-
-        async function loadSection(table, sectionId, renderer) {
-        const { data, error } = await supabase.from(table).select('*');
-        if (error) return console.error(`Error fetching ${table}:`, error);
-        const container = document.getElementById(sectionId);
-        if (container) container.innerHTML = renderer(data);
-        }
-
-        function listenRealtime(table, sectionId, renderer) {
-        supabase
-            .channel(`realtime:${table}`)
-            .on('postgres_changes', { event: '*', schema: 'public', table: table }, async () => {
-            const { data, error } = await supabase.from(table).select('*');
-            if (error) return console.error(`Realtime fetch error for ${table}:`, error);
-            const container = document.getElementById(sectionId);
-            if (container) container.innerHTML = renderer(data);
-            })
-            .subscribe();
-        }
-
-        // === RENDER FUNCTIONS ===
-        function renderAboutMe(data) {
-        if (!data.length) return '';
-        const about = data[0];
-        return `
-            <div class="about-img">
-            <img src="${about.image_url}" alt="About Me Image">
-            </div>
-            <div class="about-content">
-            <h2 class="heading">About <span>Me</span></h2>
-            <h3>${about.title}</h3>
-            <p>${about.description}</p>
-            </div>
-        `;
-        }
-
-        function renderProject(data) {
-        return `<div class="project-container">
-            ${data.map(project => `
-            <div class="project-box">
-                <img src="${project.image_url}" alt="">
-                <div class="portfolio-layer">
-                <h4>${project.title}</h4>
-                <p>${project.description}</p>
-                <a href="${project.link}" target="_blank"><i class='bx bx-link-external'></i></a>
-                </div>
-            </div>
-            `).join('')}
-        </div>`;
-        }
-
-        function renderExperience(data) {
-        return `<div class="project-container">
-            ${data.map(exp => `
-            <div class="project-box">
-                <img src="${exp.image_url}" alt="">
-                <div class="portfolio-layer">
-                <h4>${exp.title}</h4>
-                <p>${exp.description}</p>
-                </div>
-            </div>
-            `).join('')}
-        </div>`;
-        }
-
-        function renderActivity(data) {
-        return `
-            <div class="testimonial-box mySwiper">
-            <div class="testimonial-content swiper-wrapper">
-                ${data.map(act => `
-                <div class="testimonial-slide swiper-slide">
-                    <img src="${act.image_url}" alt="">
-                    <h3>${act.title}</h3>
-                    <p>${act.description}</p>
-                </div>
-                `).join('')}
-            </div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-pagination"></div>
-            </div>
-        `;
-        }
-
-        function renderArticle(data) {
-        return `<div class="article-container">
-            ${data.map(article => `
-            <div class="article-box">
-                <img src="${article.image_url}" alt="">
-                <div class="article-content">
-                <h4>${article.title}</h4>
-                <p>${article.description}</p>
-                <a href="${article.link || '#'}" class="btn article-btn" target="_blank">
-                    Lihat <i class='bx bx-right-arrow-alt'></i>
-                </a>
-                </div>
-            </div>
-            `).join('')}
-        </div>`;
-        }
-
-        let menuIcon = document.querySelector('#menu-icon');
-        let navbar = document.querySelector('.navbar');
-
-        menuIcon.onclick = () => {
-        menuIcon.classList.toggle('bx-x');
-        navbar.classList.toggle('active');
-    };
-
-        </script>
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="js/script.js"></script>
