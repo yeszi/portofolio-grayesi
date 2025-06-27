@@ -116,7 +116,7 @@ async function updateAboutMe() {
   const description = document.getElementById('deskripsi-about').value.trim();
   const file = document.getElementById('gambar-about-file').files[0];
   if (!title || !description || !file) return alert("Isi semua data About Me!");
-  const image_url = await uploadImage('about-images', file);
+  const image_url = await uploadImage('aboutimages', file);
   if (!image_url) return;
   const { error } = await supabaseClient.from('about_me').upsert({ id: 1, title, description, image_url });
   if (error) alert('❌ Gagal update: ' + error.message);
@@ -130,7 +130,7 @@ async function tambahProject() {
   const link = document.getElementById('link-project').value.trim();
   const file = document.getElementById('gambar-project-file').files[0];
   if (!title || !description || !link || !file) return alert("Isi semua data project!");
-  const image_url = await uploadImage('project-images', file);
+  const image_url = await uploadImage('projectimages', file);
   if (!image_url) return;
   const { error } = await supabaseClient.from('projects').insert([{ title, description, image_url, link }]);
   if (error) alert('❌ Gagal tambah project: ' + error.message);
@@ -143,7 +143,7 @@ async function tambahExperience() {
   const description = document.getElementById('deskripsi-exp').value.trim();
   const file = document.getElementById('gambar-exp-file').files[0];
   if (!title || !description || !file) return alert("Lengkapi data experience!");
-  const image_url = await uploadImage('experience-images', file);
+  const image_url = await uploadImage('experienceimages', file);
   if (!image_url) return;
   const { error } = await supabaseClient.from('experience').insert([{ title, description, image_url }]);
   if (error) alert('❌ Gagal tambah experience: ' + error.message);
@@ -156,7 +156,7 @@ async function tambahActivity() {
   const description = document.getElementById('deskripsi-activity').value.trim();
   const file = document.getElementById('gambar-activity-file').files[0];
   if (!title || !description || !file) return alert("Lengkapi data activity!");
-  const image_url = await uploadImage('activity-images', file);
+  const image_url = await uploadImage('activityimages', file);
   if (!image_url) return;
   const { error } = await supabaseClient.from('activity').insert([{ title, description, image_url }]);
   if (error) alert('❌ Gagal tambah activity: ' + error.message);
@@ -169,7 +169,7 @@ async function tambahArticle() {
   const description = document.getElementById('deskripsi-article').value.trim();
   const file = document.getElementById('gambar-article-file').files[0];
   if (!title || !description || !file) return alert("Lengkapi data article!");
-  const image_url = await uploadImage('article-images', file);
+  const image_url = await uploadImage('articleimages', file);
   if (!image_url) return;
   const { error } = await supabaseClient.from('articles').insert([{ title, description, image_url }]);
   if (error) alert('❌ Gagal tambah article: ' + error.message);
