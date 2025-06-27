@@ -1420,3 +1420,24 @@ span {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       }
     }
+
+    .footer-text {
+    text-align: center; /* Pastikan teks di footer-text rata tengah */
+    justify-content: center;
+    }
+
+    .footer-links {
+        margin-top: 10px; /* Sedikit jarak dari paragraf hak cipta */
+        font-size: 1,5em; /* Ukuran font sedikit lebih kecil */
+    }
+
+    .footer-links a {
+        color: #d6c1c1; /* Warna link, sesuaikan dengan tema Anda */
+        text-decoration: none; /* Hapus garis bawah */
+        margin: 0 5px; /* Jarak antar link dan pemisah */
+        transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+        color: #222324; /* Efek hover */
+    }
