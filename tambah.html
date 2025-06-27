@@ -37,6 +37,15 @@
   <a href="index.html">Log Out</a>
 </nav>
 
+  <section id="about">
+    <h2>About Me</h2>
+    <input type="text" id="judul-about" placeholder="Judul">
+    <textarea id="deskripsi-about" placeholder="Deskripsi"></textarea>
+    <input type="file" id="gambar-about" accept="image/*">
+    <button onclick="updateAboutMe()">Tambah</button>
+  </section>
+</div>
+
 <div class="container">
   <section id="projects">
     <h2>Projects</h2>
@@ -75,15 +84,6 @@
     <div id="daftar-articles"></div>
   </section>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <input type="text" id="judul-about" placeholder="Judul">
-    <textarea id="deskripsi-about" placeholder="Deskripsi"></textarea>
-    <input type="file" id="gambar-about" accept="image/*">
-    <button onclick="updateAboutMe()">Update</button>
-  </section>
-</div>
-
 <script>
 const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
 const SUPABASE_KEY = 'YOUR_PUBLIC_ANON_KEY';
@@ -95,6 +95,15 @@ supabase.auth.getSession().then(({ data: { session } }) => {
     window.location.href = "login.html";
   }
 });
+
+async function updateAboutMe() {
+  const title = document.getElementById('judul-about').value;
+  const description = document.getElementById('deskripsi-about').value;
+  const file = document.getElementById('gambar-about').files[0];
+  const image_url = await uploadImage('about-images', file);
+  if (!image_url) return;
+  await supabase.from('about_me').upsert({ id: 1, title, description, image_url });
+}
 
 async function uploadImage(bucket, file) {
   if (!file) {
@@ -148,14 +157,6 @@ async function tambahArticle() {
   await supabase.from('articles').insert([{ title, description, image_url }]);
 }
 
-async function updateAboutMe() {
-  const title = document.getElementById('judul-about').value;
-  const description = document.getElementById('deskripsi-about').value;
-  const file = document.getElementById('gambar-about').files[0];
-  const image_url = await uploadImage('about-images', file);
-  if (!image_url) return;
-  await supabase.from('about_me').upsert({ id: 1, title, description, image_url });
-}
 </script>
 </body>
 </html>
