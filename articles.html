@@ -237,6 +237,19 @@
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       }
     }
+
+    #darkMode-icon {
+    font-size: 2rem;
+    color: var(--text-color); /* Sesuai warna teks agar terlihat */
+    cursor: pointer;
+    margin-left: 2rem;
+    transition: color 0.3s;
+  }
+
+  #darkMode-icon:hover {
+    color: var(--main-color);
+  }
+
   </style>
 </head>
 
@@ -250,8 +263,8 @@
       <a href="contact.html">Contact</a>
       <a href="login.html">Sign In</a>
     </nav>
-    <div class="bx bx-moon" id="darkMode-icon"></div>
-    <div class="bx bx-menu" id="menu-icon"></div>
+    <i class='bx bx-moon' id="darkMode-icon"></i>
+     <i class="bx bx-menu" id="menu-icon"></i>
   </header>
 
   <section class="articles-hero">
@@ -309,6 +322,20 @@
   <script src="js/script.js"></script>
   <script>
     ScrollReveal().reveal('.articles-hero, .article-box', { origin: 'top', distance: '50px', duration: 800, delay: 100 });
+ const menuIcon = document.querySelector('#menu-icon');
+  const navbar = document.querySelector('.navbar');
+
+  menuIcon.onclick = () => {
+    navbar.classList.toggle('active');
+  };
+
+  const darkModeIcon = document.querySelector('#darkMode-icon');
+
+  darkModeIcon.onclick = () => {
+    document.body.classList.toggle('dark-mode');
+    darkModeIcon.classList.toggle('bx-sun');
+    darkModeIcon.classList.toggle('bx-moon');
+  };  
   </script>
 </body>
 </html>

@@ -984,3 +984,106 @@ span {
         gap: 1rem;
     }
 }
+
+
+/* --- Tambahan CSS untuk Responsivitas Mobile (Di dalam @media (max-width: 991px)) --- */
+
+@media (max-width: 991px) {
+    /* Pastikan kode CSS Anda yang sudah ada di media query ini tetap ada. */
+    /* Contohnya: */
+    /*
+    #menu-icon {
+        display: block;
+    }
+    #darkMode-icon {
+        position: absolute;
+        right: 7rem;
+        font-size: 2.6rem;
+        color: var(--text-color);
+        margin-bottom: .1rem;
+    }
+    */
+
+    /* Navbar pada mode mobile */
+    .navbar {
+        position: absolute;
+        top: 100%; /* Pastikan di bawah header */
+        left: 0;
+        width: 100%;
+        padding: 1rem 3%;
+        background: var(--bg-color);
+        border-top: .1rem solid var(--shadow-color);
+        box-shadow: 0 .5rem 1rem var(--shadow-color);
+        display: none; /* Default hidden */
+        /* Animasi slide-down */
+        transform: translateY(-100%); /* Mulai dari atas */
+        opacity: 0;
+        transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+        pointer-events: none; /* Mencegah interaksi saat tersembunyi */
+        z-index: 99; /* Pastikan di atas konten lain, tapi di bawah ikon header */
+    }
+
+    .navbar.active {
+        display: block; /* Tampilkan saat aktif */
+        transform: translateY(0); /* Geser ke posisi normal */
+        opacity: 1;
+        pointer-events: all; /* Izinkan interaksi saat terlihat */
+    }
+
+    .navbar a {
+        display: block;
+        font-size: 2rem;
+        margin: 1.5rem 0; /* Kurangi margin vertikal antar item */
+        color: var(--text-color);
+        padding: 1rem 0; /* Tambahkan padding agar area klik lebih besar */
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Garis pemisah antar menu */
+        text-align: center; /* Pusatkan teks menu */
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Hilangkan border-bottom untuk item terakhir */
+    .navbar a:last-child {
+        border-bottom: none;
+    }
+
+    .navbar a:hover {
+        background-color: var(--second-bg-color); /* Ubah warna latar belakang saat hover */
+        color: var(--main-color);
+    }
+
+    .navbar a.active {
+        color: var(--main-color);
+        font-weight: 700; /* Tebalkan teks menu aktif */
+    }
+
+    .navbar a.active::before {
+        display: none; /* Pastikan tidak ada pseudo-element di mobile */
+    }
+
+    /* Penyesuaian untuk header saat navbar aktif (penting untuk sticky header) */
+    .header.sticky .navbar {
+        background: var(--bg-color); /* Pastikan background tetap konsisten */
+        box-shadow: 0 .5rem 1rem var(--shadow-color); /* Pertahankan shadow dari sticky header */
+    }
+
+    /* Posisi ikon menu dan dark mode untuk memastikan di atas navbar */
+    #darkMode-icon, #menu-icon {
+        z-index: 101; /* Pastikan di atas navbar saat dibuka */
+    }
+
+    /* --- Penyesuaian untuk ukuran layar yang lebih kecil lagi --- */
+
+    @media (max-width: 768px) {
+        .navbar a {
+            font-size: 1.8rem; /* Sedikit perkecil font pada layar sangat kecil */
+        }
+    }
+
+    @media (max-width: 450px) {
+        .navbar a {
+            font-size: 1.6rem;
+            margin: 1rem 0; /* Kurangi margin lebih lanjut */
+            padding: 0.8rem 0;
+        }
+    }
+}

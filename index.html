@@ -7,7 +7,6 @@
     <title>My-Portofolio</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     </head>
@@ -170,6 +169,18 @@
         line-height: 1.6;
         }
 
+        #darkMode-icon {
+        font-size: 2rem;
+        color: var(--text-color); /* Sesuai warna teks agar terlihat */
+        cursor: pointer;
+        margin-left: 2rem;
+        transition: color 0.3s;
+        }
+
+        #darkMode-icon:hover {
+        color: var(--main-color);
+        }
+
 </style>
 <body>
 <header class="header">
@@ -180,8 +191,8 @@
             <a href="contact.html">Contact</a>
             <a href="login.html">Sign In</a>
         </nav>      
-        <div class="bx bx-moon" id="darkMode-icon"></div>
-        <div class="bx bx-menu" id="menu-icon"></div>
+        <i class="bx bx-moon" id="darkMode-icon"></i>
+        <i class="bx bx-menu" id="menu-icon"></i>
     </header>
 
     <section class="home" id="home">
