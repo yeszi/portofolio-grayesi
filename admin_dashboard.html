@@ -104,7 +104,7 @@
         .admin-options a span,
         .admin-options button span {
             font-size: 3rem;
-            margin-bottom: 15px;
+            margin-bottom: 7px;
             line-height: 1;
         }
         .admin-options button.logout {
@@ -125,12 +125,12 @@
 </head>
 <body onload="window.location.hash = '#home'">
     <header>
-        <a href="#" class="logo">YesZie Admin</a>
+        <a href="#" class="logo">Dashboard YesZie</a>
     </header>
 
     <div class="container">
         <section id="home">
-            <h2>Welcome, Grayesi!</h2>
+            <h2>🤓 Welcome YesZie 🤓</h2>
             <div class="admin-options">
                 <a href="edit.html">
                     <span>✏️</span>
@@ -149,18 +149,15 @@
     </div>
 
     <footer>
-        &copy; 2025 YesZie Admin Panel
+        &copy; 2025 YesZie Admin Panel &copy;
     </footer>
 
     <script>
-        // Supabase client initialization
-        // Pastikan ini benar. createClient adalah method dari objek `supabase` global yang di-load dari CDN.
         const supabase = window.supabase.createClient(
             'https://owqdtbzhnxbxdsjrlzsa.supabase.co',
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA'
         );
 
-        // Fungsi Autentikasi
         supabase.auth.getSession().then(({ data: { session } }) => {
             console.log("Current session data on dashboard:", session);
             const email = session?.user?.email;

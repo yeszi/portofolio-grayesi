@@ -181,15 +181,14 @@
 <body>
 
 <header>
-    <a href="admin_dashboard.html" class="logo">Edit Konten</a>
+    <a href="admin_dashboard.html" class="logo">Admin YesZie</a>
     <nav>
         </nav>
 </header>
 
-<nav>
-    <a href="admin_dashboard.html">Dashboard</a>
-    <a href="tambah.html">Tambah Konten</a>
-    <a href="#" onclick="logout()">Log Out</a> </nav>
+<nav class="main-nav"> <a href="admin_dashboard.html">Dashboard</a>
+    <a href="tambah.html">Add New Content</a> 
+    <a href="index.html" onclick="logout()">Log Out</a> </nav>
 
 <div class="container" id="content">
     <p style="text-align: center; color: var(--text-color);">Memuat konten...</p>
@@ -235,11 +234,11 @@
 
     // Konfigurasi tabel dan bucket
     const menus = [
-        { table: 'about_me', title: 'About Me', bucket: 'aboutimages', isSingular: true }, // isSingular untuk About Me (hanya 1 entri)
+        { table: 'about_me', title: 'About Me', bucket: 'aboutimages', isSingular: true }, 
         { table: 'projects', title: 'Projects', bucket: 'projectimages' },
         { table: 'experience', title: 'Experience', bucket: 'experienceimages' },
         { table: 'activity', title: 'My Activity', bucket: 'activityimages' },
-        { table: 'articles', title: 'My Articles', bucket: 'articleimages' } // Menganggap articles sebagai organisasi
+        { table: 'articles', title: 'My Articles', bucket: 'articleimages' } 
     ];
 
     function renderSection({ table, title, bucket, isSingular = false }) {
@@ -273,10 +272,9 @@
             console.error(`Container for ${table} not found!`);
             return;
         }
-        container.innerHTML = ''; // Kosongkan konten sebelum mengisi ulang
+        container.innerHTML = ''; 
 
-        const displayData = isSingular && data.length > 0 ? [data[0]] : data; // Untuk About Me, hanya tampilkan entri pertama
-
+        const displayData = isSingular && data.length > 0 ? [data[0]] : data; 
         if (displayData.length === 0) {
             container.innerHTML = '<p style="text-align: center; color: #aaa;">Tidak ada item ditemukan. Tambahkan konten baru dari halaman "Tambah Konten".</p>';
         } else {
