@@ -168,3 +168,42 @@ function renderActivity(data) {
             <div class="swiper-pagination"></div>
         </div>`;
 }
+
+
+function renderProject(data) {
+    return data.map(p => `
+        <div class="project-box">
+            <img src="${p.image_url}" alt="${p.title}">
+            <div class="portfolio-layer">
+                <h4>${p.title}</h4>
+                <p>${p.description}</p>
+                ${p.link ? `<a href="${p.link}" target="_blank"><i class='bx bx-link-external'></i></a>` : ''}
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderExperience(data) {
+    return data.map(exp => `
+        <div class="project-box">
+            <img src="${exp.image_url}" alt="${exp.title}">
+            <div class="portfolio-layer">
+                <h4>${exp.title}</h4>
+                <p>${exp.description}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderArticle(data) {
+    return data.map(article => `
+        <div class="article-box">
+            <img src="${article.image_url}" alt="${article.title}">
+            <div class="article-content">
+                <h4>${article.title}</h4>
+                <p>${article.description}</p>
+                ${article.link ? `<a href="${article.link}" class="btn article-btn" target="_blank">Site Profil <i class='bx bx-right-arrow-alt'></i></a>` : ''}
+            </div>
+        </div>
+    `).join('');
+}
