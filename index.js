@@ -1,3 +1,4 @@
+
 // Supabase Init
 const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
@@ -127,3 +128,21 @@ function renderActivity(data) {
       <div class="swiper-pagination"></div>
     </div>`;
 }
+// Dark Mode Toggle
+const darkModeIcon = document.querySelector('#darkMode-icon');
+const body = document.body;
+
+// Simpan preferensi di localStorage
+if (localStorage.getItem('dark-mode') === 'enabled') {
+body.classList.add('dark-mode');
+}
+
+darkModeIcon.addEventListener('click', () => {
+body.classList.toggle('dark-mode');
+if (body.classList.contains('dark-mode')) {
+localStorage.setItem('dark-mode', 'enabled');
+} else {
+localStorage.setItem('dark-mode', 'disabled');
+}
+});
+

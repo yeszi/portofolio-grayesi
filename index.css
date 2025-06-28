@@ -1,7 +1,7 @@
+/* Import Font dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-
-/* Reset dan Box Sizing */
+/* --- GLOBAL RESET & BASE STYLES --- */
 * {
     margin: 0;
     padding: 0;
@@ -13,49 +13,53 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* Definisi Variabel Warna untuk Mode Terang (Default) */
+/* --- THEME VARIABLES (Light Mode Default) --- */
 :root {
     --bg-color: #fdfdfd;
     --text-color: #333;
-    --main-color: #3f6399;
+    --main-color: #3f6399; /* Warna biru keunguan yang konsisten */
     --white-color: #fdfdfd;
     --black-color: #000;
     --shadow-color: rgba(0, 0, 0, .2);
     --second-bg-color: #f8f8f8;
 }
 
-/* Definisi Variabel Warna untuk Mode Gelap */
+/* --- DARK MODE THEME --- */
 .dark-mode {
     --bg-color: #0b061f;
     --text-color: #fdfdfd;
-    --main-color: #3f6399;
-    --white-color: #1a1a1a;
-    --black-color: #fdfdfd;
+    --main-color: #3f6399; /* Tetap konsisten untuk aksen */
+    --white-color: #1a1a1a; /* Lebih gelap untuk elemen "white" di dark mode */
+    --black-color: #fdfdfd; /* Kontras untuk elemen "black" */
     --shadow-color: rgba(0, 0, 0, .7);
-    --second-bg-color: #1a1532;
+    --second-bg-color: #1a1532; /* Latar belakang kedua yang lebih gelap */
 }
 
-/* Transisi Global untuk Perubahan Tema yang Halus */
-body, .header, .navbar a, #darkMode-icon, .home .profession-box .profession,
-.home .profession-box .circle, .home .profession-container .overlay,
-.social-media a, .btn, .about-img img, .services-container .services-box,
-.testimonial-content .testimonial-slide, .contact form .input-box input,
-.contact form textarea, .footer, .footer-iconTop a,
-.project-box .portfolio-layer, .article-list .article-box,
-.education-box {
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+/* --- GLOBAL TRANSITIONS --- */
+/* Membuat transisi halus untuk perubahan tema dan hover efek */
+body, .header, .navbar a, #darkMode-icon,
+.home .profession-box .profession, .home .profession-box .circle,
+.home .profession-container .overlay, .social-media a, .btn,
+.about-img img, .services-container .services-box,
+.testimonial-wrapper .swiper-slide, /* Untuk slide Testimonial */
+.contact form .input-box input, .contact form textarea, .footer,
+.footer-iconTop a, .project-box .portfolio-layer,
+.article-list .article-box, .education-box, .profile-navigator.floating-menu,
+.profile-navigator.floating-menu .nav-card,
+.experience-box, .experience-box img, .experience-content { /* Ditambahkan untuk Experience */
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 
-/* Seleksi Teks */
+/* --- TEXT SELECTION --- */
 *::selection {
     background: var(--main-color);
     color: var(--bg-color);
 }
 
-/* HTML dan Body Dasar */
+/* --- HTML & BODY BASE --- */
 html {
-    font-size: 62.5%; /* 1rem = 10px */
-    overflow-x: hidden;
+    font-size: 62.5%; /* 1rem = 10px, memudahkan perhitungan rem */
+    overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
 }
 
 body {
@@ -63,17 +67,17 @@ body {
     color: var(--text-color);
 }
 
-/* Header */
+/* --- HEADER --- */
 .header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 2rem 7%;
+    padding: 2rem 7%; /* Konsisten dengan padding section */
     background: transparent;
     display: flex;
     align-items: center;
-    z-index: 100;
+    z-index: 100; /* Pastikan header di atas konten lain */
 }
 
 .header.sticky {
@@ -85,20 +89,21 @@ body {
     font-size: 2.5rem;
     color: var(--main-color);
     font-weight: 600;
-    margin-right: auto;
+    margin-right: auto; /* Mendorong navbar ke kanan */
 }
 
-/* Navbar */
+/* --- NAVBAR --- */
 .navbar a {
     position: relative;
     font-size: 1.7rem;
-    color: var(--white-color);
+    color: var(--white-color); /* Warna link default di header transparan */
     font-weight: 500;
     margin-right: 3.5rem;
+    transition: color 0.3s ease;
 }
 
 .header.sticky .navbar a {
-    color: var(--text-color);
+    color: var(--text-color); /* Warna link saat header sticky */
 }
 
 .header.sticky .navbar a.active {
@@ -112,7 +117,7 @@ body {
     bottom: -6px;
     width: 100%;
     height: .2rem;
-    background: var(--white-color);
+    background: var(--white-color); /* Underline untuk link aktif */
 }
 
 .header.sticky .navbar a::before {
@@ -120,12 +125,12 @@ body {
     opacity: .7;
 }
 
-/* Dark Mode Icon */
+/* --- DARK MODE ICON --- */
 #darkMode-icon {
     font-size: 2.4rem;
-    color: var(--white-color); /* Warna default untuk mode terang */
+    color: var(--white-color);
     cursor: pointer;
-    margin-left: 2rem; /* Memberi sedikit jarak dari navbar */
+    margin-left: 2rem;
 }
 
 .header.sticky #darkMode-icon {
@@ -133,10 +138,10 @@ body {
     opacity: .9;
 }
 
-/* Menu Icon (Hanya untuk Mobile) */
+/* --- MENU ICON (MOBILE TOGGLE) --- */
 #menu-icon {
     font-size: 3.6rem;
-    color: var(--text-color); /* Warna default untuk menu icon */
+    color: var(--text-color);
     display: none; /* Sembunyikan secara default di desktop */
     cursor: pointer;
 }
@@ -144,23 +149,23 @@ body {
     color: var(--text-color);
 }
 
-
-/* Semua Section */
+/* --- ALL SECTIONS BASE --- */
 section {
     min-height: 100vh;
-    padding: 10rem 7% 2rem;
-    background: var(--second-bg-color);
+    padding: 10rem 7% 2rem; /* Padding konsisten untuk semua section */
+    background: var(--second-bg-color); /* Default background untuk section */
+    /* Akan dioverride oleh section spesifik jika ada */
 }
 
-/* Section Home - Desktop Defaults */
+/* --- HOME SECTION --- */
 .home {
     display: flex;
     align-items: center;
-    padding: 10rem 7% 2rem;
-    background: var(--bg-color);
+    padding: 10rem 7% 2rem; /* Konsisten dengan section lainnya */
+    background: var(--bg-color); /* Background utama */
     position: relative;
     overflow: hidden;
-    height: 100vh;
+    height: 100vh; /* Memastikan section home memenuhi tinggi viewport */
 }
 
 .home-content {
@@ -168,7 +173,7 @@ section {
     position: relative;
     z-index: 10;
     text-align: left;
-    margin-right: 30%;
+    margin-right: 30%; /* Memberi ruang untuk profession-container */
 }
 
 .home-content h3 {
@@ -190,7 +195,7 @@ section {
     color: var(--text-color);
 }
 
-/* Social Media Icons */
+/* --- SOCIAL MEDIA ICONS --- */
 .home-content .social-media a {
     display: inline-flex;
     justify-content: center;
@@ -210,9 +215,10 @@ section {
 .home-content .social-media a:hover {
     background: var(--main-color);
     color: var(--white-color);
+    box-shadow: 0 .2rem 1rem var(--shadow-color); /* Efek shadow saat hover */
 }
 
-/* Button */
+/* --- BUTTON STYLE --- */
 .btn {
     display: inline-block;
     padding: 1.2rem 2.8rem;
@@ -231,18 +237,19 @@ section {
     background: transparent;
     color: var(--main-color);
     border-color: var(--main-color);
+    box-shadow: none; /* Hilangkan shadow saat hover untuk efek ke dalam */
 }
 
-/* Profession Container - Desktop Specific */
+/* --- PROFESSION CONTAINER (HOME SECTION) --- */
 .home .profession-container {
     position: absolute;
     top: 50%;
     right: 0;
     transform: translateY(-50%);
-    width: 768px;
+    width: 768px; /* Lebar sesuai desain asli */
     height: 100vh;
-    overflow: hidden;
-    pointer-events: none;
+    overflow: hidden; /* Penting agar rotasi tidak overflow */
+    pointer-events: none; /* Tidak bisa diklik/interaksi */
     z-index: 5;
     display: block;
 }
@@ -256,7 +263,7 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: professionRotate 13s ease-out infinite;
+    animation: professionRotate 13s ease-out infinite; /* Animasi rotasi */
 }
 
 @keyframes professionRotate {
@@ -274,10 +281,11 @@ section {
     align-items: center;
     flex-direction: column;
     color: var(--main-color);
-    transform: rotate(calc(360deg / 4 * var(--i)));
-    transform-origin: 384px;
+    transform: rotate(calc(360deg / 4 * var(--i))); /* Rotasi berdasarkan variabel --i */
+    transform-origin: 384px; /* Pusat rotasi */
     background: var(--bg-color);
     padding: 13px 0;
+    border-radius: 0.5rem; /* Sedikit border-radius */
 }
 
 .home .profession-box .profession:nth-child(1) i {
@@ -314,6 +322,7 @@ section {
     right: 0;
     width: 0;
     height: 0;
+    /* Bentuk segitiga menggunakan border */
     border-top: 50vh solid var(--main-color);
     border-right: 384px solid var(--main-color);
     border-bottom: 50vh solid var(--main-color);
@@ -321,14 +330,14 @@ section {
     display: block;
 }
 
-/* HOME IMAGE (YOUR PROFILE PICTURE) - MASUK KE DALAM AREA BERWARNA */
+/* --- HOME IMAGE (PROFILE PICTURE) --- */
 .home-img {
     position: absolute;
     top: 50%;
-    right: 55px;
+    right: 55px; /* Jarak dari kanan */
     transform: translateY(-50%);
     width: 400px;
-    height: 100%;
+    height: 100%; /* Memenuhi tinggi container */
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -342,34 +351,46 @@ section {
     height: auto;
     display: block;
     object-fit: contain;
-    transform: translateX(-20px);
-    max-height: 90vh;
+    transform: translateX(-20px); /* Sedikit geser ke kiri agar pas */
+    max-height: 90vh; /* Batasi tinggi gambar */
     margin-left: -20px;
 }
 
-/* Warna Span (Aksen) */
+/* --- SPAN (ACCENT COLOR) --- */
 span {
     color: var(--main-color);
 }
 
-/* Section About */
+/* --- ABOUT SECTION --- */
 .about {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 4rem;
-    background: var(--second-bg-color);
+    background: var(--second-bg-color); /* Latar belakang kedua */
+    padding-bottom: 10rem; /* Tambah padding bawah agar konsisten */
+}
+
+.about-img {
+    flex-shrink: 0; /* Mencegah gambar menyusut */
 }
 
 .about-img img {
     width: 30vw;
     border-radius: 20px;
+    box-shadow: 0 .5rem 1.5rem var(--shadow-color); /* Tambah shadow */
 }
 
 .heading {
     font-size: 4.5rem;
     text-align: center;
     color: var(--text-color);
+    margin-bottom: 3rem; /* Jarak bawah untuk heading */
+}
+
+.about-content {
+    flex-grow: 1; /* Biarkan konten tumbuh */
+    max-width: 60rem; /* Batasi lebar konten */
 }
 
 .about-content h2 {
@@ -381,6 +402,7 @@ span {
 .about-content h3 {
     font-size: 2rem;
     color: var(--text-color);
+    margin-bottom: 1rem; /* Jarak bawah untuk h3 */
 }
 
 .about-content p {
@@ -389,11 +411,16 @@ span {
     color: var(--text-color);
 }
 
-/* Section Services */
+.about-content .btn {
+    margin-top: 1rem; /* Jarak antara tombol */
+    margin-right: 1.5rem; /* Jarak antara tombol */
+}
+
+/* --- SERVICES SECTION --- */
 .services {
     min-height: auto;
     padding-bottom: 10rem;
-    background: var(--bg-color);
+    background: var(--bg-color); /* Background utama */
 }
 
 .services h2 {
@@ -409,7 +436,7 @@ span {
 }
 
 .services-container .services-box {
-    flex: 1 1 30rem;
+    flex: 1 1 30rem; /* Flex item yang fleksibel */
     background: var(--second-bg-color);
     padding: 3rem 2rem 4rem;
     border-radius: 2rem;
@@ -428,25 +455,28 @@ span {
 .services-box i {
     font-size: 7rem;
     color: var(--main-color);
+    margin-bottom: 1.5rem; /* Jarak ikon ke teks */
 }
 
 .services-box h3 {
     font-size: 2.6rem;
     transition: .5s ease;
-    color: var(--main-color);
+    color: var(--text-color); /* Menggunakan text-color untuk judul box */
+    margin-bottom: 1rem;
 }
 
+/* Efek hover untuk h3 di services-box, jika diinginkan */
 .services-box:hover h3 {
-    color: var(--main-color);
+    color: var(--main-color); /* Bisa berubah ke main-color saat hover */
 }
 
 .services-box p {
     font-size: 1.6rem;
-    margin: 1rem 0 0.5rem; /* Adjusted margin */
+    margin: 1rem 0 0.5rem;
     color: var(--text-color);
 }
 
-/* Section Project (Portfolio) */
+/* --- PROJECT (PORTFOLIO) SECTION --- */
 .project {
     min-height: auto;
     padding-bottom: 10rem;
@@ -459,7 +489,7 @@ span {
 
 .project .project-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsif grid */
     align-items: center;
     gap: 2.5rem;
 }
@@ -470,12 +500,13 @@ span {
     border-radius: 2rem;
     box-shadow: 0 0 1rem var(--shadow-color);
     overflow: hidden;
+    cursor: pointer; /* Menandakan bisa diklik */
 }
 
 .project-box img {
     width: 100%;
-    height: 200px; /* Set a fixed height for project images */
-    object-fit: cover; /* Cover the area, cropping if necessary */
+    height: 200px;
+    object-fit: cover;
     transition: .5s ease;
     border-radius: 20px;
 }
@@ -499,6 +530,7 @@ span {
     text-align: center;
     padding: 0 4rem;
     opacity: 0;
+    transition: opacity .5s ease;
 }
 
 .project-box:hover .portfolio-layer {
@@ -507,6 +539,7 @@ span {
 
 .portfolio-layer h4 {
     font-size: 3rem;
+    margin-bottom: 0.5rem;
 }
 
 .portfolio-layer p {
@@ -522,6 +555,11 @@ span {
     height: 5rem;
     background: var(--white-color);
     border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.portfolio-layer a:hover {
+    background: var(--text-color); /* Hover effect for link button */
 }
 
 .portfolio-layer a i {
@@ -529,157 +567,259 @@ span {
     color: var(--text-color);
 }
 
-/* Testimonial Section */
+/* --- EXPERIENCE SECTION --- */
+.experience {
+    min-height: auto;
+    padding-bottom: 10rem;
+    background: var(--bg-color); /* Menggunakan bg-color untuk kontras */
+}
+
+.experience h2 {
+    margin-bottom: 5rem;
+}
+
+.experience .experience-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Ukuran minimal 350px, lebih besar */
+    align-items: center;
+    gap: 3rem; /* Menambah jarak antar box */
+    max-width: 1200px; /* Batasi lebar container */
+    margin: 0 auto; /* Pusatkan container */
+}
+
+.experience-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2rem;
+    box-shadow: 0 0 1rem var(--shadow-color);
+    overflow: hidden;
+    background: var(--second-bg-color);
+    padding: 0;
+    transition: .5s ease;
+    text-align: center;
+    min-height: 380px; /* Tinggi minimum untuk box secara keseluruhan */
+    border-top: none; /* Hapus border-top lama */
+    border-bottom: none; /* Hapus border-bottom lama */
+}
+
+.experience-box:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 2rem var(--shadow-color);
+}
+
+.experience-box img {
+    width: 100%;
+    height: 250px; /* Tinggikan gambar */
+    object-fit: cover;
+    display: block;
+    transition: .5s ease;
+    border-radius: 2rem 2rem 0 0; /* Hanya sudut atas yang melengkung */
+}
+
+.experience-box:hover img {
+    transform: scale(1.1);
+}
+
+/* Konten di dalam experience-box */
+.experience-content {
+    padding: 3rem; /* Tingkatkan padding */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-color);
+    flex-grow: 1; /* Biarkan konten mengisi sisa ruang vertikal */
+}
+
+.experience-content h3 {
+    font-size: 2.8rem; /* Ukuran font judul lebih besar */
+    color: var(--text-color);
+    margin-bottom: 1rem; /* Jarak bawah judul lebih besar */
+}
+
+.experience-content .year {
+    font-size: 1.6rem; /* Ukuran font tahun lebih besar */
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-bottom: 1.5rem; /* Jarak bawah tahun lebih besar */
+    display: block;
+}
+
+.experience-content p {
+    font-size: 1.7rem; /* Ukuran font paragraf lebih besar */
+    color: var(--text-color);
+    line-height: 1.7; /* Kerapatan baris yang lebih nyaman */
+    margin-top: 0.5rem;
+}
+
+/* --- ACTIVITY (TESTIMONIAL) SECTION --- */
 .testimonial-container {
     display: flex;
     align-items: center;
     flex-direction: column;
     width: 100%;
-    padding: 5rem 1rem;
-    background: var(--bg-color);
+    padding: 5rem 0; /* Padding vertikal, horisontal diatur oleh wrapper */
+    background: var(--second-bg-color); /* Menggunakan second-bg-color */
+}
+
+.testimonial-container .heading {
+    margin-bottom: 5rem;
 }
 
 .testimonial-container .testimonial-wrapper {
     position: relative;
-    max-width: 100rem;
+    max-width: 100rem; /* Batasi lebar carousel */
     width: 100%;
-    padding: 8rem;
+    padding: 0 8rem; /* Memberi ruang untuk tombol navigasi Swiper */
+    margin: 0 auto; /* Pusatkan wrapper */
 }
 
-.testimonial-wrapper .testimonial-box {
-    padding: 1rem;
-    border-radius: 2rem;
-    overflow: hidden;
-    /* Pastikan swiper-button-next/prev tidak terpotong */
-    position: relative; /* Penting untuk posisi tombol */
-}
-
-.testimonial-content .testimonial-slide {
+/* Individual Swiper slide styling */
+.testimonial-wrapper .swiper-slide {
     display: flex;
-    align-items: center;
     flex-direction: column;
-    background: var(--second-bg-color);
+    align-items: center;
+    background: var(--bg-color); /* Background untuk slide individu */
     border-radius: 2rem;
     box-shadow: 0 .1rem .5rem var(--shadow-color);
-    padding: 3rem 5rem;
+    padding: 3rem 4rem; /* Padding internal slide */
     border-top: .8rem solid var(--main-color);
     border-bottom: .8rem solid var(--main-color);
+    text-align: center;
 }
 
-.testimonial-slide img {
+.testimonial-wrapper .swiper-slide img { /* Selector lebih spesifik untuk gambar di slide */
     width: 14rem;
     height: 14rem;
     object-fit: cover;
     border-radius: 50%;
-    border: .5rem solid var(--bg-color);
+    border: .5rem solid var(--second-bg-color); /* Border gambar */
     outline: .5rem solid var(--main-color);
+    margin-bottom: 2rem; /* Jarak antara gambar dan teks */
 }
 
-/* Jika ada dua gambar dalam satu slide, atur tampilan agar berdampingan atau berjarak */
-.testimonial-slide img + img {
-    margin-left: 1rem; /* Beri jarak antar gambar jika ada lebih dari satu */
-}
-.testimonial-slide img:first-of-type {
-    margin-bottom: 1rem; /* Beri jarak di bawah gambar pertama ke teks */
-}
-
-
-.testimonial-slide h3 {
+.testimonial-wrapper .swiper-slide h3 {
     font-size: 2.5rem;
-    margin: 2rem 0;
+    margin: 0 0 1rem;
     color: var(--text-color);
 }
 
-.testimonial-slide p {
+.testimonial-wrapper .swiper-slide p {
     font-size: 1.4rem;
     text-align: center;
     color: var(--text-color);
+    line-height: 1.6;
 }
 
-/* Styling untuk Swiper navigation buttons */
-.testimonial-box .swiper-button-next,
-.testimonial-box .swiper-button-prev {
+/* Swiper navigation buttons */
+.testimonial-wrapper .swiper-button-next,
+.testimonial-wrapper .swiper-button-prev {
     color: var(--main-color);
-    font-size: 3rem; /* Memperbesar ukuran ikon */
+    font-size: 3rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+    top: 50%; /* Pusatkan secara vertikal */
+    transform: translateY(-50%);
 }
 
-/* Styling untuk Swiper pagination dots */
-.testimonial-box .swiper-pagination-bullet {
+.testimonial-wrapper .swiper-button-next:hover,
+.testimonial-wrapper .swiper-button-prev:hover {
+    color: var(--text-color);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Swiper pagination dots */
+.testimonial-wrapper .swiper-pagination {
+    margin-top: 3rem; /* Jarak pagination dari slide */
+    position: relative; /* Menjamin posisi pagination di dalam wrapper */
+}
+
+.testimonial-wrapper .swiper-pagination-bullet {
     background: var(--shadow-color);
+    opacity: 0.7;
+    width: 1.2rem; /* Ukuran bullet */
+    height: 1.2rem;
 }
 
-.testimonial-box .swiper-pagination-bullet-active {
+.testimonial-wrapper .swiper-pagination-bullet-active {
     background: var(--main-color);
+    opacity: 1;
 }
 
-
-/* Education Section */
+/* --- EDUCATION SECTION --- */
 .education {
-    padding: 4rem 2rem;
-    background: var(--bg-color);
+    padding: 10rem 7% 2rem; /* Menggunakan padding konsisten section */
+    background: var(--second-bg-color); /* Background kedua */
+    min-height: auto;
 }
 
 .education .heading {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 5rem; /* Konsisten dengan heading section lain */
 }
 
 .education-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    gap: 2.5rem; /* Jarak antar box */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .education-box {
-    background: var(--second-bg-color);
-    padding: 2rem;
+    background: var(--bg-color); /* Menggunakan bg-color untuk kontras */
+    padding: 3rem; /* Padding lebih besar */
     border-radius: 1.5rem;
     box-shadow: 0 8px 20px var(--shadow-color);
     transition: 0.3s ease;
+    text-align: left; /* Teks rata kiri */
+    border-left: .6rem solid var(--main-color); /* Aksen border kiri */
 }
 
 .education-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px var(--shadow-color);
+    transform: translateY(-8px); /* Lebih tinggi saat hover */
+    box-shadow: 0 12px 28px var(--shadow-color);
 }
 
 .education-box h3 {
-    font-size: 1.3rem;
+    font-size: 2.2rem; /* Ukuran font lebih besar */
     color: var(--text-color);
+    margin-bottom: 0.8rem;
 }
 
 .education-box .year {
-    font-size: 0.9rem;
+    font-size: 1.4rem;
     color: var(--text-color);
     opacity: 0.7;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.5rem;
     display: block;
 }
 
 .education-box p {
-    font-size: 1rem;
+    font-size: 1.6rem;
     color: var(--text-color);
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
-/* Article List Section (My Organization) */
+/* --- ARTICLE LIST SECTION (MY ORGANIZATION) --- */
 .article-list {
-    background: var(--bg-color);
-    padding: 5rem 5% 8rem;
+    background: var(--bg-color); /* Background utama */
+    padding: 10rem 7% 10rem; /* Padding konsisten */
+    min-height: auto;
 }
 
 .article-list .heading {
     text-align: center;
-    font-size: 4rem;
-    margin-bottom: 3rem;
+    font-size: 4.5rem;
+    margin-bottom: 5rem;
     color: var(--text-color);
 }
 .article-list .heading span {
     color: var(--main-color);
 }
 
-.article-list .article-container {
+.article-list .organization-container { /* Ganti article-container menjadi organization-container */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2.5rem;
@@ -690,16 +830,16 @@ span {
 .article-list .article-box {
     background: var(--second-bg-color);
     border-radius: 1rem;
-    box-shadow: 0 0 1rem var(--shadow-color); /* Changed to var(--shadow-color) */
+    box-shadow: 0 0 1rem var(--shadow-color);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform .3s ease;
+    transition: transform .3s ease, box-shadow .3s ease;
 }
 
 .article-list .article-box:hover {
     transform: translateY(-0.8rem);
-    box-shadow: 0 0 2rem var(--shadow-color); /* Changed to var(--shadow-color) */
+    box-shadow: 0 0 2rem var(--shadow-color);
 }
 
 .article-list .article-box img {
@@ -710,7 +850,7 @@ span {
 }
 
 .article-list .article-box .article-content {
-    padding: 1.5rem;
+    padding: 2rem; /* Padding lebih besar */
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -719,144 +859,226 @@ span {
 .article-list .article-content h4 {
     font-size: 2.2rem;
     color: var(--text-color);
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
 }
 
 .article-list .article-content p {
-    font-size: 1.3rem;
+    font-size: 1.5rem; /* Ukuran font sedikit lebih besar */
     color: var(--text-color);
-    line-height: 1.5;
-    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
     flex-grow: 1;
 }
 
-.article-list .article-content .article-btn {
+.article-list .article-content .btn.article-btn { /* Spesifik ke tombol di artikel */
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 1rem 2rem;
     background: var(--main-color);
-    color: var(--white-color); /* Changed to white-color for better contrast */
+    color: var(--white-color);
     border-radius: 0.8rem;
     text-decoration: none;
     font-weight: 600;
     font-size: 1.5rem;
     transition: background .3s ease, color .3s ease;
-    align-self: flex-start;
+    align-self: flex-start; /* Tombol rata kiri */
+    margin-top: auto; /* Dorong ke bawah jika konten teks bervariasi */
 }
 
-.article-list .article-content .article-btn i {
+.article-list .article-content .btn.article-btn i {
     margin-left: 0.8rem;
     font-size: 1.8rem;
     transition: margin-left .3s ease;
 }
 
-.article-list .article-content .article-btn:hover {
+.article-list .article-content .btn.article-btn:hover {
     background: var(--text-color);
     color: var(--main-color);
 }
 
-.article-list .article-content .article-btn:hover i {
+.article-list .article-content .btn.article-btn:hover i {
     margin-left: 1.2rem;
 }
 
-
-/* Contact Section (Keeping it generic as you linked to contact.html) */
+/* --- CONTACT SECTION --- */
 .contact {
     min-height: auto;
-    padding-bottom: 7rem;
-    background: var(--bg-color);
+    padding-bottom: 10rem; /* Konsisten padding bawah */
+    background: var(--second-bg-color); /* Background kedua */
 }
 
 .contact h2 {
-    margin-bottom: 3rem;
+    margin-bottom: 5rem; /* Konsisten dengan heading section lain */
 }
 
 .contact form {
     max-width: 70rem;
-    margin: 1rem auto;
+    margin: 0 auto; /* Pusatkan form */
     text-align: center;
-    margin-bottom: 3rem;
-    background: var(--second-bg-color);
-    padding: 3rem;
-    border-radius: 1rem;
-    box-shadow: 0 .1rem .5rem var(--shadow-color);
+    background: var(--bg-color); /* Background form */
+    padding: 4rem; /* Padding lebih besar */
+    border-radius: 1.5rem; /* Rounded corners lebih besar */
+    box-shadow: 0 .1rem .8rem var(--shadow-color); /* Shadow lebih menonjol */
 }
 
 .contact form .input-box {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin-bottom: 1.5rem; /* Jarak bawah antar input-box */
 }
 
 .contact form .input-box input,
 .contact form textarea {
     width: 100%;
-    padding: 1.5rem;
+    padding: 1.8rem; /* Padding lebih besar */
     font-size: 1.6rem;
     color: var(--text-color);
-    background: var(--bg-color);
+    background: var(--second-bg-color); /* Background input */
     border-radius: .8rem;
-    margin: .7rem 0;
-    box-shadow: 0 .1rem .5rem var(--shadow-color);
+    margin-bottom: 1.5rem; /* Jarak bawah antar input */
+    box-shadow: inset 0 0.1rem 0.3rem rgba(0, 0, 0, 0.1); /* Inner shadow for input */
 }
 
 .contact form .input-box input {
-    width: 49%;
+    width: 49%; /* Tetap berdampingan */
 }
 
 .contact form textarea {
-    resize: none;
+    resize: vertical; /* Hanya izinkan resize vertikal */
+    min-height: 15rem; /* Tinggi minimum textarea */
 }
 
 .contact form .btn {
     margin-top: 2rem;
     cursor: pointer;
+    padding: 1.4rem 3.5rem; /* Ukuran tombol submit */
 }
 
-/* Footer */
+/* --- FOOTER --- */
 .footer {
+    width: 100%;
+    background: var(--second-bg-color); /* Konsisten dengan section lain */
+    color: var(--text-color);
+    text-align: center;
+    padding: 2rem 7%; /* Sinkron dengan halaman */
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
-    padding: 2rem 7%;
-    background: var(--main-color);
+    box-shadow: 0 -0.1rem 1rem var(--shadow-color); /* Shadow di bagian atas */
+}
+
+.footer-text {
+    margin-bottom: 1.5rem; /* Jarak antara teks dan link/icon */
 }
 
 .footer-text p {
-    font-size: 1.6rem;
-    color: var(--white-color);
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem; /* Jarak antar baris teks di footer */
 }
 
-.footer-iconTop a {
+.footer-links a {
+    color: var(--text-color);
+    margin: 0 1rem; /* Jarak antar link */
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--main-color);
+}
+
+.footer-iconTop {
+    margin-top: 2rem; /* Jarak dari teks footer */
+}
+
+.footer-iconTop a.floating-back-btn {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: .8rem;
-    background: var(--white-color);
-    border-radius: .8rem;
+    width: 4.5rem;
+    height: 4.5rem;
+    background: var(--main-color);
+    border-radius: 50%;
     border: .2rem solid var(--main-color);
-    outline: .2rem solid transparent;
+    box-shadow: 0 .1rem .5rem var(--shadow-color);
+    font-size: 2.4rem;
+    color: var(--white-color);
     transition: .5s ease;
 }
 
-.footer-iconTop a:hover {
-    outline-color: var(--white-color);
+.footer-iconTop a.floating-back-btn:hover {
+    background: transparent;
+    color: var(--main-color);
+    box-shadow: 0 .1rem 1rem var(--shadow-color);
 }
 
-.footer-iconTop a i {
-    font-size: 2.4rem;
-    color: var(--text-color);
+/* --- FLOATING MENU (PROFILE NAVIGATOR) STYLES --- */
+.profile-navigator.floating-menu {
+    position: fixed;
+    top: 180px;
+    right: 20px;
+    z-index: 990;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+    background-color: rgba(202, 203, 218, 0.8); /* Semi-transparan */
+    backdrop-filter: blur(5px); /* Efek blur modern */
+    border-radius: 8px;
+    box-shadow: 0 8px 25px var(--shadow-color); /* Menggunakan shadow-color */
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
 }
 
+.profile-navigator.floating-menu .nav-card {
+    width: 40px; /* Sedikit lebih besar untuk klikabilitas */
+    height: 40px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
 
-/* --- BREAKPOINTS UNTUK RESPONSIVITAS --- */
+.profile-navigator.floating-menu .nav-card:hover {
+    background-color: var(--main-color); /* Warna hover sesuai tema */
+    transform: scale(1.1);
+    color: var(--white-color); /* Warna ikon saat hover */
+}
+
+.profile-navigator.floating-menu .nav-card-icon {
+    font-size: 2rem; /* Ukuran ikon lebih besar */
+    color: var(--text-color); /* Warna ikon default */
+    margin: 0;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+.profile-navigator.floating-menu .nav-card:hover .nav-card-icon {
+    color: var(--white-color); /* Ubah warna ikon saat hover */
+}
+
+.profile-navigator.floating-menu .nav-card h3,
+.profile-navigator.floating-menu .nav-card p {
+    display: none; /* Sembunyikan teks di desktop */
+}
+
+/* --- BREAKPOINTS FOR RESPONSIVENESS --- */
 
 /* Tablet & Smaller Desktop (max-width: 1200px) */
 @media (max-width: 1200px) {
     html {
-        font-size: 55%;
+        font-size: 55%; /* Ukuran font sedikit lebih kecil */
     }
     .home-content {
         margin-right: 25%;
@@ -890,10 +1112,10 @@ span {
 /* Tablet Landscape (max-width: 1024px) */
 @media (max-width: 1024px) {
     .header {
-        padding: 2rem 3%;
+        padding: 2rem 3%; /* Padding header lebih kecil */
     }
     section {
-        padding: 10rem 3% 2rem;
+        padding: 10rem 3% 2rem; /* Padding section lebih kecil */
     }
     .home-content {
         margin-right: 15%;
@@ -908,6 +1130,31 @@ span {
         right: 150px;
         width: 300px;
     }
+    .project .project-container {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Kolom project menyesuaikan */
+    }
+    .experience .experience-container { /* Menyesuaikan Experience di tablet */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+    }
+    .experience-box {
+        min-height: auto;
+    }
+    .experience-box img {
+        height: 200px;
+    }
+    .experience-content {
+        padding: 2.5rem;
+    }
+    .experience-content h3 {
+        font-size: 2.5rem;
+    }
+    .experience-content .year {
+        font-size: 1.4rem;
+    }
+    .experience-content p {
+        font-size: 1.6rem;
+    }
 }
 
 /* Tablet Portrait & Mobile Landscape (max-width: 991px) */
@@ -917,10 +1164,10 @@ span {
         display: block; /* Tampilkan menu icon */
     }
     #darkMode-icon {
-        position: absolute; /* Posisikan Dark Mode icon secara absolute */
-        right: 7rem; /* Jarak dari kanan */
+        position: absolute;
+        right: 7rem;
         font-size: 2.6rem;
-        color: var(--text-color); /* Warna di mode mobile */
+        color: var(--text-color);
         margin-bottom: .1rem;
     }
     .navbar {
@@ -932,7 +1179,7 @@ span {
         background: var(--bg-color);
         border-top: .1rem solid var(--shadow-color);
         box-shadow: 0 .5rem 1rem var(--shadow-color);
-        display: none; /* Sembunyikan secara default */
+        display: none;
         transform: translateY(-100%);
         opacity: 0;
         transition: transform 0.4s ease-out, opacity 0.4s ease-out;
@@ -940,7 +1187,7 @@ span {
         z-index: 99;
     }
     .navbar.active {
-        display: block; /* Tampilkan saat aktif */
+        display: block;
         transform: translateY(0);
         opacity: 1;
         pointer-events: all;
@@ -1057,12 +1304,12 @@ span {
         display: none;
     }
     .home-img {
-        display: none; /* SEMBUNYIKAN home-img ENTIRELY DI MOBILE */
+        display: none; /* Sembunyikan home-img sepenuhnya di mobile */
     }
 
     /* About Section Mobile */
     .about {
-        flex-direction: column-reverse;
+        flex-direction: column-reverse; /* Mengubah urutan elemen */
         text-align: center;
     }
     .about-content h2 {
@@ -1080,14 +1327,17 @@ span {
 
     /* Testimonial Section Mobile */
     .testimonial-container .testimonial-wrapper {
-        padding: 5rem 0;
+        padding: 5rem 0; /* Hapus padding horizontal agar tombol tidak terpotong (jika ditampilkan) */
     }
-    .testimonial-content .testimonial-slide {
+    .testimonial-wrapper .swiper-button-next,
+    .testimonial-wrapper .swiper-button-prev {
+        display: none; /* Sembunyikan tombol navigasi di mobile */
+    }
+    .testimonial-wrapper .swiper-pagination {
+        margin-top: 2rem; /* Jarak atas untuk pagination di mobile */
+    }
+    .testimonial-wrapper .swiper-slide {
         padding: 3rem 2rem;
-    }
-    .testimonial-box .swiper-button-next,
-    .testimonial-box .swiper-button-prev {
-        display: none; /* Sembunyikan tombol navigasi di mobile jika tidak diinginkan */
     }
 
     /* Footer Mobile */
@@ -1100,14 +1350,8 @@ span {
     }
 
     /* Article Section Mobile */
-    .article-list .article-container {
+    .article-list .organization-container { /* Update nama kelas */
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    }
-    .articles-hero .heading {
-        font-size: 4rem;
-    }
-    .articles-hero p {
-        font-size: 1.6rem;
     }
 }
 
@@ -1142,7 +1386,7 @@ span {
         grid-template-columns: 1fr;
     }
     .contact form .input-box input {
-        width: 100%;
+        width: 100%; /* Input field menjadi 100% di mobile */
     }
     .footer {
         flex-direction: column-reverse;
@@ -1152,11 +1396,61 @@ span {
         margin-top: 2rem;
     }
     /* Swiper slide show 1 per view on smaller screens */
-    .testimonial-container .testimonial-wrapper .testimonial-box {
-        padding: 0; /* Sesuaikan padding agar lebih pas di mobile */
+    .testimonial-container .testimonial-wrapper {
+        padding: 0; /* Hapus padding pada wrapper testimonial */
     }
-    .testimonial-content .testimonial-slide {
+    .testimonial-wrapper .swiper-slide {
         padding: 2rem; /* Kurangi padding di dalam slide */
+    }
+
+    /* Floating Menu Mobile */
+    .profile-navigator.floating-menu {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: auto;
+        max-height: auto;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 10px 0;
+        border-radius: 0;
+        box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
+        background-color: rgba(202, 203, 218, 0.95); /* Sedikit transparan untuk efek modern */
+        backdrop-filter: blur(8px); /* Blur lebih kuat di mobile */
+    }
+
+    .profile-navigator.floating-menu .nav-card {
+        width: auto;
+        height: auto;
+        padding: 5px 0;
+        flex-direction: column;
+        border-radius: 0;
+        color: var(--text-color); /* Warna teks default */
+    }
+
+    .profile-navigator.floating-menu .nav-card:hover {
+        background-color: transparent;
+        transform: none;
+    }
+
+    .profile-navigator.floating-menu .nav-card-icon {
+        font-size: 2.2rem; /* Ukuran ikon lebih besar di mobile */
+        margin-bottom: 5px;
+        color: var(--main-color); /* Warna ikon yang menonjol */
+    }
+
+    .profile-navigator.floating-menu .nav-card h3 {
+        display: block; /* Tampilkan teks di mobile */
+        font-size: 0.9em; /* Ukuran teks */
+        text-align: center;
+        margin: 0;
+        font-weight: 500;
+    }
+    /* Pastikan konten utama tidak tertutup oleh menu di bawah */
+    body {
+        padding-bottom: 60px; /* Beri ruang di bagian bawah untuk floating menu */
     }
 }
 
@@ -1200,244 +1494,19 @@ span {
         margin: 1rem 0;
         padding: 0.8rem 0;
     }
-}
-
-
-/* --- Floating Menu (Profile Navigator) Styles - Desktop View --- */
-.profile-navigator.floating-menu {
-    position: fixed; /* Membuatnya melayang di layar */
-    top: 180px; /* Jarak dari atas layar */
-    right: 20px; /* Jarak dari kanan layar */
-    z-index: 990; /* Pastikan di atas konten normal, tapi di bawah pop-up utama jika ada */
-    display: flex; /* Tetap flex untuk menata card */
-    flex-direction: column; /* Mengatur card secara vertikal */
-    gap: 5px; /* Jarak antar card */
-    padding: 5px; /* Padding di sekitar semua card */
-    background-color: rgb(202, 203, 218); /* Latar belakang semi-transparan */
-    border-radius: 8px;
-    box-shadow: 0 8px 25px #9f72d38f; /* Shadow lebih kuat */
-    max-height: calc(100vh - 200px); /* Batasi tinggi agar tidak melebihi viewport */
-    overflow-y: auto; /* Aktifkan scroll jika card terlalu banyak */
-    align-items: center; /* Pusat ikon secara horizontal di dalam floating menu */
-    /* Pastikan transisi untuk perpindahan posisi di mobile */
-    transition: all 0.3s ease-in-out;
-}
-
-/* Sesuaikan gaya .nav-card di dalam floating menu (Desktop) */
-.profile-navigator.floating-menu .nav-card {
-    width: 30px; /* Lebar tetap untuk setiap card agar konsisten */
-    height: 30px; /* Tambahkan tinggi agar menjadi persegi atau lingkaran */
-    padding: 0; /* Hapus padding agar ikon saja yang mengisi */
-    display: flex; /* Gunakan flexbox untuk mempusatkan ikon */
-    justify-content: center; /* Pusatkan ikon horizontal */
-    align-items: center; /* Pusatkan ikon vertikal */
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    text-align: center;
-    border-radius: 50%; /* Membuatnya bulat */
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.profile-navigator.floating-menu .nav-card:hover {
-    background-color: rgba(0, 123, 255, 0.2); /* Latar belakang hover yang sedikit transparan */
-    transform: scale(1.1); /* Sedikit membesar saat hover */
-}
-
-.profile-navigator.floating-menu .nav-card-icon {
-    font-size: 16px; /* Ukuran ikon */
-    color: #333; /* Warna ikon default */
-    margin: 0;
-    line-height: 1;
-}
-
-.profile-navigator.floating-menu .nav-card h3,
-.profile-navigator.floating-menu .nav-card p {
-    display: none; /* Sembunyikan teks di desktop */
-}
-
-/* --- Media Queries untuk Mobile View --- */
-@media (max-width: 768px) { /* Breakpoint untuk sebagian besar mobile phones */
-    .profile-navigator.floating-menu {
-        top: auto; /* Hapus posisi top */
-        bottom: 0; /* Pindahkan ke bagian bawah layar */
-        left: 0; /* Menempel di kiri */
-        right: 0; /* Menempel di kanan */
-        width: 100%; /* Lebar penuh layar */
-        height: auto; /* Tinggi menyesuaikan konten */
-        max-height: auto; /* Hapus batasan tinggi */
-        flex-direction: row; /* Tata letak horizontal untuk navigasi bar */
-        justify-content: space-around; /* Distribusi ruang antar item secara merata */
-        padding: 10px 0; /* Padding vertikal lebih besar, horizontal nol */
-        border-radius: 0; /* Hapus border-radius (menjadi persegi) */
-        box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15); /* Shadow di atas */
-        background-color: rgb(202, 203, 218); /* Sesuaikan warna latar belakang jika perlu */
+    .project .project-container {
+        grid-template-columns: 1fr; /* Satu kolom untuk project di layar sangat kecil */
     }
-
-    .profile-navigator.floating-menu .nav-card {
-        width: auto; /* Lebar otomatis */
-        height: auto; /* Tinggi otomatis */
-        padding: 5px 0; /* Padding kecil untuk ikon dan teks */
-        flex-direction: column; /* Ikon di atas teks */
-        border-radius: 0; /* Hapus border-radius bulat */
-        color: #333; /* Warna teks default */
+    .services-container .services-box {
+        flex: 1 1 100%; /* Penuh lebar di layar sangat kecil */
     }
-
-    .profile-navigator.floating-menu .nav-card:hover {
-        background-color: transparent; /* Hapus background hover jika tidak diinginkan */
-        transform: none; /* Hapus efek scale hover */
+    .experience-box {
+        flex: 1 1 100%; /* Penuh lebar di layar sangat kecil */
     }
-
-    .profile-navigator.floating-menu .nav-card-icon {
-        font-size: 20px; /* Ukuran ikon lebih besar di mobile */
-        margin-bottom: 5px; /* Jarak antara ikon dan teks */
-        color: #007bff; /* Warna ikon yang lebih menonjol */
+    .education-container {
+        grid-template-columns: 1fr; /* Satu kolom untuk education di layar sangat kecil */
     }
-
-    .profile-navigator.floating-menu .nav-card h3 {
-        display: block; /* Tampilkan teks di mobile */
-        font-size: 0.7em; /* Ukuran teks lebih kecil */
-        text-align: center;
-        margin: 0;
-    }
-
-    /* Pastikan konten utama tidak tertutup oleh menu di bawah */
-    body {
-        padding-bottom: 60px; /* Beri ruang di bagian bawah untuk floating menu */
+    .article-list .organization-container {
+        grid-template-columns: 1fr; /* Satu kolom untuk organization di layar sangat kecil */
     }
 }
-
-/* Jika Anda memiliki breakpoint lain (misalnya untuk tablet) yang sebelumnya menyembunyikan menu,
-   pastikan untuk menghapusnya atau mengubahnya sesuai kebutuhan.
-   Contoh: @media (max-width: 992px) yang mungkin punya display: none;
-*/
-
-/* --- Media Queries untuk Responsivitas Floating Menu --- */
-@media (max-width: 992px) {
-    /* Mungkin ingin menyembunyikan floating menu di layar kecil
-       atau mengubahnya menjadi tombol hamburger */
-    .profile-navigator.floating-menu {
-        display: none; /* Contoh: sembunyikan di layar tablet ke bawah */
-        /* Alternatif: mengubahnya menjadi sticky bar di bawah atau samping */
-    }
-
-    /* Jika ingin mengubahnya menjadi sticky bar di bawah, tambahkan ini: */
-    /*
-    .profile-navigator.floating-menu {
-        top: auto;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        padding: 10px 0;
-        border-radius: 0;
-        box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
-    }
-    .profile-navigator.floating-menu .nav-card {
-        width: auto;
-        padding: 10px;
-        text-align: center;
-        flex-direction: column;
-    }
-    .profile-navigator.floating-menu .nav-card p {
-        display: block; // Tampilkan lagi deskripsi jika diinginkan
-    }
-    */
-}
-
-
-/* --- Other existing CSS styles (keep them as is) --- */
-/* Your existing CSS for .main-header, .content-sections-wrapper, .content-detail-section, etc. */
-/* ... */
-
-/* Responsive adjustments for the card layout */
-@media (max-width: 992px) {
-    .nav-card {
-        width: calc(50% - 20px); /* Two cards per row on medium screens */
-    }
-}
-
-@media (max-width: 768px) {
-    .nav-card {
-        width: calc(100% - 20px); /* One card per row on smaller screens */
-    }
-}
-
-       .footer {
-      background: #3f6399;
-      color: #1b1c1d;
-      padding: 2rem 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
-    }
-
-    .footer-iconTop a {
-      color: #3f6399;
-    }
-
-    .footer-iconTop a:hover {
-      color: #3f6399;
-    }
-
-    .floating-back-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background-color: #79bbb8;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    text-decoration: none;
-    z-index: 1000;
-    transition: background 0.3s, transform 0.2s;
-    }
-
-    .floating-back-btn:hover {
-    background-color: #3f6399;
-    transform: scale(1.1);
-    }
-
-    @media (max-width: 768px) {
-      .articles-hero .heading {
-        font-size: 4rem;
-      }
-      .articles-hero p {
-        font-size: 1.6rem;
-      }
-      .article-list .article-container {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      }
-    }
-
-    .footer-text {
-    text-align: center; /* Pastikan teks di footer-text rata tengah */
-    justify-content: center;
-    }
-
-    .footer-links {
-        margin-top: 10px; /* Sedikit jarak dari paragraf hak cipta */
-        font-size: 1,5em; /* Ukuran font sedikit lebih kecil */
-    }
-
-    .footer-links a {
-        color: #d6c1c1; /* Warna link, sesuaikan dengan tema Anda */
-        text-decoration: none; /* Hapus garis bawah */
-        margin: 0 5px; /* Jarak antar link dan pemisah */
-        transition: color 0.3s ease;
-    }
-
-    .footer-links a:hover {
-        color: #222324; /* Efek hover */
-    }
