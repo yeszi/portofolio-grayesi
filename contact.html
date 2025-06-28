@@ -89,14 +89,14 @@
             padding: 5rem 5%;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 3rem;
+            gap: 2rem;
         }
 
         .contact-box {
             background: var(--second-bg-color);
             border-radius: 1rem;
-            box-shadow: 0 0 1rem rgba(0,0,0,0.05);
-            padding: 2rem;
+            box-shadow: 0 0 1rem hsla(183, 42%, 35%, 0.884);
+            padding: 1,5rem;
             transition: transform 0.3s;
         }
 
@@ -112,7 +112,7 @@
             background: var(--second-bg-color);
             border-radius: 1rem;
             box-shadow: 0 0 1rem rgba(0,0,0,0.1);
-            padding: 2rem;
+            padding: 1rem;
             display: flex;
             align-items: center;
             transition: transform 0.3s;
@@ -288,38 +288,48 @@
         <i class="bx bx-menu" id="menu-icon"></i>
     </header>
 
-    <div class="contact-hero">
-        <h1>Contact <span>Me</span></h1>
+    <section>
+    <div class="pricing-card">
+        <h4>CONTACT <span>ME</span></h4>
         <p>Ada pertanyaan? Kerja sama? Atau cuma mau ngobrol? Kirimkan saja pesanmu di bawah ini ya!</p>
     </div>
-
-    <section class="contact-section">
-        <div class="contact-box">
-            <h3>Informasi Kontak</h3>
+  
+  <section class="contact-section">
+        <div class="pricing-card">
+                <h4>INFORMATION CONTACT</h4>
             <div class="info-card">
                 <i class='bx bx-envelope'></i>
-                <p><strong>Email:</strong> grayesi@email.com</p>
+                <p><strong>Email:</strong> <a href="mailto:grayesi.silitonga@email.com">grayesi.silitonga@email.com</a></p>
             </div>
             <div class="info-card">
                 <i class='bx bx-phone'></i>
-                <p><strong>WhatsApp:</strong> +62 812-3456-7890</p>
+                <p><strong>WhatsApp:</strong> <a href="https://wa.me/6281360930979">+62 813-6093-0979</a></p>
+            </div>
+            <div class="info-card">
+                <i class='bx bxl-facebook'></i>
+                <p><strong>Facebook:</strong> <a href="https://facebook.com/Grayesi Silitonga" > Grayesi Silitonga</a>
+            </div>
+            <div class="info-card">
+                <i class='bx bxl-twitter'></i>
+                <p><strong>Twitter:</strong> <a href="https://twitter.com/pentasgw" > PentasGW</a>
+            </div>
+            <div class="info-card">
+                <i class='bx bxl-instagram'></i>
+                <p><strong>Instagram:</strong> <a href="https://instagram.com/grayesii" > Grayesii</a>
             </div>
             <div class="info-card">
                 <i class='bx bx-map'></i>
                 <p><strong>Lokasi:</strong> Tanjungpinang, Kepulauan Riau</p>
             </div>
-            <div class="social-links">
-                <a href="https://facebook.com" target="_blank" class='bx bxl-facebook'></a>
-                <a href="https://twitter.com" target="_blank" class='bx bxl-twitter'></a>
-                <a href="https://instagram.com" target="_blank" class='bx bxl-instagram'></a>
-            </div>
         </div>
+      
 
         <div class="contact-box">
-            <h3>Harga Jasa</h3>
+          <div class="pricing-card">
+                <h4>SERVICE OFFERING</h4>
             <div class="pricing-card">
                 <h4>🖍️ Desain UI/UX</h4>
-                <p>24.69$ - 49.37$ USD / hour</p>
+                <p>Rp. 250.000 - Rp. 850.000</p>
             </div>
             <div class="pricing-card">
                 <h4>💻 Website Portfolio</h4>
@@ -329,10 +339,12 @@
                 <h4>📽️ Edit Video / Musik</h4>
                 <p>Rp 150.000 - 300.000</p>
             </div>
+          </div>
         </div>
 
         <div class="contact-box">
-            <h3>Form Kirim Pesan</h3>
+            <div class="pricing-card">
+                <h4>FORM LETTER</h4>
             <form id="contactForm" class="contact-form">
                 <input type="text" name="name" id="name" placeholder="Nama Lengkap" required>
                 <input type="email" name="email" id="email" placeholder="Email Kamu" required>
@@ -353,9 +365,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-        const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co'; 
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA'; // GANTI DENGAN ANON KEY SUPABASE ANDA
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+       const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co'; 
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA'; // GANTI DENGAN ANON KEY SUPABASE ANDA
+      const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         const contactForm = document.getElementById('contactForm');
 
         if (contactForm) {
