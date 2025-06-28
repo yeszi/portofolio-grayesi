@@ -1644,3 +1644,33 @@ span {
         gap: 2rem;
     }
 }
+
+/* CSS untuk mode mobile */
+@media (max-width: 768px) { /* Atau breakpoint yang sesuai */
+    .navbar {
+        position: absolute;
+        top: 100%; /* Di bawah header */
+        left: 0;
+        width: 100%;
+        background: var(--second-bg-color); /* Sesuaikan dengan warna latar */
+        border-top: .1rem solid var(--shadow-color);
+        box-shadow: 0 .5rem 1rem var(--shadow-color);
+        display: none; /* Sembunyikan secara default */
+        flex-direction: column;
+        transform: translateY(-100%); /* Sembunyikan ke atas */
+        opacity: 0;
+        transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+        pointer-events: none; /* Nonaktifkan interaksi saat tidak aktif */
+        z-index: 99;
+    }
+    .navbar.active {
+        display: flex; /* Tampilkan saat aktif */
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all; /* Aktifkan interaksi */
+    }
+    #menu-icon {
+        display: block; /* Tampilkan ikon hamburger di mobile */
+    }
+    /* Pastikan tidak ada elemen lain dengan z-index lebih tinggi yang menutupi navbar */
+}
