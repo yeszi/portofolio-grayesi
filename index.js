@@ -8,42 +8,64 @@ let swiper;
 
 // DOM Loaded
 document.addEventListener('DOMContentLoaded', async () => {
+    // Memuat data awal untuk setiap bagian
     await loadSection('about_me', 'about', renderAboutMe);
     await loadSection('projects', 'project', renderProject);
     await loadSection('experience', 'experience', renderExperience);
-    await loadSection('activity', 'testimonial-wrapper', renderActivity);
+    await loadSection('activity', 'activity', renderActivity); // Perbaikan: menggunakan 'activity' sebagai sectionId
 
+    // Mendengarkan perubahan realtime untuk setiap bagian
     listenRealtime('about_me', 'about', renderAboutMe);
     listenRealtime('projects', 'project', renderProject);
     listenRealtime('experience', 'experience', renderExperience);
-    listenRealtime('activity', 'testimonial-wrapper', renderActivity);
+    listenRealtime('activity', 'activity', renderActivity); // Perbaikan: menggunakan 'activity' sebagai sectionId
 });
 
-// Load Section
+// Load Section - Memuat data dari Supabase dan merendernya
 async function loadSection(table, sectionId, renderer) {
     const { data, error } = await supabase.from(table).select('*');
-    if (error) return console.error(`Error fetching ${table}:`, error);
+    if (error) {
+        console.error(`Error fetching ${table}:`, error);
+        return;
+    }
+
     const container = document.getElementById(sectionId);
-    if (!container) return;
+    if (!container) {
+        console.warn(`Container with ID '${sectionId}' not found for table '${table}'.`);
+        return;
+    }
 
     if (sectionId === 'about') {
         renderAboutMe(data);
-    } else if (sectionId === 'testimonial-wrapper') {
-        container.innerHTML = renderer(data);
-        initializeSwiper(); // Initialize Swiper after rendering
+    } else if (sectionId === 'activity') { // Perbaikan: menggunakan 'activity'
+        const testimonialWrapper = container.querySelector('.testimonial-wrapper'); // Mencari div internal
+        if (testimonialWrapper) {
+            testimonialWrapper.innerHTML = renderer(data);
+            initializeSwiper(); // Inisialisasi Swiper setelah rendering
+        } else {
+            console.warn(`Div with class 'testimonial-wrapper' not found inside section '#activity'.`);
+        }
     } else if (sectionId === 'project') {
         const box = container.querySelector('.project-container');
-        if (box) box.innerHTML = renderer(data);
+        if (box) {
+            box.innerHTML = renderer(data);
+        } else {
+            console.warn(`Div with class 'project-container' not found inside section '#project'.`);
+        }
     } else if (sectionId === 'experience') {
-        const box = container.querySelector('.experience-container');
-        if (box) box.innerHTML = renderer(data);
+        const box = container.querySelector('.experience-container'); // Perbaikan: mencari '.experience-container'
+        if (box) {
+            box.innerHTML = renderer(data);
+        } else {
+            console.warn(`Div with class 'experience-container' not found inside section '#experience'.`);
+        }
     }
 }
 
 // Initialize Swiper
 function initializeSwiper() {
     if (swiper) {
-        swiper.destroy(true, true);
+        swiper.destroy(true, true); // Hancurkan Swiper yang ada sebelum membuat yang baru
     }
     swiper = new Swiper(".mySwiper", {
         slidesPerView: 1,
@@ -79,8 +101,9 @@ function initializeSwiper() {
 function listenRealtime(table, sectionId, renderer) {
     supabase
         .channel(`realtime:${table}`)
-        .on('postgres_changes', { event: '*', schema: 'public', table }, () => {
-            loadSection(table, sectionId, renderer);
+        .on('postgres_changes', { event: '*', schema: 'public', table }, (payload) => {
+            console.log(`Realtime change detected in ${table}:`, payload); // Untuk debugging
+            loadSection(table, sectionId, renderer); // Memuat ulang section saat ada perubahan
         })
         .subscribe();
 }
@@ -92,8 +115,13 @@ function renderAboutMe(data) {
     const aboutImgDiv = document.querySelector('#about .about-img');
     const item = data[0];
 
-    aboutContentDiv.querySelector('h3').textContent = item.title || '';
-    aboutContentDiv.querySelector('p:nth-of-type(1)').textContent = item.description || '';
+    // Pastikan elemen ada sebelum mencoba mengatur textContent
+    if (aboutContentDiv.querySelector('h3')) {
+        aboutContentDiv.querySelector('h3').textContent = item.title || '';
+    }
+    if (aboutContentDiv.querySelector('p:nth-of-type(1)')) {
+        aboutContentDiv.querySelector('p:nth-of-type(1)').textContent = item.description || '';
+    }
 
     if (item.image_url && item.image_url.startsWith('http')) {
         aboutImgDiv.innerHTML = `<img src="${item.image_url}" alt="About Me Image" />`;
@@ -104,6 +132,8 @@ function renderAboutMe(data) {
 
 // Render Project
 function renderProject(data) {
+    // Pastikan data adalah array dan tidak kosong
+    if (!data || data.length === 0) return '';
     return data.map(item => `
         <div class="project-box">
             <img src="${item.image_url}" alt="${item.title}">
@@ -117,6 +147,8 @@ function renderProject(data) {
 
 // Render Experience
 function renderExperience(data) {
+    // Pastikan data adalah array dan tidak kosong
+    if (!data || data.length === 0) return '';
     return data.map(item => `
         <div class="experience-box">
             <img src="${item.image_url}" alt="${item.title}">
@@ -129,6 +161,8 @@ function renderExperience(data) {
 
 // Render Activity
 function renderActivity(data) {
+    // Pastikan data adalah array dan tidak kosong
+    if (!data || data.length === 0) return '';
     return `
         <div class="testimonial-box mySwiper">
             <div class="testimonial-content swiper-wrapper">
@@ -137,8 +171,7 @@ function renderActivity(data) {
                         ${(act.image_url || '').split(',').map(url => `<img src="${url.trim()}" alt="${act.title}">`).join('')}
                         <h3>${act.title}</h3>
                         <p>${act.description}</p>
-                        ${act.hashtag ? `<p>${act.hashtag}</p>` : ''}
-                    </div>
+                        ${act.hashtag ? `<p class="hashtag-text">${act.hashtag}</p>` : ''} </div>
                 `).join('')}
             </div>
             <div class="swiper-button-next"></div>
