@@ -383,3 +383,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Jika Anda menggunakan ID seperti #about, #services, #project, dll., pastikan juga array 'sections' di atas diperbarui.
     // Contoh: const sections = document.querySelectorAll('#about, #education, #services, #project, #experience, #organization');
 });
+

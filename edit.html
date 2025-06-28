@@ -14,11 +14,10 @@
             --purple-accent: #aa80c7; /* Purple accent from user image */
             --text-color: #f7f7f7;
             --input-bg: #3a4a70; /* Darker blue for input fields */
-            --item-bg: #1e2a4a; /* Background for individual items */
             --button-primary: #aa80c7; /* Purple accent for primary buttons */
             --button-hover-primary: #896aa3; /* Darker purple on hover */
-            --button-danger: #dc3545; /* Red for delete button */
-            --button-hover-danger: #c82333;
+            --button-logout: #dc3545; /* Red for logout button */
+            --button-hover-logout: #c82333;
         }
 
         * {
@@ -48,7 +47,7 @@
             text-decoration: none;
         }
         nav {
-            background-color: var(--primary-bg);
+            background-color: var(--primary-bg); /* Lighter than header for distinction */
             padding: 15px 0;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -73,7 +72,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         section {
-            background-color: var(--primary-bg);
+            background-color: var(--primary-bg); /* Use primary for sections inside container */
             padding: 30px;
             border-radius: 10px;
             margin-bottom: 30px;
@@ -86,43 +85,29 @@
             margin-bottom: 25px;
             text-align: center;
         }
-        .item {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: var(--item-bg);
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            position: relative; /* For delete button positioning */
-        }
-        .item:last-child {
-            margin-bottom: 0;
-        }
-        .item input,
-        .item textarea {
+        input, textarea {
             width: 100%;
-            margin: 8px 0; /* Adjusted margin */
+            margin: 10px 0;
             padding: 12px 15px;
             border-radius: 8px;
             border: 1px solid var(--input-bg);
             background-color: var(--input-bg);
             color: var(--text-color);
-            font-size: 0.95rem;
+            font-size: 1rem;
             transition: border-color 0.3s ease;
         }
-        .item input:focus,
-        .item textarea:focus {
+        input:focus, textarea:focus {
             outline: none;
             border-color: var(--purple-accent);
         }
         /* Style for file input to make it blend better */
-        .item input[type="file"] {
+        input[type="file"] {
             background-color: transparent;
             border: 1px dashed var(--accent-color);
             padding: 10px;
             cursor: pointer;
-            font-size: 0.9rem; /* Smaller font for file input */
         }
-        .item input[type="file"]::file-selector-button {
+        input[type="file"]::file-selector-button {
             background-color: var(--purple-accent);
             color: black;
             padding: 8px 12px;
@@ -131,24 +116,13 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        .item input[type="file"]::file-selector-button:hover {
+        input[type="file"]::file-selector-button:hover {
             background-color: var(--button-hover-primary);
         }
-        .item img {
-            max-width: 120px; /* Slightly larger image preview */
-            height: auto;
-            display: block;
-            margin: 15px 0 20px 0; /* Adjusted margin for image */
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        .item .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .item button {
-            flex: 1; /* Make buttons take equal width */
+
+        button {
+            width: 100%;
+            margin: 20px 0 10px 0;
             padding: 12px 20px;
             border-radius: 8px;
             border: none;
@@ -156,18 +130,12 @@
             color: black;
             font-weight: 600;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
-        .item button:hover {
+        button:hover {
             background-color: var(--button-hover-primary);
             transform: translateY(-2px);
-        }
-        .item button.delete-btn {
-            background-color: var(--button-danger);
-        }
-        .item button.delete-btn:hover {
-            background-color: var(--button-hover-danger);
         }
 
         footer {
@@ -178,184 +146,273 @@
             margin-top: auto; /* Pushes footer to the bottom */
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
         }
+
+        /* Styling untuk list item di dalam section edit */
+        .item {
+            background-color: var(--input-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .item .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .item .button-group button {
+            flex: 1;
+            margin: 0; /* Override default button margin */
+        }
+        .item .button-group .delete-btn {
+            background-color: var(--button-logout); /* Use logout color for delete */
+        }
+        .item .button-group .delete-btn:hover {
+            background-color: var(--button-hover-logout);
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="admin_dashboard.html" class="logo">YesZie Admin</a>
+    <a href="admin_dashboard.html" class="logo">Edit Konten</a>
+    <nav>
+        </nav>
 </header>
 
 <nav>
-    <a href="admin_dashboard.html">Home Admin</a>
-    <a href="index.html">Log Out</a>
-</nav>
+    <a href="admin_dashboard.html">Dashboard</a>
+    <a href="tambah.html">Tambah Konten</a>
+    <a href="#" onclick="logout()">Log Out</a> </nav>
 
-<div class="container" id="content"></div>
+<div class="container" id="content">
+    <p style="text-align: center; color: var(--text-color);">Memuat konten...</p>
+</div>
 
 <footer>
-    &copy; 2025 YesZie Admin Panel
+    &copy; 2025_YesZie Admin Panel&copy;
 </footer>
 
 <script>
-const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); // PERBAIKAN INISIALISASI SUPABASE
 
-// Auth check
-supabase.auth.getSession().then(({ data: { session } }) => {
-    if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
-        alert("Akses ditolak."); window.location.href = "login.html";
-    }
-});
-
-const menus = [
-    { table: 'projects', title: 'Projects', bucket: 'projectimages' },
-    { table: 'experience', title: 'Experience', bucket: 'experienceimages' },
-    { table: 'activity', title: 'My Activity', bucket: 'activityimages' },
-    { table: 'articles', title: 'My Articles', bucket: 'articleimages' },
-    { table: 'about_me', title: 'About Me', bucket: 'aboutimages' } // About Me is usually a single entry
-];
-
-async function uploadImage(bucket, file) {
-    if (!file) return null;
-    const fileName = `${Date.now()}-${file.name}`;
-    const { data, error } = await supabase.storage.from(bucket).upload(fileName, file, {
-        cacheControl: '3600',
-        upsert: false // Set to true if you want to overwrite existing files with the same name
+    // Otentikasi
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+        if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
+            alert("Akses ditolak. Silakan login kembali.");
+            window.location.href = "login.html";
+        }
+    }).catch(err => {
+        console.error("Error fetching session on edit page:", err);
+        alert("Terjadi kesalahan saat memverifikasi sesi. Silakan coba lagi.");
+        window.location.href = "login.html";
     });
-    if (error) {
-        alert("❌ Upload gagal: " + error.message);
-        return null;
-    }
-    const { data: publicUrlData } = supabase.storage.from(bucket).getPublicUrl(fileName);
-    return publicUrlData.publicUrl;
-}
 
-async function updateItem(table, id, title, description, image_url, link = null) {
-    const updateData = { title, description, image_url };
-    if (link !== null) updateData.link = link; // Only add link if it's relevant for the table
-
-    const { error } = await supabase.from(table).update(updateData).eq('id', id);
-    if (error) {
-        alert('❌ Gagal update: ' + error.message);
-    } else {
-        alert('✅ Berhasil diupdate!');
-        // No need to clear inputs on update, as the form repopulates
-    }
-}
-
-async function deleteItem(table, id, bucket, imageUrl) {
-    if (!confirm('Apakah Anda yakin ingin menghapus item ini?')) {
-        return;
-    }
-
-    // Attempt to delete the image from storage if an image URL exists
-    if (imageUrl) {
+    // FUNGSI LOGOUT
+    async function logout() {
         try {
-            const fileName = imageUrl.split('/').pop(); // Extract file name from URL
-            const { error: storageError } = await supabase.storage.from(bucket).remove([fileName]);
-            if (storageError) {
-                console.error("Gagal menghapus gambar dari storage:", storageError.message);
-                // Optionally alert the user, but still proceed with database deletion
+            const { error } = await supabaseClient.auth.signOut();
+            if (error) {
+                console.error('Error during logout:', error.message);
+                alert('Gagal logout: ' + error.message);
+            } else {
+                window.location.href = "login.html";
             }
         } catch (e) {
-            console.error("Error parsing image URL for deletion:", e);
+            console.error("Unexpected error in logout function:", e);
+            alert("Terjadi kesalahan tak terduga saat logout.");
         }
     }
+    // AKHIR FUNGSI LOGOUT
 
-    const { error } = await supabase.from(table).delete().eq('id', id);
-    if (error) {
-        alert('❌ Gagal menghapus: ' + error.message);
-    } else {
-        alert('✅ Berhasil dihapus!');
-        // Data will automatically re-fetch via realtime subscription
+    // Konfigurasi tabel dan bucket
+    const menus = [
+        { table: 'about_me', title: 'About Me', bucket: 'aboutimages', isSingular: true }, // isSingular untuk About Me (hanya 1 entri)
+        { table: 'projects', title: 'Projects', bucket: 'projectimages' },
+        { table: 'experience', title: 'Experience', bucket: 'experienceimages' },
+        { table: 'activity', title: 'My Activity', bucket: 'activityimages' },
+        { table: 'articles', title: 'My Articles', bucket: 'articleimages' } // Menganggap articles sebagai organisasi
+    ];
+
+    function renderSection({ table, title, bucket, isSingular = false }) {
+        const section = document.createElement('section');
+        section.innerHTML = `<h2>${title}</h2><div id="list-${table}">Loading...</div>`;
+        document.getElementById('content').appendChild(section);
+
+        // Panggil fetchData pertama kali saat merender section
+        fetchData(table, bucket, isSingular);
+
+        // Langganan untuk perubahan real-time
+        supabaseClient.channel(`realtime_${table}`)
+            .on('postgres_changes', { event: '*', schema: 'public', table: table }, payload => {
+                console.log(`Perubahan di ${table} diterima!`, payload);
+                // Panggil fetchData lagi untuk memperbarui tampilan
+                fetchData(table, bucket, isSingular);
+            })
+            .subscribe();
     }
-}
 
-
-function renderSection({ table, title, bucket }) {
-    const section = document.createElement('section');
-    section.innerHTML = `<h2>${title}</h2><div id="list-${table}">Loading...</div>`;
-    document.getElementById('content').appendChild(section);
-    fetchData(table, bucket);
-
-    // Realtime subscription for instant updates
-    supabase.channel(`realtime:${table}`)
-        .on('postgres_changes', { event: '*', schema: 'public', table }, payload => {
-            console.log('Change received!', payload);
-            fetchData(table, bucket);
-        })
-        .subscribe();
-}
-
-async function fetchData(table, bucket) {
-    const { data, error } = await supabase.from(table).select('*');
-    if (error) {
-        document.getElementById(`list-${table}`).innerText = 'Error loading data: ' + error.message;
-        return;
-    }
-    const container = document.getElementById(`list-${table}`);
-    if (!container) return; // Ensure container exists
-    container.innerHTML = '';
-    
-    // Sort data for consistent display (e.g., by ID or title)
-    const sortedData = data.sort((a, b) => (a.id || a.title || '').toString().localeCompare((b.id || b.title || '').toString()));
-
-    sortedData.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'item';
-
-        // Determine if the table has a 'link' column
-        const hasLink = table === 'projects';
-        const linkInput = hasLink ? `<input type="text" value="${item.link || ''}" id="link-${table}-${item.id}" placeholder="Link Project" />` : '';
-
-        div.innerHTML = `
-            <input type="text" value="${item.title || ''}" id="title-${table}-${item.id}" placeholder="Judul" />
-            <textarea id="desc-${table}-${item.id}" placeholder="Deskripsi">${item.description || ''}</textarea>
-            ${linkInput}
-            <input type="file" id="file-${table}-${item.id}" accept="image/*" />
-            ${item.image_url ? `<img src="${item.image_url}" alt="${item.title || 'Image'}" />` : '<p>No image uploaded</p>'}
-            <div class="button-group">
-                <button onclick="handleEdit('${table}', ${item.id}, '${bucket}', ${hasLink})">Update</button>
-                <button class="delete-btn" onclick="deleteItem('${table}', ${item.id}, '${bucket}', '${item.image_url || ''}')">Delete</button>
-            </div>
-        `;
-        container.appendChild(div);
-    });
-    if (sortedData.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #aaa;">No items found. Add new content from "Tambah Konten" page.</p>';
-    }
-}
-
-async function handleEdit(table, id, bucket, hasLink) {
-    const title = document.getElementById(`title-${table}-${id}`).value;
-    const description = document.getElementById(`desc-${table}-${id}`).value;
-    const fileInput = document.getElementById(`file-${table}-${id}`);
-    let image_url = null;
-
-    if (fileInput.files[0]) {
-        image_url = await uploadImage(bucket, fileInput.files[0]);
-        if (!image_url) return; // Stop if image upload failed
-    } else {
-        // If no new file, retain the existing image URL
-        const { data, error } = await supabase.from(table).select('image_url').eq('id', id).single();
+    async function fetchData(table, bucket, isSingular) {
+        console.log(`Mengambil data untuk tabel: ${table}`);
+        const { data, error } = await supabaseClient.from(table).select('*');
         if (error) {
-            alert('Gagal mengambil URL gambar lama: ' + error.message);
+            document.getElementById(`list-${table}`).innerText = 'Error loading data: ' + error.message;
+            console.error(`Error loading data for ${table}:`, error);
             return;
         }
-        image_url = data.image_url;
+        const container = document.getElementById(`list-${table}`);
+        if (!container) {
+            console.error(`Container for ${table} not found!`);
+            return;
+        }
+        container.innerHTML = ''; // Kosongkan konten sebelum mengisi ulang
+
+        const displayData = isSingular && data.length > 0 ? [data[0]] : data; // Untuk About Me, hanya tampilkan entri pertama
+
+        if (displayData.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #aaa;">Tidak ada item ditemukan. Tambahkan konten baru dari halaman "Tambah Konten".</p>';
+        } else {
+            displayData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item';
+
+                // Tentukan apakah ada link input (hanya untuk projects)
+                const hasLink = table === 'projects';
+                const linkInput = hasLink ? `<input type="text" value="${item.link || ''}" id="link-${table}-${item.id}" placeholder="Link Project" />` : '';
+
+                div.innerHTML = `
+                    <input type="text" value="${item.title || ''}" id="title-${table}-${item.id}" placeholder="Judul" />
+                    <textarea id="desc-${table}-${item.id}" placeholder="Deskripsi">${item.description || ''}</textarea>
+                    ${linkInput}
+                    <input type="file" id="file-${table}-${item.id}" accept="image/*" />
+                    ${item.image_url ? `<img src="${item.image_url}" alt="${item.title || 'Image'}" />` : '<p style="color: #aaa;">No image uploaded</p>'}
+                    <div class="button-group">
+                        <button onclick="handleEdit('${table}', ${item.id}, '${bucket}', ${hasLink})">Update</button>
+                        ${!isSingular ? `<button class="delete-btn" onclick="deleteItem('${table}', ${item.id}, '${bucket}', '${item.image_url || ''}')">Delete</button>` : ''}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
     }
 
-    const link = hasLink ? document.getElementById(`link-${table}-${id}`).value : null;
-    await updateItem(table, id, title, description, image_url, link);
-}
+    async function uploadImage(bucket, file) {
+        if (!file) return null;
+        const fileName = `${Date.now()}-${file.name}`;
+        const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file, {
+            cacheControl: '3600',
+            upsert: false // Set to true if you want to overwrite existing files with the same name
+        });
+        if (error) {
+            alert("❌ Upload gambar gagal: " + error.message);
+            console.error("Upload image error:", error);
+            return null;
+        }
+        const { data: publicUrlData } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
+        return publicUrlData.publicUrl;
+    }
 
-// Initial rendering of sections
-window.addEventListener('DOMContentLoaded', () => {
-    menus.forEach(menu => renderSection(menu));
-});
+    async function deleteImage(bucket, imageUrl) {
+        if (!imageUrl) return;
+        const urlParts = imageUrl.split('/');
+        const fileName = urlParts[urlParts.length - 1]; // Ambil nama file dari URL
+        const { error } = await supabaseClient.storage.from(bucket).remove([fileName]);
+        if (error) {
+            console.error("Error deleting old image:", error.message);
+            // alert("Gagal menghapus gambar lama: " + error.message);
+        } else {
+            console.log("Gambar lama berhasil dihapus:", fileName);
+        }
+    }
+
+
+    async function handleEdit(table, id, bucket, hasLink) {
+        const title = document.getElementById(`title-${table}-${id}`).value.trim();
+        const description = document.getElementById(`desc-${table}-${id}`).value.trim();
+        const fileInput = document.getElementById(`file-${table}-${id}`);
+        const file = fileInput.files[0];
+        let link = hasLink ? document.getElementById(`link-${table}-${id}`).value.trim() : null;
+
+        if (!title || !description) {
+            return alert("Judul dan Deskripsi tidak boleh kosong!");
+        }
+
+        let imageUrl = null;
+
+        // Ambil URL gambar yang ada saat ini sebelum update
+        const { data: currentData, error: currentError } = await supabaseClient.from(table).select('image_url').eq('id', id).single();
+        if (currentError) {
+            console.error("Error fetching current image URL:", currentError.message);
+            alert("Gagal mengambil data lama untuk update: " + currentError.message);
+            return;
+        }
+        const oldImageUrl = currentData ? currentData.image_url : null;
+
+        if (file) {
+            imageUrl = await uploadImage(bucket, file);
+            if (!imageUrl) return; // Upload gagal
+            // Jika ada gambar baru diupload, hapus gambar lama
+            if (oldImageUrl) {
+                await deleteImage(bucket, oldImageUrl);
+            }
+        } else {
+            // Jika tidak ada file baru, gunakan URL gambar yang sudah ada
+            imageUrl = oldImageUrl;
+        }
+
+        const updateData = { title, description };
+        if (imageUrl) updateData.image_url = imageUrl;
+        if (hasLink) updateData.link = link;
+
+        const { error } = await supabaseClient.from(table).update(updateData).eq('id', id);
+
+        if (error) {
+            alert(`❌ Gagal update ${table}: ` + error.message);
+            console.error(`Update ${table} error:`, error);
+        } else {
+            alert(`✅ ${table} berhasil diupdate!`);
+            // Clear file input agar tidak ter-reupload lagi jika tidak ada perubahan file
+            fileInput.value = '';
+            // Data akan otomatis ter-refresh oleh real-time listener, tidak perlu fetchData manual
+        }
+    }
+
+
+    async function deleteItem(table, id, bucket, imageUrl) {
+        if (!confirm(`Anda yakin ingin menghapus item ini dari ${table}?`)) {
+            return;
+        }
+
+        // Hapus gambar dari storage terlebih dahulu
+        if (imageUrl) {
+            await deleteImage(bucket, imageUrl);
+        }
+
+        // Hapus entri dari database
+        const { error } = await supabaseClient.from(table).delete().eq('id', id);
+
+        if (error) {
+            alert(`❌ Gagal menghapus item dari ${table}: ` + error.message);
+            console.error(`Delete item from ${table} error:`, error);
+        } else {
+            alert(`✅ Item berhasil dihapus dari ${table}!`);
+            // Data akan otomatis ter-refresh oleh real-time listener
+        }
+    }
+
+    // Panggil fungsi renderSection untuk setiap menu saat DOM selesai dimuat
+    window.addEventListener('DOMContentLoaded', () => {
+        menus.forEach(menu => renderSection(menu));
+    });
+
 </script>
-
 </body>
 </html>
