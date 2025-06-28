@@ -6,175 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portofolio Grayesi Silitonga</title>
 
+    <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <!-- Font Awesome CSS (untuk ikon di profile-navigator) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Custom CSS Anda -->
     <link rel="stylesheet" href="index.css" />
 
+    <!-- Supabase JS (dimuat di head karena digunakan di script utama) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<style>
-    /* Inline CSS provided in the prompt */
-    /* This section contains styling primarily for .article-list and .education sections */
-    .article-list {
-        background: var(--bg-color); /* Assumes --bg-color is defined in index.css */
-        padding: 5rem 5% 8rem;
-    }
-
-    .article-list .heading {
-        text-align: center;
-        font-size: 4rem;
-        margin-bottom: 3rem;
-        color: var(--text-color); /* Assumes --text-color is defined in index.css */
-    }
-    .article-list .heading span {
-        color: var(--main-color); /* Assumes --main-color is defined in index.css */
-    }
-
-    .article-list .article-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 2.5rem;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .article-list .article-box {
-        background: var(--second-bg-color); /* Assumes --second-bg-color is defined in index.css */
-        border-radius: 1rem;
-        box-shadow: 0 0 1rem var(--main-color);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        transition: transform .3s ease;
-    }
-
-    .article-list .article-box:hover {
-        transform: translateY(-0.8rem);
-        box-shadow: 0 0 2rem var(--main-color);
-    }
-
-    .article-list .article-box img {
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
-        display: block;
-    }
-
-    .article-list .article-box .article-content {
-        padding: 1.5rem;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .article-list .article-content h4 {
-        font-size: 2.2rem;
-        color: var(--text-color);
-        margin-bottom: 0.8rem;
-    }
-
-    .article-list .article-content p {
-        font-size: 1.3rem;
-        color: var(--text-color);
-        line-height: 1.5;
-        margin-bottom: 1.5rem;
-        flex-grow: 1;
-    }
-
-    .article-list .article-content .article-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem 2rem;
-        background: var(--main-color);
-        color: var(--text-color);
-        border-radius: 0.8rem;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1.5rem;
-        transition: background .3s ease, color .3s ease;
-        align-self: flex-start;
-    }
-
-    .article-list .article-content .article-btn i {
-        margin-left: 0.8rem;
-        font-size: 1.8rem;
-        transition: margin-left .3s ease;
-    }
-
-    .article-list .article-content .article-btn:hover {
-        background: var(--text-color);
-        color: var(--main-color);
-    }
-
-    .article-list .article-content .article-btn:hover i {
-        margin-left: 1.2rem;
-    }
-
-    /* Media Queries for responsiveness */
-    @media (max-width: 768px) {
-        .article-list .article-container {
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        }
-        /* These classes were not found in your HTML but were in your CSS block */
-        .articles-hero .heading {
-            font-size: 4rem;
-        }
-        .articles-hero p {
-            font-size: 1.6rem;
-        }
-    }
-
-    /* Education Section Styling */
-    .education {
-        padding: 4rem 2rem;
-        background: var(--second-bg-color);
-    }
-
-    .education .heading {
-        text-align: center;
-        font-size: 2.5rem;
-        margin-bottom: 2rem;
-    }
-
-    .education-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-    }
-
-    .education-box {
-        background: #fffdfd; /* Direct color, not using CSS variables */
-        padding: 2rem;
-        border-radius: 1.5rem;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-        transition: 0.3s ease;
-    }
-
-    .education-box:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 24px rgba(0, 0, 0, 0.1);
-    }
-
-    .education-box h3 {
-        font-size: 1.3rem;
-        color: #333; /* Direct color */
-    }
-
-    .education-box .year {
-        font-size: 0.9rem;
-        color: #bd0f0f; /* Direct color */
-        margin-bottom: 0.8rem;
-        display: block;
-    }
-
-    .education-box p {
-        font-size: 1rem;
-        color: #555; /* Direct color */
-        line-height: 1.6;
-    }
-</style>
 <body>
     <header class="header">
         <a href="#" class="logo">YesZie</a>
@@ -225,6 +68,7 @@
         </div>
     </section>
 
+    <!-- Profile Navigator (Floating Menu) -->
     <nav class="profile-navigator floating-menu">
         <a href="#about" class="nav-card"><i class="fas fa-user nav-card-icon"></i></a>
         <a href="#education" class="nav-card"><i class="fas fa-graduation-cap nav-card-icon"></i></a>
@@ -238,7 +82,7 @@
         <div class="about-img"></div>
         <div class="about-content">
             <h2 class="heading">About <span>Me</span></h2>
-            <h3></h3>
+            <h3></h3> <!-- Konten h3 akan diisi oleh JS -->
             <p>Walaupun saya memiliki kepribadian yang aneh dan cukup membingungkan orang sekitar,saya tetap terus yapping,cause yapping its my life. Mau ngobrol bareng aku? klik menu Join Room.</p>
              <a href="https://t.me/+pz4vFmsZm7llY2I1" class="btn" target="_blank">Draft Yesi</a>
             <a href="#" class="btn" target="_blank">Join Room</a>
@@ -302,17 +146,20 @@
 
     <section class="project" id="project">
         <h2 class="heading">My <span>Project</span></h2>
-        <div class="project-container"></div>
+        <div class="project-container"></div> <!-- Konten akan diisi oleh JS -->
     </section>
 
+    <!-- Perbaikan Struktur Testimonial/Activity -->
     <section class="testimonial-container" id="activity">
         <h2 class="heading">My <span>Activity</span></h2>
-        <div class="testimonial-wrapper"></div>
-    
+        <div class="testimonial-wrapper mySwiper">
+            <!-- Konten Swiper akan diisi oleh JS -->
+        </div>
+    </section>
 
     <section class="experience" id="experience">
         <h2 class="heading">My <span>Experience</span></h2>
-        <div class="experience-container"></div>
+        <div class="experience-container"></div> <!-- Konten akan diisi oleh JS -->
     </section>
 
     <section class="article-list" id="organization">
@@ -339,12 +186,19 @@
             </div>
         </div>
         <div class="footer-iconTop">
-            <a href="index.html" class="floating-back-btn" title="Kembali ke Beranda"><i class='bx bx-up-arrow-alt'></i></a>
+            <!-- Ini adalah ikon panah ke atas di dalam footer itu sendiri -->
+            <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
         </div>
     </footer>
 
+    <!-- Tombol melayang kembali ke atas (di luar footer) -->
+    <a href="#home" class="floating-back-btn" title="Kembali ke Atas"><i class='bx bx-up-arrow-alt'></i></a>
+
+    <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- ScrollReveal JS (jika Anda menggunakannya untuk animasi scroll) -->
     <script src="https://unpkg.com/scrollreveal"></script>
+    <!-- Custom JS Anda (pastikan nama file ini sesuai) -->
     <script src="index.js" defer></script>
 </body>
 </html>
