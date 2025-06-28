@@ -532,6 +532,10 @@ span {
 /* Testimonial Section */
 /* Testimonial Section */
 .testimonial-container {
+    /* Memusatkan wrapper testimonial di dalam container */
+    display: flex;
+    flex-direction: column; /* Mengatur konten di dalam container secara vertikal */
+    align-items: center; /* Memusatkan h2 dan testimonial-wrapper secara horizontal */
     padding: 5rem 2rem;
     background: var(--bg-color);
 }
@@ -547,25 +551,83 @@ span {
     overflow-x: auto; /* Enable horizontal scrolling */
     gap: 2rem; /* Space between cards */
     padding: 1rem; /* Optional padding */
+    /* Untuk hide scrollbar di beberapa browser: */
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    /* Pastikan wrapper tidak melebihi lebar viewport */
+    width: 100%; /* Agar memenuhi lebar kontainer parent */
+    max-width: 1200px; /* Batasi lebar maksimum jika diperlukan untuk layout yang lebih besar */
 }
 
+.testimonial-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+
 .testimonial-slide {
-    flex: 0 0 auto; /* Prevent flex items from shrinking */
+    /* Mengubah properti ini untuk ukuran yang sama rata */
+    flex: 0 0 320px; /* Tetapkan lebar tetap untuk setiap slide, contoh: 320px */
+                     /* flex-grow: 0 (jangan membesar), flex-shrink: 0 (jangan menyusut), flex-basis: 320px (lebar dasar) */
+    /* ATAU (jika Anda ingin menyesuaikan lebar berdasarkan ruang yang tersedia, tapi kurang "sama rata") */
+    /* flex: 1 1 300px; /* Fleksibel tapi dengan lebar dasar 300px, akan membesar/mengecil sesuai ruang */
+
     background: var(--second-bg-color);
     border-radius: 1.5rem;
     box-shadow: 0 4px 10px var(--shadow-color);
     padding: 2rem;
-    min-width: 300px; /* Set a minimum width for each card */
+    /* Hapus min-width jika Anda menggunakan flex-basis */
+    /* min-width: 300px; */
     transition: transform 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .testimonial-slide img {
-    width: 100%; /* Make image responsive */
-    border-radius: 1rem; /* Rounded corners for images */
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1.5rem;
+    border: 3px solid var(--main-color);
+}
+
+.testimonial-slide h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.testimonial-slide p {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: var(--text-color);
 }
 
 .testimonial-slide:hover {
     transform: translateY(-5px);
+}
+
+/* Tambahan: Pastikan Anda juga menyesuaikan di media queries jika ada */
+@media (max-width: 768px) {
+    .testimonial-slide {
+        flex: 0 0 280px; /* Sesuaikan lebar di layar yang lebih kecil */
+        padding: 1.5rem;
+    }
+    .testimonial-slide img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Contoh untuk layar sangat besar, agar testimonial-wrapper tidak terlalu lebar */
+@media (min-width: 1201px) {
+    .testimonial-wrapper {
+        max-width: 1200px; /* Sesuaikan lebar maksimum sesuai kebutuhan desain */
+        justify-content: center; /* Untuk memusatkan slide jika jumlahnya kurang dari yang bisa mengisi baris penuh */
+    }
 }
 
 /* Experience Section */
