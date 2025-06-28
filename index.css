@@ -857,59 +857,103 @@ span {
 /* Footer */
 .footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 2rem 7%;
+    justify-content: space-between; /* Menjaga teks di kiri, ikon di kanan */
+    align-items: center; /* Memusatkan secara vertikal */
+    flex-wrap: wrap; /* Memungkinkan wrap di layar kecil */
+    padding: 2rem 7%; /* Padding yang sudah ada */
     background: var(--main-color);
+    /* OPTIONAL: Batasi lebar maksimum agar tidak terlalu meregang di layar ultra-lebar */
+    max-width: 1400px; /* Misal, batas maksimum 1400px */
+    margin: 0 auto; /* Memusatkan footer jika ada max-width */
 }
 
 .footer-text p {
     font-size: 1.6rem;
     color: var(--white-color);
+    /* text-align: left; <-- Ini tidak diperlukan di sini karena akan diatur oleh flexbox */
+    flex-grow: 1; /* Memastikan paragraf teks mengambil sisa ruang yang tersedia */
+    /* Tambahkan margin-right jika ingin sedikit lebih jauh dari ikon di desktop */
+    /* margin-right: 2rem; */
+}
+
+.footer-iconTop {
+    display: flex; /* Jadikan kontainer ikon flex juga */
+    gap: 1rem; /* Jarak antar ikon */
+    /* justify-content: flex-end; <-- Default dari justify-content: space-between pada .footer,
+                                    tapi bisa tetap di sini untuk kejelasan */
+    align-items: center; /* Pusatkan ikon secara vertikal */
+    flex-shrink: 0; /* Pastikan kontainer ikon tidak menyusut, menjaga ukuran ikon */
 }
 
 .footer-iconTop a {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    padding: .8rem;
+    display: inline-flex; /* Tetap inline-flex untuk kemudahan pemusatan ikon di dalamnya */
+    justify-content: center; /* Pusatkan ikon horizontal di dalam lingkarannya */
+    align-items: center; /* Pusatkan ikon vertikal di dalam lingkarannya */
+    padding: .8rem; /* Padding internal ikon */
     background: var(--white-color);
-    border-radius: .8rem;
+    border-radius: .8rem; /* Sudut sedikit membulat */
+    /* Jika ingin bulat sempurna seperti gambar profil: */
+    /* border-radius: 50%; */
     border: .2rem solid var(--main-color);
     outline: .2rem solid transparent;
     transition: .5s ease;
+    /* UKURAN TETAP UNTUK IKON (PENTING UNTUK KONSISTENSI) */
+    width: 4.5rem; /* Contoh: ukuran ikon 4.5rem x 4.5rem */
+    height: 4.5rem;
 }
 
 .footer-iconTop a:hover {
     outline-color: var(--white-color);
+    transform: translateY(-2px); /* Efek hover kecil */
 }
 
 .footer-iconTop a i {
-    font-size: 2.4rem;
+    font-size: 2.4rem; /* Ukuran font ikon */
     color: var(--text-color);
 }
 
 
-/* --- BREAKPOINTS UNTUK RESPONSIVITAS --- */
+@media (max-width: 768px) {
+    .footer {
+        flex-direction: column; 
+        padding: 2rem 5%; 
+    }
 
-/* Tablet & Smaller Desktop (max-width: 1200px) */
-@media (max-width: 1200px) {
-    html {
-        font-size: 55%;
+    .footer-text p {
+        margin-bottom: 1.5rem; /* Beri jarak antara teks dan ikon di mobile */
+        text-align: center; /* PUSATKAN TEKS DI MOBILE */
+        flex-grow: 0; /* Di mobile, teks tidak perlu tumbuh sebanyak mungkin */
+        width: 100%; /* Agar teks mengisi lebar penuh */
     }
-    .home-content {
-        margin-right: 25%;
+
+    .footer-iconTop {
+        width: 100%; /* Pastikan kontainer ikon mengambil lebar penuh */
+        justify-content: center; /* PUSATKAN IKON DI MOBILE */
+        margin-bottom: 1rem; /* Jarak dari bawah footer */
+        /* Pastikan ikon tidak terlalu besar di mobile jika ingin */
+        gap: 0.8rem; /* Sedikit kurangi jarak antar ikon di mobile */
     }
-    .home .profession-container .profession-box {
-        right: -10%;
+    .footer-iconTop a {
+        width: 4rem; /* Ukuran ikon sedikit lebih kecil di mobile */
+        height: 4rem;
+        padding: .7rem; /* Sesuaikan padding */
     }
-    .home .profession-container .overlay {
-        right: -6%;
+    .footer-iconTop a i {
+        font-size: 2.2rem; /* Ukuran font ikon sedikit lebih kecil di mobile */
     }
-    .home-img {
-        right: 250px;
-        width: 400px;
+}
+
+@media (max-width: 450px) {
+    .footer-text p {
+        font-size: 1.4rem; /* Kecilkan font di layar sangat kecil */
+    }
+    .footer-iconTop a {
+        width: 3.5rem; /* Kecilkan ukuran ikon di layar sangat kecil */
+        height: 3.5rem;
+        padding: .6rem;
+    }
+    .footer-iconTop a i {
+        font-size: 2rem;
     }
 }
 

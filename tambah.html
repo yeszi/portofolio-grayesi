@@ -200,6 +200,7 @@
         <input type="text" id="judul-article" placeholder="Judul Artikel">
         <textarea id="deskripsi-article" placeholder="Deskripsi Artikel"></textarea>
         <input type="file" id="gambar-article-file" accept="image/*">
+        <input type="text" id="link-project" placeholder="Link Project">
         <button onclick="tambahArticle()">Add Article</button>
     </section>
 </div>
@@ -299,6 +300,7 @@ async function tambahActivity() {
 async function tambahArticle() {
     const title = document.getElementById('judul-article').value.trim();
     const description = document.getElementById('deskripsi-article').value.trim();
+    const link = document.getElementById('link-project').value.trim();
     const file = document.getElementById('gambar-article-file').files[0];
     if (!title || !description || !file) return alert("Lengkapi data article!");
     const image_url = await uploadImage('articlesimage', file);

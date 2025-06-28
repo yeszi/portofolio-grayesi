@@ -1,340 +1,662 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Articles - YesZie</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>My Articles - YesZie</title>
 
-  <!-- External CSS & Icon -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/articles-page.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/articles-page.css"> <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Internal CSS Fix -->
-  <style>
-    :root {
-      --bg-color: #f5f5f5;
-      --second-bg-color: #ffffff;
-      --main-color: #3f6399;
-      --text-color: #333333;
-    }
+    <style>
+        :root {
+            --bg-color: #f5f5f5;
+            --second-bg-color: #ffffff;
+            --main-color: #3f6399;
+            --text-color: #333333;
+            --shadow-color: rgba(0, 0, 0, .1); /* Tambahkan shadow color untuk konsistensi */
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+        /* Dark Mode variables */
+        .dark-mode {
+            --bg-color: #0b061f;
+            --second-bg-color: #1a1532;
+            --text-color: #fdfdfd;
+            --shadow-color: rgba(0, 0, 0, .7);
+        }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg-color);
-      color: var(--text-color);
-      line-height: 1.6;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none; /* Tambahkan untuk konsistensi */
+            outline: none; /* Tambahkan untuk konsistensi */
+            border: none; /* Tambahkan untuk konsistensi */
+        }
 
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: var(--second-bg-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 2rem 5%;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transisi tema */
+        }
 
-    .header .logo {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--main-color);
-      text-decoration: none;
-    }
+        /* General Heading Styling */
+        .heading {
+            font-size: 4.5rem; /* Perbaikan font-size agar konsisten dengan style.css */
+            text-align: center;
+            color: var(--text-color);
+        }
+        .heading span {
+            color: var(--main-color);
+        }
 
-    .navbar a {
-      margin-left: 2rem;
-      font-size: 1.6rem;
-      color: var(--text-color);
-      text-decoration: none;
-      transition: 0.3s;
-    }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--second-bg-color); /* Menggunakan second-bg-color */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px var(--shadow-color); /* Menggunakan shadow-color */
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
 
-    .navbar a:hover,
-    .navbar a.active {
-      color: var(--main-color);
-    }
+        .header .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--main-color);
+            text-decoration: none;
+        }
 
-    #menu-icon,
-    #darkMode-icon {
-      font-size: 2.5rem;
-      color: var(--text-color);
-      cursor: pointer;
-      margin-left: 2rem;
-    }
+        .navbar a {
+            margin-left: 2rem;
+            font-size: 1.6rem;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: 0.3s;
+        }
 
-    .articles-hero {
-      margin-top: 120px;
-      min-height: 50vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background: var(--second-bg-color);
-      padding: 10rem 5% 5rem;
-    }
+        .navbar a:hover,
+        .navbar a.active {
+            color: var(--main-color);
+        }
 
-    .articles-hero .heading {
-      font-size: 5rem;
-      margin-bottom: 1rem;
-      color: var(--text-color);
-    }
+        #menu-icon,
+        #darkMode-icon {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            margin-left: 2rem;
+            transition: color 0.3s ease;
+        }
 
-    .articles-hero .heading span {
-      color: var(--main-color);
-    }
+        #darkMode-icon:hover,
+        #menu-icon:hover {
+            color: var(--main-color);
+        }
 
-    .articles-hero p {
-      font-size: 1.8rem;
-      color: var(--text-color);
-      max-width: 700px;
-    }
+        /* Hide menu icon by default for desktop */
+        #menu-icon {
+            display: none;
+        }
 
-    .article-list {
-      background: var(--bg-color);
-      padding: 5rem 5% 8rem;
-    }
+        .articles-hero {
+            margin-top: 120px; /* Sesuaikan dengan tinggi header */
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: var(--second-bg-color);
+            padding: 10rem 5% 5rem;
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
 
-    .article-list .heading {
-      text-align: center;
-      font-size: 4rem;
-      margin-bottom: 3rem;
-      color: var(--text-color);
-    }
+        .articles-hero .heading {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
 
-    .article-list .heading span {
-      color: var(--main-color);
-    }
+        .articles-hero .heading span {
+            color: var(--main-color);
+        }
 
-    .article-list .article-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+        .articles-hero p {
+            font-size: 1.8rem;
+            color: var(--text-color);
+            max-width: 700px;
+        }
 
-    .article-box {
-      background: var(--second-bg-color);
-      border-radius: 1rem;
-      box-shadow: 0 0 1rem var(--main-color);
-      overflow: hidden;
-      transition: transform .3s ease;
-    }
+        .article-list {
+            background: var(--bg-color);
+            padding: 5rem 5% 8rem;
+            min-height: calc(100vh - 120px - 80px); /* Adjust min-height to push footer down */
+        }
 
-    .article-box:hover {
-      transform: translateY(-0.8rem);
-      box-shadow: 0 0 2rem var(--main-color);
-    }
+        .article-list .heading {
+            text-align: center;
+            font-size: 4rem;
+            margin-bottom: 3rem;
+            color: var(--text-color);
+        }
 
-    .article-box img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-    }
+        .article-list .heading span {
+            color: var(--main-color);
+        }
 
-    .article-content {
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
+        .article-list .article-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    .article-content h4 {
-      font-size: 2.2rem;
-      margin-bottom: 0.8rem;
-      color: var(--text-color);
-    }
+        .article-box {
+            background: var(--second-bg-color);
+            border-radius: 1rem;
+            box-shadow: 0 0 1rem var(--shadow-color); /* Menggunakan shadow-color */
+            overflow: hidden;
+            transition: transform .3s ease, box-shadow .3s ease;
+            display: flex;
+            flex-direction: column; /* Ensure content stacks vertically */
+        }
 
-    .article-content p {
-      font-size: 1.3rem;
-      flex-grow: 1;
-      color: var(--text-color);
-      margin-bottom: 1.5rem;
-    }
+        .article-box:hover {
+            transform: translateY(-0.8rem);
+            box-shadow: 0 0 2rem var(--main-color); /* Contoh hover effect */
+        }
 
-    .article-btn {
-      padding: 1rem 2rem;
-      background: var(--main-color);
-      color: white;
-      border-radius: 0.8rem;
-      text-decoration: none;
-      font-size: 1.5rem;
-      font-weight: 600;
-      align-self: flex-start;
-      transition: background 0.3s ease;
-    }
+        .article-box img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
 
-    .article-btn:hover {
-      background: var(--text-color);
-      color: var(--main-color);
-    }
+        .article-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; /* Allow content to grow and push button down */
+        }
+
+        .article-content h4 {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-color);
+        }
+
+        .article-content p {
+            font-size: 1.3rem;
+            flex-grow: 1; /* Allow paragraph to grow */
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .article-btn {
+            display: inline-block; /* Agar bisa pakai padding dan margin auto */
+            padding: 1rem 2rem;
+            background: var(--main-color);
+            color: var(--white-color); /* Asumsi white-color sudah didefinisikan di style.css */
+            border-radius: 0.8rem;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            align-self: flex-start; /* Align button to start of flex item */
+            transition: background 0.3s ease, color 0.3s ease;
+            margin-top: auto; /* Push button to the bottom */
+        }
+
+        .article-btn:hover {
+            background: var(--text-color); /* Menggunakan text-color untuk hover */
+            color: var(--main-color);
+        }
+
+        /* Footer - Pastikan ini konsisten dengan style.css */
         .footer {
-      background: #3f6399;
-      color: #1b1c1d;
-      padding: 2rem 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
-    }
+            background: var(--main-color); /* Menggunakan variabel */
+            color: var(--white-color); /* Menggunakan variabel untuk teks di footer */
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 -2px 8px var(--shadow-color); /* Menggunakan shadow-color */
+            min-height: 80px; /* Tambahkan min-height agar footer terlihat */
+        }
 
-    .footer-iconTop a {
-      color: #3f6399;
-    }
+        .footer-text p {
+            font-size: 1.6rem;
+            color: var(--white-color);
+        }
 
-    .footer-iconTop a:hover {
-      color: #3f6399;
-    }
+        .footer-links a {
+            color: var(--white-color);
+            text-decoration: none;
+            margin: 0 5px;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: var(--text-color);
+        }
 
-    .floating-back-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background-color: #79bbb8;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    text-decoration: none;
-    z-index: 1000;
-    transition: background 0.3s, transform 0.2s;
-    }
 
-    .floating-back-btn:hover {
-    background-color: #3f6399;
-    transform: scale(1.1);
-    }
+        .footer-iconTop {
+            display: flex; /* Ensure it's a flex container */
+            gap: 1rem; /* Space between items */
+        }
 
-    @media (max-width: 768px) {
-      .articles-hero .heading {
-        font-size: 4rem;
-      }
-      .articles-hero p {
-        font-size: 1.6rem;
-      }
-      .article-list .article-container {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      }
-    }
+        .footer-iconTop a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: .8rem;
+            background: var(--white-color); /* Contoh background ikon */
+            border-radius: .8rem;
+            border: .2rem solid var(--white-color);
+            outline: .2rem solid transparent;
+            transition: .5s ease;
+            width: 4.5rem;
+            height: 4.5rem;
+        }
 
-    #darkMode-icon {
-    font-size: 2rem;
-    color: var(--text-color); /* Sesuai warna teks agar terlihat */
-    cursor: pointer;
-    margin-left: 2rem;
-    transition: color 0.3s;
-  }
+        .footer-iconTop a i {
+            font-size: 2.4rem;
+            color: var(--main-color); /* Warna ikon */
+        }
 
-  #darkMode-icon:hover {
-    color: var(--main-color);
-  }
+        .footer-iconTop a:hover {
+            outline-color: var(--white-color);
+            transform: translateY(-2px);
+            background: var(--main-color); /* Example: background changes on hover */
+        }
+        .footer-iconTop a:hover i {
+            color: var(--white-color);
+        }
 
-  </style>
+
+        .floating-back-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--main-color); /* Menggunakan main-color */
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            text-decoration: none;
+            z-index: 1000;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .floating-back-btn:hover {
+            background-color: var(--text-color); /* Konsisten dengan text-color */
+            transform: scale(1.1);
+        }
+
+        /* Responsive Design for articles-page */
+        @media (max-width: 768px) {
+            .header {
+                padding: 2rem 3%;
+            }
+            .articles-hero {
+                margin-top: 80px; /* Adjust for smaller header on mobile */
+                padding: 8rem 3% 3rem;
+            }
+            .articles-hero .heading {
+                font-size: 4rem;
+            }
+            .articles-hero p {
+                font-size: 1.6rem;
+            }
+            .article-list {
+                padding: 3rem 3% 6rem;
+            }
+            .article-list .heading {
+                font-size: 3.5rem;
+                margin-bottom: 2rem;
+            }
+            .article-list .article-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 2rem;
+            }
+            .navbar {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 1rem 3%;
+                background: var(--second-bg-color);
+                border-top: .1rem solid var(--shadow-color);
+                box-shadow: 0 .5rem 1rem var(--shadow-color);
+                display: none; /* Hidden by default */
+                flex-direction: column;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+                pointer-events: none;
+                z-index: 99;
+            }
+            .navbar.active {
+                display: flex; /* Show when active */
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+            .navbar a {
+                margin: 1.5rem 0;
+                text-align: center;
+                border-bottom: 1px solid rgba(0,0,0,0.1);
+                padding-bottom: 1rem;
+            }
+            .navbar a:last-child {
+                border-bottom: none;
+            }
+            #menu-icon {
+                display: block; /* Show menu icon on mobile */
+            }
+            #darkMode-icon {
+                position: static; /* Let it flow with other items */
+                margin-left: auto; /* Push it to the right */
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-text {
+                margin-bottom: 1rem;
+            }
+            .footer-iconTop {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 450px) {
+            html {
+                font-size: 50%; /* Scale down base font more */
+            }
+            .articles-hero .heading {
+                font-size: 3.5rem;
+            }
+            .articles-hero p {
+                font-size: 1.4rem;
+            }
+            .article-list .heading {
+                font-size: 3rem;
+            }
+            .article-list .article-container {
+                grid-template-columns: 1fr; /* Single column for very small screens */
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <header class="header">
-    <a href="index.html" class="logo">YesZie</a>
-    <nav class="navbar">
-      <a href="index.html#home">Home</a>
-      <a href="articles.html" class="active">Articles</a>
-      <a href="contact.html">Contact</a>
-      <a href="login.html">Sign In</a>
-    </nav>
-    <i class='bx bx-moon' id="darkMode-icon"></i>
-     <i class="bx bx-menu" id="menu-icon"></i>
-  </header>
-  <div class="articles-hero">
-    <h1 class="heading">My <span>Articles</span></h1>
-    <p>Explore my thoughts, tutorials, and insights on various topics.</p>
-  </div>
+    <header class="header">
+        <a href="index.html" class="logo">YesZie</a>
+        <nav class="navbar">
+            <a href="index.html#home">Home</a>
+            <a href="articles.html" class="active">Articles</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html">Sign In</a>
+        </nav>
+        <i class='bx bx-moon' id="darkMode-icon"></i>
+        <i class="bx bx-menu" id="menu-icon"></i>
+    </header>
 
-  <section class="article-list" id="articles">
-    <div class="article-container">
-      <div class="article-box">
-        <img src="images/user booking.jpg" alt="Article 1 Thumbnail">
-        <div class="article-content">
-          <h4>APK Reservasi Booking PS</h4>
-          <p>Artikel ini membahas tentang bagaimana struktur dari pembuatan dan perancangan aplikasi ini di bangun</p>
-        </div>
-      </div>
-
-      <div class="article-box">
-        <img src="images/pohon nyatoh.jpeg" alt="Article 2 Thumbnail">
-        <div class="article-content">
-          <h4>Augmented Reality - BanyanTree</h4>
-          <p>Mempelajari </p>
-        </div>
-      </div>
-
-      <div class="article-box">
-        <img src="images/Pencarian Dokter (1).jpg" alt="Article 3 Thumbnail">
-        <div class="article-content">
-          <h4>Desain UI/UX APK Website Konsultasi Dokter</h4>
-          <p>Panduan awal untuk memahami dasar-dasar JavaScript, termasuk variabel, tipe data, fungsi, dan DOM manipulation untuk interaktivitas.</p>
-        </div>
-      </div>
-
-      <div class="article-box">
-        <img src="images/tbfo.jpeg" alt="Article 4 Thumbnail">
-        <div class="article-content">
-          <h4>Machine Turing</h4>
-          <p>Kumpulan tips praktis</p>
-        </div>
-      </div>
+    <div class="articles-hero">
+        <h1 class="heading">My <span>Articles</span></h1>
+        <p>Explore my thoughts, tutorials, and insights on various topics.</p>
     </div>
-  </section>
 
-  <footer class="footer">
-    <div class="footer-text">
-      <p>Made by © Grayesi Silitonga | All Rights Reserved.</p>
-    </div>
-   <div class="footer-iconTop">
-    <a href="index.html" class="floating-back-btn" title="Kembali ke Beranda"><i class='bx bx-left-arrow-alt'></i></a>
-    </div>
-  </footer>
+    <section class="article-list" id="articles"> <div class="article-container">
+            Loading articles...
+        </div>
+    </section>
 
-  <script src="https://unpkg.com/scrollreveal"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-  <script src="js/script.js"></script>
-  <script>
-    ScrollReveal().reveal('.articles-hero, .article-box', { origin: 'top', distance: '50px', duration: 800, delay: 100 });
- const menuIcon = document.querySelector('#menu-icon');
-  const navbar = document.querySelector('.navbar');
+    <footer class="footer">
+        <div class="footer-text">
+            <p>Made by © Grayesi Silitonga | All Rights Reserved.</p>
+        </div>
+        <div class="footer-iconTop">
+            <a href="index.html" class="floating-back-btn" title="Kembali ke Beranda"><i class='bx bx-left-arrow-alt'></i></a>
+        </div>
+    </footer>
 
-  menuIcon.onclick = () => {
-    navbar.classList.toggle('active');
-  };
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="js/script.js"></script>
 
-  const darkModeIcon = document.querySelector('#darkMode-icon');
+    <script>
+        // Supabase Init
+        const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+        // Inisialisasi Supabase client DARI window.supabase yang disediakan oleh CDN
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  darkModeIcon.onclick = () => {
-    document.body.classList.toggle('dark-mode');
-    darkModeIcon.classList.toggle('bx-sun');
-    darkModeIcon.classList.toggle('bx-moon');
-  };  
-  </script>
+        // Inisialisasi Swiper (jika digunakan di halaman ini, meskipun artikel tidak pakai Swiper)
+        let swiper;
+
+        // DOM Loaded
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Memuat data awal untuk setiap bagian
+            // Artikel kini dimuat juga
+            await loadSection('about_me', 'about', renderAboutMe); // Ini mungkin tidak relevan untuk articles.html kecuali jika Anda punya section "about" di sini
+            await loadSection('projects', 'project', renderProject); // Ini mungkin tidak relevan untuk articles.html
+            await loadSection('experience', 'experience', renderExperience); // Ini mungkin tidak relevan untuk articles.html
+            await loadSection('activity', 'activity', renderActivity); // Ini mungkin tidak relevan untuk articles.html
+
+            // PENTING: Panggil fungsi untuk memuat artikel
+            await loadSection('articles', 'articles', renderArticles); // Asumsi ada tabel 'articles' di Supabase
+
+            // Mendengarkan perubahan realtime untuk setiap bagian
+            listenRealtime('about_me', 'about', renderAboutMe);
+            listenRealtime('projects', 'project', renderProject);
+            listenRealtime('experience', 'experience', renderExperience);
+            listenRealtime('activity', 'activity', renderActivity);
+            listenRealtime('articles', 'articles', renderArticles); // Untuk artikel
+        });
+
+        // Load Section - Memuat data dari Supabase dan merendernya
+        async function loadSection(table, sectionId, renderer) {
+            const { data, error } = await supabase.from(table).select('*');
+            if (error) {
+                console.error(`Error fetching ${table}:`, error);
+                return;
+            }
+
+            const container = document.getElementById(sectionId);
+            if (!container) {
+                console.warn(`Container with ID '${sectionId}' not found for table '${table}'.`);
+                return;
+            }
+
+            // Halaman articles.html hanya fokus pada articles-list
+            if (sectionId === 'articles') {
+                const articleContainerDiv = container.querySelector('.article-container');
+                if (articleContainerDiv) {
+                    articleContainerDiv.innerHTML = renderer(data);
+                } else {
+                    console.warn(`Div with class 'article-container' not found inside section '#articles'.`);
+                }
+            } else if (sectionId === 'activity') {
+                const testimonialWrapper = container.querySelector('.testimonial-wrapper');
+                if (testimonialWrapper) {
+                    testimonialWrapper.innerHTML = renderer(data);
+                    initializeSwiper();
+                } else {
+                    console.warn(`Div with class 'testimonial-wrapper' not found inside section '#activity'.`);
+                }
+            }
+            // Tambahkan logika lain jika sectionId lain perlu di-render di halaman ini
+            // Namun, untuk articles.html, umumnya Anda hanya perlu 'articles'.
+            // Fungsi renderAboutMe, renderProject, renderExperience, renderActivity
+            // kemungkinan besar hanya relevan di index.html, tapi tidak masalah jika ada di sini selama tidak dipanggil.
+        }
+
+        // Initialize Swiper (Tetap biarkan jika ada kemungkinan Swiper digunakan untuk hal lain di masa depan)
+        function initializeSwiper() {
+            if (swiper) {
+                swiper.destroy(true, true);
+            }
+            swiper = new Swiper(".mySwiper", {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                loop: true,
+                grabCursor: true,
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                breakpoints: {
+                    0: {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                    },
+                },
+            });
+        }
+
+        // Realtime Listener
+        function listenRealtime(table, sectionId, renderer) {
+            supabase
+                .channel(`realtime:${table}`)
+                .on('postgres_changes', { event: '*', schema: 'public', table }, (payload) => {
+                    console.log(`Realtime change detected in ${table}:`, payload);
+                    loadSection(table, sectionId, renderer);
+                })
+                .subscribe();
+        }
+
+        // Render About Me (Jika diperlukan di halaman ini)
+        function renderAboutMe(data) {
+            // ... (kode Anda yang sudah ada) ...
+        }
+
+        // Render Project (Jika diperlukan di halaman ini)
+        function renderProject(data) {
+            // ... (kode Anda yang sudah ada) ...
+        }
+
+        // Render Experience (Jika diperlukan di halaman ini)
+        function renderExperience(data) {
+            // ... (kode Anda yang sudah ada) ...
+        }
+
+        // Render Activity (Jika diperlukan di halaman ini)
+        function renderActivity(data) {
+            // ... (kode Anda yang sudah ada) ...
+        }
+
+        // --- FUNGSI BARU UNTUK RENDER ARTIKEL ---
+        function renderArticles(data) {
+            if (!data || data.length === 0) {
+                return '<p style="text-align: center; font-size: 1.8rem; color: var(--text-color);">No articles found.</p>';
+            }
+            return data.map(item => `
+                <div class="article-box">
+                    <img src="${item.image_url || 'https://via.placeholder.com/220x220?text=No+Image'}" alt="${item.title || 'Article Thumbnail'}">
+                    <div class="article-content">
+                        <h4>${item.title || 'Untitled Article'}</h4>
+                        <p>${item.description || 'No description provided.'}</p>
+                        <a href="${item.link || '#'}" class="article-btn">Read More</a>
+                    </div>
+                </div>`).join('');
+        }
+
+        // Dark Mode Toggle
+        const darkModeIcon = document.querySelector('#darkMode-icon');
+        const body = document.body;
+        const menuIcon = document.querySelector('#menu-icon');
+        const navbar = document.querySelector('.navbar');
+
+        // Simpan preferensi di localStorage
+        if (localStorage.getItem('dark-mode') === 'enabled') {
+            body.classList.add('dark-mode');
+        }
+
+        darkModeIcon.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('dark-mode', 'enabled');
+            } else {
+                localStorage.setItem('dark-mode', 'disabled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        menuIcon.addEventListener('click', () => {
+            navbar.classList.toggle('active');
+            menuIcon.classList.toggle('bx-x'); // Mengubah ikon menjadi 'x' saat aktif
+        });
+
+        // Close navbar when a link is clicked (for smooth scroll)
+        document.querySelectorAll('.navbar a').forEach(link => {
+            link.addEventListener('click', () => {
+                navbar.classList.remove('active');
+                menuIcon.classList.remove('bx-x');
+            });
+        });
+
+        // Sticky Header (If you want it on articles page)
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('sticky', window.scrollY > 100);
+        });
+
+        // Floating back button visibility
+        const floatingBackBtn = document.querySelector('.floating-back-btn');
+        if (floatingBackBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 200) { // Show after scrolling 200px
+                    floatingBackBtn.style.display = 'flex';
+                    floatingBackBtn.style.opacity = '1';
+                } else {
+                    floatingBackBtn.style.opacity = '0';
+                    floatingBackBtn.style.display = 'none';
+                }
+            });
+            // Initial check
+            if (window.scrollY > 200) {
+                floatingBackBtn.style.display = 'flex';
+                floatingBackBtn.style.opacity = '1';
+            } else {
+                floatingBackBtn.style.opacity = '0';
+                floatingBackBtn.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
