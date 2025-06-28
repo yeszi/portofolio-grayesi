@@ -115,30 +115,37 @@ function renderProject(data) {
         </div>`).join('');
 }
 
-// Render Activity
-function renderActivity(data) {
-    const container = document.querySelector('.testimonial-wrapper');
-    container.innerHTML = data.map(act => `
-        <div class="testimonial-slide">
-            <img src="${act.image_url}" alt="${act.title}">
-            <h3>${act.title}</h3>
-            <p>${act.description}</p>
-            ${act.hashtag ? `<p>${act.hashtag}</p>` : ''}
-        </div>
-    `).join('');
-}
 // Render Experience
 function renderExperience(data) {
-    const container = document.querySelector('.experience-container');
-    container.innerHTML = data.map(exp => `
+    return data.map(item => `
         <div class="experience-box">
-            <img src="${exp.image_url}" alt="${exp.title}">
-            <h4>${exp.title}</h4>
-            <p>${exp.description}</p>
-        </div>
-    `).join('');
+            <img src="${item.image_url}" alt="${item.title}">
+            <div class="portfolio-layer">
+                <h4>${item.title}</h4>
+                <p>${item.description}</p>
+            </div>
+        </div>`).join('');
 }
 
+// Render Activity
+function renderActivity(data) {
+    return `
+        <div class="testimonial-box mySwiper">
+            <div class="testimonial-content swiper-wrapper">
+                ${data.map(act => `
+                    <div class="testimonial-slide swiper-slide">
+                        ${(act.image_url || '').split(',').map(url => `<img src="${url.trim()}" alt="${act.title}">`).join('')}
+                        <h3>${act.title}</h3>
+                        <p>${act.description}</p>
+                        ${act.hashtag ? `<p>${act.hashtag}</p>` : ''}
+                    </div>
+                `).join('')}
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>`;
+}
 
 // Dark Mode Toggle
 const darkModeIcon = document.querySelector('#darkMode-icon');
