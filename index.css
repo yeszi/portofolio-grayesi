@@ -549,7 +549,7 @@ span {
 .testimonial-wrapper {
     display: flex;
     overflow-x: auto; /* Enable horizontal scrolling */
-    gap: 2rem; /* Space between cards */
+    gap: 1.5rem; /* Space between cards */
     padding: 1rem; /* Optional padding */
     /* Untuk hide scrollbar di beberapa browser: */
     scrollbar-width: none;  /* Firefox */
@@ -563,10 +563,9 @@ span {
     display: none; /* Chrome, Safari, Opera */
 }
 
-
 .testimonial-slide {
     /* Mengubah properti ini untuk ukuran yang sama rata */
-    flex: 0 0 320px; /* Tetapkan lebar tetap untuk setiap slide, contoh: 320px */
+    flex: 0 0 290px; /* Tetapkan lebar tetap untuk setiap slide, contoh: 320px */
                      /* flex-grow: 0 (jangan membesar), flex-shrink: 0 (jangan menyusut), flex-basis: 320px (lebar dasar) */
     /* ATAU (jika Anda ingin menyesuaikan lebar berdasarkan ruang yang tersedia, tapi kurang "sama rata") */
     /* flex: 1 1 300px; /* Fleksibel tapi dengan lebar dasar 300px, akan membesar/mengecil sesuai ruang */
