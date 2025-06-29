@@ -7,17 +7,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    :root {
-      --primary-bg: #273760;
-      --secondary-bg: #1f2a40;
-      --accent-color: #89c3f3;
-      --purple-accent: #aa80c7;
-      --text-color: #f7f7f7;
-      --input-bg: #3a4a70;
-      --button-primary: #aa80c7;
-      --button-hover-primary: #896aa3;
-      --button-logout: #dc3545;
-      --button-hover-logout: #c82333;
+     :root {
+      --primary-bg: #20232a;
+      --secondary-bg: #282c34;
+      --accent-color: #61dafb;
+      --purple-accent: #bb86fc;
+      --text-color: #ffffff;
+      --input-bg: #3a3f4b;
+      --button-primary: #03dac5;
+      --button-hover-primary: #018786;
+      --button-logout: #e53935;
+      --button-hover-logout: #b71c1c;
     }
 
     * {
@@ -40,7 +40,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
     header .logo {
@@ -54,57 +54,61 @@
       background-color: var(--primary-bg);
       padding: 15px 0;
       text-align: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     }
 
     nav.main-nav a {
       color: var(--text-color);
-      margin: 0 15px;
+      margin: 0 20px;
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     nav.main-nav a:hover,
     nav.main-nav a.active {
-      color: var(--purple-accent);
+      background-color: var(--accent-color);
+      color: #000;
     }
 
     .container {
       flex-grow: 1;
       padding: 40px 20px;
-      max-width: 900px;
-      margin: 20px auto;
-      background-color: var(--secondary-bg);
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      max-width: 1100px;
+      margin: 30px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
     }
 
     section {
       background-color: var(--primary-bg);
-      padding: 30px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     h2 {
       color: var(--accent-color);
-      margin-top: 0;
-      font-size: 1.6rem;
-      margin-bottom: 25px;
+      font-size: 1.4rem;
       text-align: center;
+      margin-bottom: 15px;
     }
 
     input, textarea {
       width: 100%;
       margin: 10px 0;
-      padding: 12px 15px;
+      padding: 12px 16px;
       border-radius: 8px;
       border: 1px solid var(--input-bg);
       background-color: var(--input-bg);
       color: var(--text-color);
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     input[type="file"] {
@@ -116,7 +120,7 @@
 
     input[type="file"]::file-selector-button {
       background-color: var(--purple-accent);
-      color: black;
+      color: #000;
       padding: 8px 12px;
       border: none;
       border-radius: 5px;
@@ -129,15 +133,15 @@
 
     button {
       width: 100%;
-      margin: 20px 0 10px 0;
-      padding: 12px 20px;
+      margin-top: 15px;
+      padding: 12px;
       border-radius: 8px;
       border: none;
       background-color: var(--button-primary);
-      color: black;
+      color: #000;
       font-weight: 600;
       cursor: pointer;
-      font-size: 1.1rem;
+      font-size: 1rem;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
@@ -150,9 +154,9 @@
       background-color: var(--secondary-bg);
       color: var(--text-color);
       text-align: center;
-      padding: 15px;
+      padding: 20px;
       margin-top: auto;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
     }
   </style>
 </head>
@@ -220,7 +224,7 @@
 </div>
 
 <footer>
-  &copy; 2025_YesZie Admin Panel
+  &copy; 2025_YesZie Admin Panel &copy;
 </footer>
 
 <script>
