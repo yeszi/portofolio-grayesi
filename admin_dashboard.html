@@ -1,202 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Admin Dashboard - YesZie</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script> <style>
-        :root {
-  --primary-bg: #1e1e2f;
-  --secondary-bg: #2a2f45;
-  --accent-color: #4fc3f7;
-  --danger-color: #e74c3c;
-  --text-color: #ffffff;
-  --card-bg: #32394f;
-  --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  --radius: 12px;
-  --transition: all 0.3s ease;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - YesZie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    :root {
+      --primary-bg: #1e1e2f;
+      --secondary-bg: #2a2f45;
+      --accent-color: #4fc3f7;
+      --danger-color: #e74c3c;
+      --text-color: #ffffff;
+      --card-bg: #32394f;
+      --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      --radius: 12px;
+      --transition: all 0.3s ease;
+    }
 
-* {
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-}
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-body {
-  background-color: var(--primary-bg);
-  color: var(--text-color);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+    body {
+      background-color: var(--primary-bg);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-header {
-  background-color: var(--secondary-bg);
-  padding: 20px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: var(--shadow);
-}
+    header {
+      background-color: var(--secondary-bg);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
 
-.logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: var(--accent-color);
-  text-decoration: none;
-}
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--accent-color);
+      text-decoration: none;
+    }
 
-.container {
-  flex-grow: 1;
-  padding: 40px 20px;
-  max-width: 1000px;
-  margin: 30px auto;
-  background-color: var(--secondary-bg);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
+    .container {
+      flex-grow: 1;
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: 30px auto;
+      background-color: var(--secondary-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
 
-h2 {
-  text-align: center;
-  color: var(--accent-color);
-  font-size: 2rem;
-  margin-bottom: 30px;
-}
+    h2 {
+      text-align: center;
+      color: var(--accent-color);
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
 
-.admin-options {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
-}
+    .admin-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+    }
 
-.admin-options a,
-.admin-options button {
-  background-color: var(--card-bg);
-  color: var(--text-color);
-  padding: 30px 20px;
-  text-decoration: none;
-  border: none;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  text-align: center;
-  transition: var(--transition);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  cursor: pointer;
-}
+    .admin-options a,
+    .admin-options button {
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      padding: 30px 20px;
+      text-decoration: none;
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
-.admin-options a:hover,
-.admin-options button:hover {
-  transform: translateY(-5px);
-  background-color: #3b4262;
-}
+    .admin-options a:hover,
+    .admin-options button:hover {
+      transform: translateY(-5px);
+      background-color: #3b4262;
+    }
 
-.admin-options a span,
-.admin-options button span {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
+    .admin-options a span,
+    .admin-options button span {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
 
-.admin-options button.logout {
-  background-color: var(--danger-color);
-  color: white;
-}
+    .admin-options button.logout {
+      background-color: var(--danger-color);
+      color: white;
+    }
 
-.admin-options button.logout:hover {
-  background-color: #c0392b;
-}
+    .admin-options button.logout:hover {
+      background-color: #c0392b;
+    }
 
-footer {
-  background-color: var(--secondary-bg);
-  color: var(--text-color);
-  text-align: center;
-  padding: 15px;
-  margin-top: auto;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-}
-</style>
+    footer {
+      background-color: var(--secondary-bg);
+      color: var(--text-color);
+      text-align: center;
+      padding: 15px;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    }
+  </style>
 </head>
 <body onload="window.location.hash = '#home'">
-    <header>
-        <a href="#" class="logo">Dashboard YesZie</a>
-    </header>
+  <header>
+    <a href="#" class="logo">Dashboard YesZie</a>
+  </header>
 
-    <div class="container">
-        <section id="home">
-            <h2>🤓 Hai Yess!! 🤓</h2>
-            <div class="admin-options">
-                <a href="edit.html">
-                    <span>✏️</span>
-                    Edit Content
-                </a>
-                <a href="tambah.html">
-                    <span>➕</span>
-                    Add New Content
-                </a>
-                <a href="form.html">
-                    <span>📩</span>
-                    Form
-                </a>
-                <button onclick="logout()" class="logout">
-                    <span>👋</span>
-                    Log Out
-                </button>
-            </div>
-        </section>
+  <div class="container">
+    <section id="home">
+      <h2>🤓 Hai Yess!! 🤓</h2>
+      <div class="admin-options">
+        <a href="edit.html">
+          <span>✏️</span>
+          Edit Content
+        </a>
+        <a href="tambah.html">
+          <span>➕</span>
+          Add New Content
+        </a>
+        <a href="form.html">
+          <span>📩</span>
+          Form
+        </a>
+        <button onclick="logout()" class="logout">
+          <span>👋</span>
+          Log Out
+        </button>
+      </div>
+    </section>
+  </div>
 
-    <footer>
-        &copy; 2025 YesZie Admin Panel &copy;
-    </footer>
+  <footer>
+    &copy; 2025 YesZie Admin Panel &copy;
+  </footer>
 
-    <script>
-        const supabase = window.supabase.createClient(
-            'https://owqdtbzhnxbxdsjrlzsa.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA'
-        );
+  <script>
+    const supabase = window.supabase.createClient(
+      'https://owqdtbzhnxbxdsjrlzsa.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA'
+    );
 
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            console.log("Current session data on dashboard:", session);
-            const email = session?.user?.email;
-            if (!session || email !== "grayesi.silitonga@gmail.com") {
-                alert("Akses ditolak. Silakan login kembali.");
-                window.location.href = "login.html";
-            } else {
-                console.log("Pengguna terautentikasi:", email);
-            }
-        }).catch(err => {
-            console.error("Error fetching session on dashboard:", err);
-            alert("Terjadi kesalahan saat memverifikasi sesi. Silakan coba lagi.");
-            window.location.href = "login.html";
-        });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("Current session data on dashboard:", session);
+      const email = session?.user?.email;
+      if (!session || email !== "grayesi.silitonga@gmail.com") {
+        alert("Akses ditolak. Silakan login kembali.");
+        window.location.href = "login.html";
+      } else {
+        console.log("Pengguna terautentikasi:", email);
+      }
+    }).catch(err => {
+      console.error("Error fetching session on dashboard:", err);
+      alert("Terjadi kesalahan saat memverifikasi sesi. Silakan coba lagi.");
+      window.location.href = "login.html";
+    });
 
-        // Fungsi Logout
-        async function logout() {
-            console.log("Fungsi logout dipanggil dari admin_dashboard.html.");
-            try {
-                const { error } = await supabase.auth.signOut();
+    async function logout() {
+      console.log("Fungsi logout dipanggil dari admin_dashboard.html.");
+      try {
+        const { error } = await supabase.auth.signOut();
 
-                if (error) {
-                    console.error('Error during logout:', error.message);
-                    alert('Gagal logout: ' + error.message);
-                } else {
-                    console.log("Logout berhasil. Mengarahkan ke login.html.");
-                    window.location.href = "login.html"; // Ini adalah redirect yang benar
-                }
-            } catch (e) {
-                console.error("Unexpected error in logout function (admin_dashboard.html):", e);
-                alert("Terjadi kesalahan tak terduga saat logout.");
-            }
+        if (error) {
+          console.error('Error during logout:', error.message);
+          alert('Gagal logout: ' + error.message);
+        } else {
+          console.log("Logout berhasil. Mengarahkan ke login.html.");
+          window.location.href = "login.html";
         }
-
-        // --- Fungsi-fungsi lain dari halaman lain tidak perlu ada di sini, kecuali jika memang digunakan di halaman ini ---
-        // Contoh: Jika Anda memanggil `loadProjects()` di halaman ini, maka fungsi `loadProjects` harus didefinisikan di sini.
-        // Jika tidak, hapus panggilan atau definisinya untuk menghindari error "function not found".
-    </script>
+      } catch (e) {
+        console.error("Unexpected error in logout function (admin_dashboard.html):", e);
+        alert("Terjadi kesalahan tak terduga saat logout.");
+      }
+    }
+  </script>
 </body>
 </html>
