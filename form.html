@@ -112,13 +112,15 @@
     .item .button-group button {
       flex: 1;
       margin: 0;
-    }
-
-    .item .button-group .delete-btn {
       background-color: var(--button-logout);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
     }
 
-    .item .button-group .delete-btn:hover {
+    .item .button-group button:hover {
       background-color: var(--button-hover-logout);
     }
 
@@ -143,7 +145,6 @@
   <a href="admin_dashboard.html">Dashboard</a>
   <a href="tambah.html">Add New Content</a>
   <a href="edit.html">Edit Other Content</a>
-  <a href="index.html" onclick="logout()">Log Out</a>
 </nav>
 
 <div class="container">
@@ -158,102 +159,88 @@
 </footer>
 
 <script>
-  const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  supabaseClient.auth.getSession().then(({ data: { session } }) => {
-    if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
-      alert("Akses ditolak. Silakan login kembali.");
+  let currentUserEmail = null;
+
+  // ✅ Cek login dan dapatkan user email
+  async function checkAdmin() {
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) {
+      alert("Kamu harus login sebagai admin.");
       window.location.href = "login.html";
+      return;
     }
-  }).catch(err => {
-    console.error("Error fetching session:", err);
-    alert("Terjadi kesalahan saat memverifikasi sesi. Silakan coba lagi.");
-    window.location.href = "login.html";
-  });
 
-  async function logout() {
-    try {
-      const { error } = await supabaseClient.auth.signOut();
-      if (error) {
-        console.error('Error during logout:', error.message);
-        alert('Gagal logout: ' + error.message);
-      } else {
-        window.location.href = "login.html";
-      }
-    } catch (e) {
-      console.error("Unexpected error in logout function:", e);
-      alert("Terjadi kesalahan tak terduga saat logout.");
+    currentUserEmail = data.user.email;
+
+    // Hanya admin yang bisa lanjut
+    if (currentUserEmail !== "grayesi.silitonga@gmail.com") {
+      alert("Kamu bukan admin!");
+      window.location.href = "login.html";
+      return;
     }
+
+    fetchContactMessages();
   }
 
+  // ✅ Ambil data pesan
   async function fetchContactMessages() {
     const container = document.getElementById('contact-messages');
-    if (!container) return;
-
     container.innerHTML = 'Memuat pesan...';
 
-    try {
-      const { data, error } = await supabaseClient
-        .from('contact_messages')
-        .select('*')
-        .order('created_at', { ascending: false });
+    const { data, error } = await supabase
+      .from('contact_messages')
+      .select('*')
+      .order('created_at', { ascending: false });
 
-      if (error) {
-        container.innerHTML = `<p style="color:red">Gagal memuat pesan: ${error.message}</p>`;
-        return;
-      }
-
-      if (!data || data.length === 0) {
-        container.innerHTML = '<p style="color:#aaa;">Belum ada pesan masuk.</p>';
-        return;
-      }
-
-      container.innerHTML = '';
-      data.forEach(msg => {
-        const msgBox = document.createElement('div');
-        msgBox.classList.add('item');
-        msgBox.innerHTML = `
-          <p><strong>Nama:</strong> ${msg.name}</p>
-          <p><strong>Email:</strong> ${msg.email}</p>
-          <p><strong>Pesan:</strong><br>${msg.message}</p>
-          <div class="button-group">
-              <button class="delete-btn" onclick="deleteMessage(${msg.id})">Hapus</button>
-          </div>
-        `;
-        container.appendChild(msgBox);
-      });
-    } catch (e) {
-      container.innerHTML = `<p style="color:red">Terjadi kesalahan tak terduga saat memuat pesan.</p>`;
+    if (error) {
+      container.innerHTML = `<p style="color:red">Gagal memuat: ${error.message}</p>`;
+      return;
     }
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p style="color:#aaa;">Belum ada pesan masuk.</p>';
+      return;
+    }
+
+    container.innerHTML = '';
+    data.forEach(msg => {
+      const div = document.createElement('div');
+      div.classList.add('item');
+      div.innerHTML = `
+        <p><strong>Nama:</strong> ${msg.name}</p>
+        <p><strong>Email:</strong> ${msg.email}</p>
+        <p><strong>Pesan:</strong><br>${msg.message}</p>
+        <div class="button-group">
+          <button onclick="deleteMessage('${msg.id}')">Hapus</button>
+        </div>
+      `;
+      container.appendChild(div);
+    });
   }
 
+  // ✅ Fungsi hapus
   async function deleteMessage(id) {
-    if (!confirm("Anda yakin ingin menghapus pesan ini?")) return;
+    if (!confirm("Yakin ingin menghapus pesan ini?")) return;
 
-    try {
-      const { error } = await supabaseClient.from('contact_messages').delete().eq('id', id);
-      if (error) {
-        alert('❌ Gagal menghapus pesan: ' + error.message);
-      } else {
-        alert('✅ Pesan berhasil dihapus!');
-        fetchContactMessages();
-      }
-    } catch (e) {
-      alert("Terjadi kesalahan tak terduga saat menghapus pesan.");
+    const { error } = await supabase
+      .from('contact_messages')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      alert("❌ Gagal hapus: " + error.message);
+    } else {
+      alert("✅ Pesan berhasil dihapus!");
+      fetchContactMessages();
     }
   }
 
-  window.addEventListener('DOMContentLoaded', fetchContactMessages);
-
-  supabaseClient
-    .channel('realtime_contact_messages_listener_inbox')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_messages' }, payload => {
-      fetchContactMessages();
-    })
-    .subscribe();
+  // Jalankan saat halaman dimuat
+  window.addEventListener('DOMContentLoaded', checkAdmin);
 </script>
-
 </body>
 </html>
