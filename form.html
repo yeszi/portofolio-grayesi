@@ -14,8 +14,6 @@
       --purple-accent: #aa80c7;
       --text-color: #f7f7f7;
       --input-bg: #3a4a70;
-      --button-primary: #aa80c7;
-      --button-hover-primary: #896aa3;
       --button-logout: #dc3545;
       --button-hover-logout: #c82333;
     }
@@ -29,18 +27,15 @@
       margin: 0;
       background-color: var(--primary-bg);
       color: var(--text-color);
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
+      min-height: 100vh;
     }
 
-    header {
+    header, footer {
       background-color: var(--secondary-bg);
       padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
     }
 
     header .logo {
@@ -52,9 +47,8 @@
 
     nav {
       background-color: var(--primary-bg);
-      padding: 15px 0;
+      padding: 15px;
       text-align: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     nav a {
@@ -62,7 +56,6 @@
       margin: 0 15px;
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.3s ease;
     }
 
     nav a:hover {
@@ -73,26 +66,20 @@
       flex-grow: 1;
       padding: 40px 20px;
       max-width: 900px;
-      margin: 20px auto;
+      margin: auto;
       background-color: var(--secondary-bg);
       border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
 
     section {
       background-color: var(--primary-bg);
       padding: 30px;
       border-radius: 10px;
-      margin-bottom: 30px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 
     h2 {
-      color: var(--accent-color);
-      margin-top: 0;
-      font-size: 1.6rem;
-      margin-bottom: 25px;
       text-align: center;
+      color: var(--accent-color);
     }
 
     .item {
@@ -100,18 +87,16 @@
       padding: 15px;
       border-radius: 8px;
       margin-bottom: 15px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .item .button-group {
+      margin-top: 15px;
       display: flex;
       gap: 10px;
-      margin-top: 15px;
     }
 
     .item .button-group button {
       flex: 1;
-      margin: 0;
       background-color: var(--button-logout);
       color: white;
       border: none;
@@ -123,28 +108,18 @@
     .item .button-group button:hover {
       background-color: var(--button-hover-logout);
     }
-
-    footer {
-      background-color: var(--secondary-bg);
-      color: var(--text-color);
-      text-align: center;
-      padding: 15px;
-      margin-top: auto;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-    }
   </style>
 </head>
 <body>
 
 <header>
   <a href="admin_dashboard.html" class="logo">Admin YesZie</a>
-  <nav></nav>
 </header>
 
-<nav class="main-nav">
+<nav>
   <a href="admin_dashboard.html">Dashboard</a>
-  <a href="tambah.html">Add New Content</a>
-  <a href="edit.html">Edit Other Content</a>
+  <a href="tambah.html">Add </a>
+  <a href="edit.html">Edit</a>
 </nav>
 
 <div class="container">
@@ -155,41 +130,29 @@
 </div>
 
 <footer>
-  &copy; 2025_YesZie Admin Panel &copy;
+  &copy; 2025_YesZie Admin Panel
 </footer>
 
 <script>
     const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
   const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  let currentUserEmail = null;
-
-  // ✅ Cek login dan dapatkan user email
   async function checkAdmin() {
-    const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) {
-      alert("Kamu harus login sebagai admin.");
+    const { data, error } = await supabase.auth.getSession();
+    const session = data.session;
+    if (!session || session.user.email !== 'grayesi.silitonga@gmail.com') {
+      alert("❌ Kamu belum login sebagai admin!");
       window.location.href = "login.html";
-      return;
+    } else {
+      fetchContactMessages();
+      listenForRealtime();
     }
-
-    currentUserEmail = data.user.email;
-
-    // Hanya admin yang bisa lanjut
-    if (currentUserEmail !== "grayesi.silitonga@gmail.com") {
-      alert("Kamu bukan admin!");
-      window.location.href = "login.html";
-      return;
-    }
-
-    fetchContactMessages();
   }
 
-  // ✅ Ambil data pesan
   async function fetchContactMessages() {
     const container = document.getElementById('contact-messages');
-    container.innerHTML = 'Memuat pesan...';
+    container.innerHTML = "Loading...";
 
     const { data, error } = await supabase
       .from('contact_messages')
@@ -197,7 +160,7 @@
       .order('created_at', { ascending: false });
 
     if (error) {
-      container.innerHTML = `<p style="color:red">Gagal memuat: ${error.message}</p>`;
+      container.innerHTML = '<p style="color:red">Gagal memuat pesan.</p>';
       return;
     }
 
@@ -208,39 +171,43 @@
 
     container.innerHTML = '';
     data.forEach(msg => {
-      const div = document.createElement('div');
-      div.classList.add('item');
-      div.innerHTML = `
+      const box = document.createElement('div');
+      box.classList.add('item');
+      box.innerHTML = `
         <p><strong>Nama:</strong> ${msg.name}</p>
         <p><strong>Email:</strong> ${msg.email}</p>
         <p><strong>Pesan:</strong><br>${msg.message}</p>
         <div class="button-group">
           <button onclick="deleteMessage('${msg.id}')">Hapus</button>
-        </div>
-      `;
-      container.appendChild(div);
+        </div>`;
+      container.appendChild(box);
     });
   }
 
-  // ✅ Fungsi hapus
   async function deleteMessage(id) {
     if (!confirm("Yakin ingin menghapus pesan ini?")) return;
-
     const { error } = await supabase
       .from('contact_messages')
       .delete()
       .eq('id', id);
-
     if (error) {
-      alert("❌ Gagal hapus: " + error.message);
+      alert("❌ Gagal menghapus: " + error.message);
     } else {
       alert("✅ Pesan berhasil dihapus!");
-      fetchContactMessages();
     }
   }
 
-  // Jalankan saat halaman dimuat
-  window.addEventListener('DOMContentLoaded', checkAdmin);
+  function listenForRealtime() {
+    supabase
+      .channel('realtime:contact_messages')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_messages' }, () => {
+        fetchContactMessages(); // Refresh otomatis
+      })
+      .subscribe();
+  }
+
+  document.addEventListener('DOMContentLoaded', checkAdmin);
 </script>
+
 </body>
 </html>
