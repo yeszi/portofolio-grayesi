@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Pesan Masuk - Admin YesZie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <style>
+        :root {
+            --primary-bg: #273760; /* Dark blue/purple from user image */
+            --secondary-bg: #1f2a40; /* Slightly lighter for sections */
+            --accent-color: #89c3f3; /* Light blue accent from user image */
+            --purple-accent: #aa80c7; /* Purple accent from user image */
+            --text-color: #f7f7f7;
+            --input-bg: #3a4a70; /* Darker blue for input fields */
+            --button-primary: #aa80c7; /* Purple accent for primary buttons */
+            --button-hover-primary: #896aa3; /* Darker purple on hover */
+            --button-logout: #dc3545; /* Red for logout button */
+            --button-hover-logout: #c82333;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            margin: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: var(--secondary-bg);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        header .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        nav {
+            background-color: var(--primary-bg); /* Lighter than header for distinction */
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        nav a {
+            color: var(--text-color);
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: var(--purple-accent);
+        }
+        .container {
+            flex-grow: 1;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        section {
+            background-color: var(--primary-bg); /* Use primary for sections inside container */
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: var(--accent-color);
+            margin-top: 0;
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .item {
+            background-color: var(--input-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .item .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .item .button-group button {
+            flex: 1;
+            margin: 0; /* Override default button margin */
+        }
+        .item .button-group .delete-btn {
+            background-color: var(--button-logout); /* Use logout color for delete */
+        }
+        .item .button-group .delete-btn:hover {
+            background-color: var(--button-hover-logout);
+        }
+        footer {
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            text-align: center;
+            padding: 15px;
+            margin-top: auto; /* Pushes footer to the bottom */
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="admin_dashboard.html" class="logo">Admin YesZie</a>
+    <nav>
+    </nav>
+</header>
+
+<nav class="main-nav">
+    <a href="admin_dashboard.html">Dashboard</a>
+    <a href="tambah.html">Add New Content</a>
+    <a href="edit.html">Edit Other Content</a> <a href="index.html" onclick="logout()">Log Out</a>
+</nav>
+
+<div class="container">
+    <section>
+        <h2>Pesan Masuk (FORM LETTER)</h2>
+        <div id="contact-messages">Memuat pesan...</div>
+    </section>
+</div>
+
+<footer>
+    &copy; 2025_YesZie Admin Panel &copy;
+</footer>
+
+<script>
+    const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co'; 
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA'; // GANTI DENGAN ANON KEY SUPABASE ANDA
+      const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+    // Otentikasi: Memastikan pengguna sudah login dan merupakan admin yang benar
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+        if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
+            alert("Akses ditolak. Silakan login kembali.");
+            window.location.href = "login.html";
+        }
+    }).catch(err => {
+        console.error("Error fetching session on kontak_masuk page:", err);
+        alert("Terjadi kesalahan saat memverifikasi sesi. Silakan coba lagi.");
+        window.location.href = "login.html";
+    });
+
+    async function logout() {
+        try {
+            const { error } = await supabaseClient.auth.signOut();
+            if (error) {
+                console.error('Error during logout:', error.message);
+                alert('Gagal logout: ' + error.message);
+            } else {
+                window.location.href = "login.html";
+            }
+        } catch (e) {
+            console.error("Unexpected error in logout function:", e);
+            alert("Terjadi kesalahan tak terduga saat logout.");
+        }
+    }
+
+    // --- Fungsi untuk memuat pesan kontak ---
+    async function fetchContactMessages() {
+        const container = document.getElementById('contact-messages');
+        if (!container) {
+            console.error("Element with ID 'contact-messages' not found.");
+            return;
+        }
+        container.innerHTML = 'Memuat pesan...'; // Set loading state
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('contact_messages')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error memuat pesan kontak:', error.message);
+                container.innerHTML = `<p style="color:red">Gagal memuat pesan: ${error.message}</p>`;
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p style="color:#aaa;">Belum ada pesan masuk.</p>';
+                return;
+            }
+
+            container.innerHTML = ''; // Clear loading text
+            data.forEach(msg => {
+                const msgBox = document.createElement('div');
+                msgBox.classList.add('item');
+                msgBox.innerHTML = `
+                    <p><strong>Nama:</strong> ${msg.name}</p>
+                    <p><strong>Email:</strong> ${msg.email}</p>
+                    <p><strong>Pesan:</strong><br>${msg.message}</p>
+                    <div class="button-group">
+                        <button class="delete-btn" onclick="deleteMessage(${msg.id})">Hapus</button>
+                    </div>
+                `;
+                container.appendChild(msgBox);
+            });
+        } catch (e) {
+            console.error("Unexpected error in fetchContactMessages:", e);
+            container.innerHTML = `<p style="color:red">Terjadi kesalahan tak terduga saat memuat pesan.</p>`;
+        }
+    }
+
+    // --- Fungsi Delete Message (FORM LETTER) ---
+    async function deleteMessage(id) {
+        if (!confirm("Anda yakin ingin menghapus pesan ini?")) {
+            return;
+        }
+
+        try {
+            const { error } = await supabaseClient.from('contact_messages').delete().eq('id', id);
+            if (error) {
+                console.error('❌ Gagal menghapus pesan:', error.message);
+                alert('❌ Gagal menghapus pesan: ' + error.message);
+            } else {
+                alert('✅ Pesan berhasil dihapus!');
+                fetchContactMessages(); // Re-fetch to update the FORM LETTER section
+            }
+        } catch (e) {
+            console.error("Terjadi kesalahan tak terduga saat menghapus pesan:", e);
+            alert("Terjadi kesalahan tak terduga saat menghapus pesan.");
+        }
+    }
+
+    // Event listener DOM
+    window.addEventListener('DOMContentLoaded', () => {
+        fetchContactMessages();
+    });
+
+    // Realtime listener untuk contact_messages
+    supabaseClient
+        .channel('realtime_contact_messages_listener_inbox') // Nama channel harus unik
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_messages' }, payload => {
+            console.log('📩 Realtime update pada Pesan Masuk:', payload);
+            fetchContactMessages(); // Re-fetch data saat ada perubahan
+        })
+        .subscribe();
+
+</script>
+</body>
+</html>
