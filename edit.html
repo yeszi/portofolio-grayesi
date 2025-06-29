@@ -183,16 +183,23 @@
 <header>
     <a href="admin_dashboard.html" class="logo">Admin YesZie</a>
     <nav>
-        </nav>
+    </nav>
 </header>
 
-<nav class="main-nav"> <a href="admin_dashboard.html">Dashboard</a>
-    <a href="tambah.html">Add New Content</a> 
-    <a href="index.html" onclick="logout()">Log Out</a> </nav>
+<nav class="main-nav">
+    <a href="admin_dashboard.html">Dashboard</a>
+    <a href="tambah.html">Add New Content</a>
+    <a href="index.html" onclick="logout()">Log Out</a>
+</nav>
 
 <div class="container" id="content">
     <p style="text-align: center; color: var(--text-color);">Memuat konten...</p>
 </div>
+
+<section>
+    <h2>FORM LETTER</h2>
+    <div id="contact-messages">Loading messages...</div>
+</section>
 
 <footer>
     &copy; 2025_YesZie Admin Panel &copy;
@@ -201,7 +208,7 @@
 <script>
     const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); // PERBAIKAN INISIALISASI SUPABASE
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     // Otentikasi
     supabaseClient.auth.getSession().then(({ data: { session } }) => {
@@ -215,7 +222,6 @@
         window.location.href = "login.html";
     });
 
-    // FUNGSI LOGOUT
     async function logout() {
         try {
             const { error } = await supabaseClient.auth.signOut();
@@ -230,62 +236,68 @@
             alert("Terjadi kesalahan tak terduga saat logout.");
         }
     }
-    // AKHIR FUNGSI LOGOUT
 
-    // Konfigurasi tabel dan bucket
     const menus = [
-        { table: 'about_me', title: 'About Me', bucket: 'aboutimages', isSingular: true }, 
+        { table: 'about_me', title: 'About Me', bucket: 'aboutimages', isSingular: true },
         { table: 'projects', title: 'Projects', bucket: 'projectimages' },
         { table: 'experience', title: 'Experience', bucket: 'experienceimages' },
         { table: 'activity', title: 'My Activity', bucket: 'activityimages' },
-        { table: 'articles', title: 'My Articles', bucket: 'articleimages' } 
+        { table: 'articles', title: 'My Articles', bucket: 'articleimages' }
     ];
 
     function renderSection({ table, title, bucket, isSingular = false }) {
-        const section = document.createElement('section');
-        section.innerHTML = `<h2>${title}</h2><div id="list-${table}">Loading...</div>`;
-        document.getElementById('content').appendChild(section);
+        const contentDiv = document.getElementById('content');
+        if (!contentDiv) {
+            console.error("Element with ID 'content' not found.");
+            return;
+        }
 
-        // Panggil fetchData pertama kali saat merender section
+        const section = document.createElement('section');
+        section.innerHTML = `<h2>${title}</h2><div id="list-${table}">Memuat ${title}...</div>`;
+        contentDiv.appendChild(section);
+
         fetchData(table, bucket, isSingular);
 
-        // Langganan untuk perubahan real-time
+        // Realtime listener for each content type
         supabaseClient.channel(`realtime_${table}`)
-            .on('postgres_changes', { event: '*', schema: 'public', table: table }, payload => {
-                console.log(`Perubahan di ${table} diterima!`, payload);
-                // Panggil fetchData lagi untuk memperbarui tampilan
-                fetchData(table, bucket, isSingular);
+            .on('postgres_changes', { event: '*', schema: 'public', table }, payload => {
+                console.log(`Realtime update on ${table}:`, payload);
+                fetchData(table, bucket, isSingular); // Re-fetch data to update UI
             })
             .subscribe();
     }
 
     async function fetchData(table, bucket, isSingular) {
-        console.log(`Mengambil data untuk tabel: ${table}`);
-        const { data, error } = await supabaseClient.from(table).select('*');
-        if (error) {
-            document.getElementById(`list-${table}`).innerText = 'Error loading data: ' + error.message;
-            console.error(`Error loading data for ${table}:`, error);
-            return;
-        }
+        console.log(`Attempting to fetch data for table: ${table}`);
         const container = document.getElementById(`list-${table}`);
         if (!container) {
-            console.error(`Container for ${table} not found!`);
+            console.error(`Container for table ${table} not found.`);
             return;
         }
-        container.innerHTML = ''; 
+        container.innerHTML = 'Memuat...'; // Set loading state
 
-        const displayData = isSingular && data.length > 0 ? [data[0]] : data; 
-        if (displayData.length === 0) {
-            container.innerHTML = '<p style="text-align: center; color: #aaa;">Tidak ada item ditemukan. Tambahkan konten baru dari halaman "Tambah Konten".</p>';
-        } else {
+        try {
+            const { data, error } = await supabaseClient.from(table).select('*');
+
+            if (error) {
+                console.error(`Error fetching data for ${table}:`, error.message);
+                container.innerHTML = `<p style="text-align: center; color: red;">Error memuat data: ${error.message}</p>`;
+                return;
+            }
+
+            container.innerHTML = ''; // Clear loading text
+            const displayData = isSingular && data.length > 0 ? [data[0]] : data;
+
+            if (displayData.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #aaa;">Tidak ada item ditemukan.</p>';
+                return;
+            }
+
             displayData.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'item';
-
-                // Tentukan apakah ada link input (hanya untuk projects)
                 const hasLink = table === 'projects';
                 const linkInput = hasLink ? `<input type="text" value="${item.link || ''}" id="link-${table}-${item.id}" placeholder="Link Project" />` : '';
-
                 div.innerHTML = `
                     <input type="text" value="${item.title || ''}" id="title-${table}-${item.id}" placeholder="Judul" />
                     <textarea id="desc-${table}-${item.id}" placeholder="Deskripsi">${item.description || ''}</textarea>
@@ -299,118 +311,207 @@
                 `;
                 container.appendChild(div);
             });
+        } catch (e) {
+            console.error(`Unexpected error in fetchData for ${table}:`, e);
+            container.innerHTML = `<p style="text-align: center; color: red;">Terjadi kesalahan tak terduga.</p>`;
         }
     }
 
     async function uploadImage(bucket, file) {
         if (!file) return null;
         const fileName = `${Date.now()}-${file.name}`;
-        const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file, {
-            cacheControl: '3600',
-            upsert: false // Set to true if you want to overwrite existing files with the same name
-        });
-        if (error) {
-            alert("❌ Upload gambar gagal: " + error.message);
-            console.error("Upload image error:", error);
+        try {
+            const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file, { upsert: false });
+            if (error) {
+                console.error("❌ Upload gambar gagal:", error.message);
+                alert("❌ Upload gambar gagal: " + error.message);
+                return null;
+            }
+            const { data: publicUrl } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
+            return publicUrl.publicUrl;
+        } catch (e) {
+            console.error("Unexpected error during image upload:", e);
+            alert("Terjadi kesalahan tak terduga saat mengupload gambar.");
             return null;
         }
-        const { data: publicUrlData } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
-        return publicUrlData.publicUrl;
     }
 
     async function deleteImage(bucket, imageUrl) {
         if (!imageUrl) return;
-        const urlParts = imageUrl.split('/');
-        const fileName = urlParts[urlParts.length - 1]; // Ambil nama file dari URL
-        const { error } = await supabaseClient.storage.from(bucket).remove([fileName]);
-        if (error) {
-            console.error("Error deleting old image:", error.message);
-            // alert("Gagal menghapus gambar lama: " + error.message);
-        } else {
-            console.log("Gambar lama berhasil dihapus:", fileName);
+        try {
+            const fileName = imageUrl.split('/').pop();
+            const { error } = await supabaseClient.storage.from(bucket).remove([fileName]);
+            if (error) console.error("Gagal hapus gambar lama:", error.message);
+            else console.log(`Image ${fileName} deleted successfully from ${bucket}.`);
+        } catch (e) {
+            console.error("Unexpected error during image deletion:", e);
         }
     }
-
 
     async function handleEdit(table, id, bucket, hasLink) {
-        const title = document.getElementById(`title-${table}-${id}`).value.trim();
-        const description = document.getElementById(`desc-${table}-${id}`).value.trim();
+        const titleInput = document.getElementById(`title-${table}-${id}`);
+        const descriptionInput = document.getElementById(`desc-${table}-${id}`);
         const fileInput = document.getElementById(`file-${table}-${id}`);
-        const file = fileInput.files[0];
-        let link = hasLink ? document.getElementById(`link-${table}-${id}`).value.trim() : null;
+        const linkInput = hasLink ? document.getElementById(`link-${table}-${id}`) : null;
+
+        const title = titleInput ? titleInput.value.trim() : '';
+        const description = descriptionInput ? descriptionInput.value.trim() : '';
+        const file = fileInput ? fileInput.files[0] : null;
+        const link = linkInput ? linkInput.value.trim() : null;
 
         if (!title || !description) {
-            return alert("Judul dan Deskripsi tidak boleh kosong!");
-        }
-
-        let imageUrl = null;
-
-        // Ambil URL gambar yang ada saat ini sebelum update
-        const { data: currentData, error: currentError } = await supabaseClient.from(table).select('image_url').eq('id', id).single();
-        if (currentError) {
-            console.error("Error fetching current image URL:", currentError.message);
-            alert("Gagal mengambil data lama untuk update: " + currentError.message);
+            alert("Judul dan Deskripsi tidak boleh kosong!");
             return;
         }
-        const oldImageUrl = currentData ? currentData.image_url : null;
 
-        if (file) {
-            imageUrl = await uploadImage(bucket, file);
-            if (!imageUrl) return; // Upload gagal
-            // Jika ada gambar baru diupload, hapus gambar lama
-            if (oldImageUrl) {
-                await deleteImage(bucket, oldImageUrl);
+        try {
+            const { data: current, error: currentError } = await supabaseClient.from(table).select('image_url').eq('id', id).single();
+            if (currentError) {
+                console.error("Gagal ambil data lama:", currentError.message);
+                alert("Gagal ambil data lama: " + currentError.message);
+                return;
             }
-        } else {
-            // Jika tidak ada file baru, gunakan URL gambar yang sudah ada
-            imageUrl = oldImageUrl;
-        }
 
-        const updateData = { title, description };
-        if (imageUrl) updateData.image_url = imageUrl;
-        if (hasLink) updateData.link = link;
+            let imageUrl = current.image_url || null;
+            if (file) {
+                const newUrl = await uploadImage(bucket, file);
+                if (!newUrl) return; // Jika upload gagal, hentikan proses update
+                if (imageUrl) await deleteImage(bucket, imageUrl); // Hapus gambar lama jika ada
+                imageUrl = newUrl;
+            }
 
-        const { error } = await supabaseClient.from(table).update(updateData).eq('id', id);
+            const update = { title, description };
+            if (imageUrl) update.image_url = imageUrl;
+            if (hasLink) update.link = link;
 
-        if (error) {
-            alert(`❌ Gagal update ${table}: ` + error.message);
-            console.error(`Update ${table} error:`, error);
-        } else {
-            alert(`✅ ${table} berhasil diupdate!`);
-            // Clear file input agar tidak ter-reupload lagi jika tidak ada perubahan file
-            fileInput.value = '';
-            // Data akan otomatis ter-refresh oleh real-time listener, tidak perlu fetchData manual
+            const { error } = await supabaseClient.from(table).update(update).eq('id', id);
+            if (error) {
+                console.error("Gagal update:", error.message);
+                alert("Gagal update: " + error.message);
+            } else {
+                alert("✅ Berhasil update!");
+                // No need to manually re-fetch, realtime listener should handle it
+            }
+        } catch (e) {
+            console.error("Unexpected error in handleEdit:", e);
+            alert("Terjadi kesalahan tak terduga saat update.");
         }
     }
 
-
+    // --- Fungsi Delete Item Utama ---
     async function deleteItem(table, id, bucket, imageUrl) {
-        if (!confirm(`Anda yakin ingin menghapus item ini dari ${table}?`)) {
+        if (!confirm(`Yakin ingin menghapus item ini dari ${table}?`)) {
             return;
         }
 
-        // Hapus gambar dari storage terlebih dahulu
-        if (imageUrl) {
-            await deleteImage(bucket, imageUrl);
-        }
+        try {
+            // Hapus gambar terkait terlebih dahulu
+            if (imageUrl && imageUrl !== 'null' && imageUrl !== 'undefined') { // Tambahkan cek untuk string 'null' atau 'undefined'
+                await deleteImage(bucket, imageUrl);
+            }
 
-        // Hapus entri dari database
-        const { error } = await supabaseClient.from(table).delete().eq('id', id);
+            // Hapus item dari tabel database
+            const { error } = await supabaseClient.from(table).delete().eq('id', id);
 
-        if (error) {
-            alert(`❌ Gagal menghapus item dari ${table}: ` + error.message);
-            console.error(`Delete item from ${table} error:`, error);
-        } else {
-            alert(`✅ Item berhasil dihapus dari ${table}!`);
-            // Data akan otomatis ter-refresh oleh real-time listener
+            if (error) {
+                console.error(`❌ Gagal menghapus item dari ${table}:`, error.message);
+                alert("❌ Gagal hapus item: " + error.message);
+            } else {
+                alert("✅ Item berhasil dihapus!");
+                // UI will be updated by the realtime listener on `fetchData`
+            }
+        } catch (e) {
+            console.error("Terjadi kesalahan tak terduga saat menghapus item:", e);
+            alert("Terjadi kesalahan tak terduga saat menghapus item.");
         }
     }
 
-    // Panggil fungsi renderSection untuk setiap menu saat DOM selesai dimuat
+    // --- Fungsi Delete Message (FORM LETTER) ---
+    async function deleteMessage(id) {
+        if (!confirm("Anda yakin ingin menghapus pesan ini?")) {
+            return;
+        }
+
+        try {
+            const { error } = await supabaseClient.from('contact_messages').delete().eq('id', id);
+            if (error) {
+                console.error('❌ Gagal menghapus pesan:', error.message);
+                alert('❌ Gagal menghapus pesan: ' + error.message);
+            } else {
+                alert('✅ Pesan berhasil dihapus!');
+                fetchContactMessages(); // Re-fetch to update the FORM LETTER section
+            }
+        } catch (e) {
+            console.error("Terjadi kesalahan tak terduga saat menghapus pesan:", e);
+            alert("Terjadi kesalahan tak terduga saat menghapus pesan.");
+        }
+    }
+
+    // --- Fungsi untuk memuat pesan kontak ---
+    async function fetchContactMessages() {
+        const container = document.getElementById('contact-messages');
+        if (!container) {
+            console.error("Element with ID 'contact-messages' not found.");
+            return;
+        }
+        container.innerHTML = 'Memuat pesan...'; // Set loading state
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('contact_messages')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error memuat pesan kontak:', error.message);
+                container.innerHTML = `<p style="color:red">Gagal memuat pesan: ${error.message}</p>`;
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p style="color:#aaa;">Belum ada pesan masuk.</p>';
+                return;
+            }
+
+            container.innerHTML = ''; // Clear loading text
+            data.forEach(msg => {
+                const msgBox = document.createElement('div');
+                msgBox.classList.add('item');
+                msgBox.innerHTML = `
+                    <p><strong>Nama:</strong> ${msg.name}</p>
+                    <p><strong>Email:</strong> ${msg.email}</p>
+                    <p><strong>Pesan:</strong><br>${msg.message}</p>
+                    <div class="button-group">
+                        <button class="delete-btn" onclick="deleteMessage(${msg.id})">Hapus</button>
+                    </div>
+                `;
+                container.appendChild(msgBox);
+            });
+        } catch (e) {
+            console.error("Unexpected error in fetchContactMessages:", e);
+            container.innerHTML = `<p style="color:red">Terjadi kesalahan tak terduga saat memuat pesan.</p>`;
+        }
+    }
+
+    // Event listener DOM
     window.addEventListener('DOMContentLoaded', () => {
+        // Render semua bagian konten (About Me, Projects, dll.)
         menus.forEach(menu => renderSection(menu));
+
+        // Muat pesan kontak
+        fetchContactMessages();
     });
 
+    // Realtime listener untuk contact_messages (pastikan hanya ada satu)
+    supabaseClient
+        .channel('realtime_contact_messages_listener') // Beri nama unik untuk channel
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_messages' }, payload => {
+            console.log('📩 Realtime update pada FORM LETTER:', payload);
+            fetchContactMessages(); // Re-fetch data saat ada perubahan
+        })
+        .subscribe();
+
 </script>
+
 </body>
 </html>
