@@ -5,17 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portofolio Grayesi Silitonga</title>
-
-    <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <!-- Boxicons CSS -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <!-- Font Awesome CSS (untuk ikon di profile-navigator) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <!-- Custom CSS Anda -->
     <link rel="stylesheet" href="index.css" />
-
-    <!-- Supabase JS (dimuat di head karena digunakan di script utama) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -68,7 +61,6 @@
         </div>
     </section>
 
-    <!-- Profile Navigator (Floating Menu) -->
     <nav class="profile-navigator floating-menu">
         <a href="#about" class="nav-card"><i class="fas fa-user nav-card-icon"></i></a>
         <a href="#education" class="nav-card"><i class="fas fa-graduation-cap nav-card-icon"></i></a>
@@ -145,19 +137,17 @@
 
     <section class="project" id="project">
         <h2 class="heading">My <span>Project</span></h2>
-        <div class="project-container"></div> <!-- Konten akan diisi oleh JS -->
+        <div class="project-container"></div> 
     </section>
 
-    <!-- Perbaikan Struktur Testimonial/Activity -->
     <section class="testimonial-container" id="activity">
         <h2 class="heading">My <span>Activity</span></h2>
         <div class="testimonial-wrapper mySwiper">
-            <!-- Konten Swiper akan diisi oleh JS -->
         </div>
 
     <section class="experience" id="experience">
         <h2 class="heading">My <span>Experience</span></h2>
-        <div class="experience-container"></div> <!-- Konten akan diisi oleh JS -->
+        <div class="experience-container"></div> 
     </section>
 
     <section class="article-list" id="organization">
@@ -174,25 +164,21 @@
             </div>
         </div>
     </section>
-
+        
+    </section>
     <footer class="footer">
-        <div class="footer-text">
+        <div class="footer-links">
             <p>Made by © Grayesi Silitonga | All Rights Reserved.</p>
-            <div class="footer-links">
                 <a href="articles.html">Articles</a> |
                 <a href="contact.html">Contact</a>
             </div>
         </div>
     </footer>
-
-    <!-- Tombol melayang kembali ke atas (di luar footer) -->
+        </div>
+    </footer>
     <a href="#home" class="floating-back-btn" title="Kembali ke Atas"><i class='bx bx-up-arrow-alt'></i></a>
-
-    <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <!-- ScrollReveal JS (jika Anda menggunakannya untuk animasi scroll) -->
     <script src="https://unpkg.com/scrollreveal"></script>
-    <!-- Custom JS Anda (pastikan nama file ini sesuai) -->
     <script src="index.js" defer></script>
 </body>
 </html>
