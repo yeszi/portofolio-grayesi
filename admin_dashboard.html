@@ -3,14 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Content - Diskominfo</title>
+  <title>Admin Dashboard - Diskominfo</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <style>
+    .sidebar-link {
+      @apply block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600;
+    }
+    .sidebar-link.active {
+      @apply bg-blue-100 text-blue-600 font-medium;
+    }
+  </style>
 </head>
 <body class="bg-gray-100">
 
+  <!-- Mobile Header -->
   <header class="flex items-center justify-between bg-white px-4 py-3 border-b shadow md:hidden">
-    <h1 class="text-lg font-semibold text-gray-800">YesZie</h1>
+    <h1 class="text-lg font-semibold text-gray-800">Admin YesZie</h1>
     <button id="hamburger" class="text-gray-800 focus:outline-none text-2xl">
       ☰
     </button>
@@ -18,47 +27,137 @@
 
   <div class="flex h-screen overflow-hidden">
 
+    <!-- Sidebar -->
     <aside id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white border-r shadow-md z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
       <div class="p-6 border-b flex justify-between items-center md:block">
-        <h1 class="text-xl font-semibold text-primary">ADMIN</h1>
+        <h1 class="text-xl font-semibold text-blue-600">ADMIN PANEL</h1>
         <button id="closeSidebar" class="md:hidden text-xl text-gray-800">✕</button>
       </div>
       <nav class="p-4">
-        <ul class="space-y-2 text-gray-700 font-medium">
-          <li><a href="edit.html" class="block hover:text-red-600">✏️ Edit Content</a></li>
-          <li><a href="tambah.html" class="block hover:text-red-600">➕ Add New Content</a></li>
-          <li><a href="form.html" class="block hover:text-red-600">📩 Form</a></li>
+        <ul class="space-y-2">
+          <li><a href="admin_dashboard.html" class="sidebar-link active">🏠 Dashboard</a></li>
+          <li><a href="edit.html" class="sidebar-link">✏️ Edit Content</a></li>
+          <li><a href="tambah.html" class="sidebar-link">➕ Add New Content</a></li>
+          <li><a href="form.html" class="sidebar-link">📩 Form Messages</a></li>
           <li>
-            <button onclick="logout()" class="w-full text-left hover:text-red-600">👋 Log Out</button>
+            <button onclick="logout()" class="sidebar-link w-full text-left">👋 Log Out</button>
           </li>
         </ul>
       </nav>
     </aside>
 
-<main class="flex-1 p-6 overflow-y-auto relative bg-cover bg-center" 
-      style="background-image: url('https://source.unsplash.com/1600x900/?technology');">
-  <!-- Layer hitam blur -->
-  <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-md"></div>
+    <!-- Main Content -->
+    <main class="flex-1 p-6 overflow-y-auto relative bg-cover bg-center" 
+          style="background-image: url('https://source.unsplash.com/1600x900/?technology,abstract');">
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm"></div>
 
-  <!-- Konten utama -->
-  <div class="relative z-10 flex flex-col items-center justify-center min-h-[70vh] text-center text-white">
-    
-    <!-- Foto Profil -->
-    <img src="C:\Users\Dell\OneDrive\Dokumen\portofolio-grayesi\images\yesi.jpeg" 
-         alt="Foto Yess" 
-         class="w-32 h-32 rounded-full shadow-lg mb-4 border-4 border-white" />
+      <!-- Content -->
+      <div class="relative z-10">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+          <h1 class="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
+          <p class="text-gray-600">Selamat datang kembali di panel admin YesZie</p>
+        </div>
 
-    <!-- Teks Sambutan -->
-    <h2 class="text-3xl font-bold mb-2-blue-300 max-w-xl">YesZie</h2>
-    <p class="text-lg text-blue-300 max-w-xl">
-      selamat datang kembali, mau ngapain nihh??
-    </p>
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+              <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-gray-500">Total Konten</h3>
+                <p class="text-2xl font-bold" id="totalContent">Loading...</p>
+              </div>
+            </div>
+          </div>
 
-    </div>
-  </main>
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+              <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-gray-500">Pesan Baru</h3>
+                <p class="text-2xl font-bold" id="newMessages">Loading...</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center">
+              <div class="p-3 rounded-full bg-purple-100 text-purple-600 mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-gray-500">Admin</h3>
+                <p class="text-2xl font-bold">YesZie</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Messages -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-gray-800">Pesan Terbaru</h2>
+            <a href="form.html" class="text-blue-600 hover:underline">Lihat Semua</a>
+          </div>
+          <div class="space-y-4" id="recentMessages">
+            <div class="animate-pulse flex space-x-4">
+              <div class="flex-1 space-y-4 py-1">
+                <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div class="space-y-2">
+                  <div class="h-4 bg-gray-200 rounded"></div>
+                  <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">Quick Actions</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="tambah.html" class="bg-blue-600 hover:bg-blue-700 text-white rounded-lg p-4 flex items-center transition-colors duration-200">
+              <div class="p-2 rounded-full bg-blue-500 mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium">Tambah Konten Baru</h3>
+                <p class="text-sm opacity-80">Buat postingan atau konten baru</p>
+              </div>
+            </a>
+            <a href="edit.html" class="bg-green-600 hover:bg-green-700 text-white rounded-lg p-4 flex items-center transition-colors duration-200">
+              <div class="p-2 rounded-full bg-green-500 mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium">Edit Konten</h3>
+                <p class="text-sm opacity-80">Update atau hapus konten</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
   </div>
 
   <script>
+    // Mobile sidebar toggle
     const hamburger = document.getElementById("hamburger");
     const sidebar = document.getElementById("sidebar");
     const closeSidebar = document.getElementById("closeSidebar");
@@ -70,25 +169,50 @@
     closeSidebar.addEventListener("click", () => {
       sidebar.classList.add("-translate-x-full");
     });
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth < 768 && !sidebar.contains(e.target)) {
+        if (e.target !== hamburger) {
+          sidebar.classList.add("-translate-x-full");
+        }
+      }
+    });
   </script>
 
   <script>
-    const supabase = window.supabase.createClient(
-      'https://owqdtbzhnxbxdsjrlzsa.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA'
-    );
+    // Supabase initialization
+    const supabaseUrl = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+    
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      const email = session?.user?.email;
-      if (!session || email !== "grayesi.silitonga@gmail.com") {
-        alert("Akses ditolak. Silakan login kembali.");
+    // Check admin session
+    async function checkSession() {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) throw error;
+        
+        const email = session?.user?.email;
+        if (!session || email !== "grayesi.silitonga@gmail.com") {
+          alert("Akses ditolak. Silakan login kembali.");
+          window.location.href = "login.html";
+        } else {
+          // Load dashboard data
+          loadDashboardData();
+        }
+      } catch (err) {
+        console.error("Error checking session:", err);
+        alert("Terjadi kesalahan saat verifikasi login.");
         window.location.href = "login.html";
       }
-    }).catch(err => {
-      alert("Terjadi kesalahan saat verifikasi login.");
-      window.location.href = "login.html";
-    });
+    }
 
+    // Call session check on page load
+    checkSession();
+
+    // Logout function
     async function logout() {
       try {
         const { error } = await supabase.auth.signOut();
@@ -98,7 +222,64 @@
           window.location.href = "login.html";
         }
       } catch (e) {
+        console.error("Logout error:", e);
         alert("Terjadi kesalahan saat logout.");
+      }
+    }
+
+    // Load dashboard data
+    async function loadDashboardData() {
+      try {
+        // Get total content count
+        const { count: contentCount, error: contentError } = await supabase
+          .from('your_content_table')
+          .select('*', { count: 'exact', head: true });
+        
+        if (contentError) throw contentError;
+        
+        document.getElementById('totalContent').textContent = contentCount || 0;
+
+        // Get recent messages
+        const { data: messages, error: messagesError } = await supabase
+          .from('contact_messages')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(3);
+        
+        if (messagesError) throw messagesError;
+        
+        const messagesContainer = document.getElementById('recentMessages');
+        if (messages && messages.length > 0) {
+          messagesContainer.innerHTML = '';
+          messages.forEach(msg => {
+            const messageDate = new Date(msg.created_at).toLocaleString('id-ID');
+            messagesContainer.innerHTML += `
+              <div class="border-b pb-4 last:border-0 last:pb-0">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-medium">${msg.name} &lt;${msg.email}&gt;</h3>
+                  <span class="text-sm text-gray-500">${messageDate}</span>
+                </div>
+                <p class="text-gray-600 mt-1 line-clamp-2">${msg.message}</p>
+              </div>
+            `;
+          });
+        } else {
+          messagesContainer.innerHTML = '<p class="text-gray-500">Belum ada pesan</p>';
+        }
+
+        // Update new messages count
+        const { count: newMessagesCount, error: countError } = await supabase
+          .from('contact_messages')
+          .select('*', { count: 'exact', head: true })
+          .gt('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString());
+        
+        if (countError) throw countError;
+        
+        document.getElementById('newMessages').textContent = newMessagesCount || 0;
+
+      } catch (error) {
+        console.error("Error loading dashboard data:", error);
+        alert("Terjadi kesalahan saat memuat data dashboard.");
       }
     }
   </script>
