@@ -9,376 +9,416 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <style>
         :root {
-      --primary-bg: #1a1c22;
-      --secondary-bg: #252a33;
-      --accent-color: #6c63ff;
-      --purple-accent: #9c7bff;
-      --text-color: #ffffff;
-      --text-muted: #b0b0b0;
-      --input-bg: #2e3440;
-      --button-primary: #6c63ff;
-      --button-hover-primary: #564dff;
-      --button-logout: #ff4757;
-      --button-hover-logout: #ff2d3e;
-      --success-color: #2ecc71;
-      --error-color: #e74c3c;
-      --transition-speed: 0.3s;
-    }
+            --primary-bg: #1a1c22;
+            --secondary-bg: #252a33;
+            --accent-color: #6c63ff;
+            --purple-accent: #9c7bff;
+            --text-color: #ffffff;
+            --text-muted: #b0b0b0;
+            --input-bg: #2e3440;
+            --button-primary: #6c63ff;
+            --button-hover-primary: #564dff;
+            --button-logout: #ff4757;
+            --button-hover-logout: #ff2d3e;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --transition-speed: 0.3s;
+        }
 
-    * {
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      margin: 0;
-      background-color: var(--primary-bg);
-      color: var(--text-color);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      line-height: 1.6;
-    }
+        body {
+            margin: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
 
-    header {
-      background-color: var(--secondary-bg);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+        header {
+            background-color: var(--secondary-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    header .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--accent-color);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+        header .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    .logo i {
-      font-size: 1.5rem;
-    }
+        .logo i {
+            font-size: 1.5rem;
+        }
 
-    .hamburger {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text-color);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
 
-    nav.main-nav {
-      background-color: var(--primary-bg);
-      padding: 1rem 0;
-      text-align: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      transition: all var(--transition-speed) ease;
-    }
+        nav.main-nav {
+            background-color: var(--primary-bg);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all var(--transition-speed) ease;
+        }
 
-    nav.main-nav a {
-      color: var(--text-color);
-      margin: 0 1rem;
-      text-decoration: none;
-      font-weight: 500;
-      padding: 0.5rem 1.2rem;
-      border-radius: 6px;
-      transition: all var(--transition-speed) ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+        nav.main-nav a {
+            color: var(--text-color);
+            margin: 0 1rem;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            transition: all var(--transition-speed) ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    nav.main-nav a i {
-      font-size: 0.9rem;
-    }
+        nav.main-nav a i {
+            font-size: 0.9rem;
+        }
 
-    nav.main-nav a:hover,
-    nav.main-nav a.active {
-      background-color: var(--accent-color);
-      color: #fff;
-      transform: translateY(-2px);
-    }
+        nav.main-nav a:hover,
+        nav.main-nav a.active {
+            background-color: var(--accent-color);
+            color: #fff;
+            transform: translateY(-2px);
+        }
 
-    .container {
-      flex-grow: 1;
-      padding: 2rem;
-      max-width: 1400px;
-      margin: 2rem auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 1.5rem;
-    }
+        .container {
+            flex-grow: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+        }
 
-    section {
-      background-color: var(--secondary-bg);
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.3s ease;
-    }
+        section {
+            background-color: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+        }
 
-    section:hover {
-      transform: translateY(-5px);
-    }
+        h2 {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
 
-    h2 {
-      color: var(--accent-color);
-      font-size: 1.5rem;
-      text-align: center;
-      margin-bottom: 1.5rem;
-      position: relative;
-      padding-bottom: 0.5rem;
-    }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
 
-    h2::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 3px;
-      background: var(--accent-color);
-      border-radius: 3px;
-    }
+        .content-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
 
-    input, textarea {
-      width: 100%;
-      margin-bottom: 1rem;
-      padding: 0.8rem 1rem;
-      border-radius: 8px;
-      border: 1px solid var(--input-bg);
-      background-color: var(--input-bg);
-      color: var(--text-color);
-      font-size: 0.95rem;
-      transition: all var(--transition-speed) ease;
-    }
+        .list-item {
+            background-color: var(--input-bg);
+            border-radius: 8px;
+            padding: 1.2rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+        }
 
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
-    }
+        .list-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+        }
 
-    input[type="file"] {
-      background-color: transparent;
-      border: 2px dashed var(--accent-color);
-      padding: 0.8rem;
-      cursor: pointer;
-      margin-top: 0.5rem;
-    }
+        .item-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
 
-    input[type="file"]::file-selector-button {
-      background-color: var(--purple-accent);
-      color: #fff;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: all var(--transition-speed) ease;
-    }
+        .item-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
 
-    input[type="file"]::file-selector-button:hover {
-      background-color: var(--button-hover-primary);
-    }
+        .no-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
 
-    button {
-      width: 100%;
-      margin-top: 0.5rem;
-      padding: 0.8rem;
-      border-radius: 8px;
-      border: none;
-      background-color: var(--button-primary);
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: all var(--transition-speed) ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
+        .item-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            word-break: break-word;
+        }
 
-    button:hover {
-      background-color: var(--button-hover-primary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
+        .item-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            word-break: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
 
-    .delete-btn {
-      background-color: var(--button-logout);
-    }
+        .item-link {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            word-break: break-all;
+        }
 
-    .delete-btn:hover {
-      background-color: var(--button-hover-logout);
-    }
+        .item-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 0.8rem;
+        }
 
-    .item {
-      background-color: var(--input-bg);
-      padding: 1.2rem;
-      border-radius: 8px;
-      margin-top: 1rem;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-      transition: all var(--transition-speed) ease;
-    }
+        button {
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            border: none;
+            background-color: var(--button-primary);
+            color: #fff;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex: 1;
+        }
 
-    .item:hover {
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
-    }
+        button:hover {
+            background-color: var(--button-hover-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-    .item img {
-      max-width: 100%;
-      border-radius: 8px;
-      margin-top: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
+        .delete-btn {
+            background-color: var(--button-logout);
+        }
 
-    .button-group {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-top: 1rem;
-    }
+        .delete-btn:hover {
+            background-color: var(--button-hover-logout);
+        }
 
-    .button-group button {
-      flex: 1;
-      min-width: 120px;
-    }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
 
-    footer {
-      background-color: var(--secondary-bg);
-      color: var(--text-muted);
-      text-align: center;
-      padding: 1.5rem;
-      margin-top: auto;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-      font-size: 0.9rem;
-    }
+        .modal-content {
+            background-color: var(--secondary-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
 
-    /* Loading state */
-    .loading {
-      text-align: center;
-      padding: 2rem;
-      color: var(--text-muted);
-    }
+        .modal-image {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
 
-    .loading::after {
-      content: '...';
-      animation: dots 1.5s steps(5, end) infinite;
-    }
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
 
-    @keyframes dots {
-      0%, 20% { content: '.'; }
-      40% { content: '..'; }
-      60%, 100% { content: '...'; }
-    }
+        /* Style untuk form edit */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
 
-    /* Toast notifications */
-    .toast {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 1rem 1.5rem;
-      border-radius: 8px;
-      color: white;
-      font-weight: 500;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      z-index: 1000;
-      transform: translateX(200%);
-      transition: transform 0.3s ease;
-    }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
 
-    .toast.show {
-      transform: translateX(0);
-    }
+        .form-group input[type="text"],
+        .form-group input[type="url"],
+        .form-group input[type="file"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--input-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all var(--transition-speed) ease;
+        }
 
-    .toast.success {
-      background-color: var(--success-color);
-    }
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
 
-    .toast.error {
-      background-color: var(--error-color);
-    }
+        .form-group input[type="file"] {
+            padding: 0.5rem;
+        }
 
-    /* Responsive styles */
-    @media (max-width: 992px) {
-      .container {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        padding: 1.5rem;
-      }
-    }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
+        }
 
-    @media (max-width: 768px) {
-      header {
-        padding: 1rem;
-      }
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
 
-      .hamburger {
-        display: block;
-      }
+        .current-image {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
-      nav.main-nav {
-        position: fixed;
-        top: 80px;
-        left: 0;
-        right: 0;
-        padding: 1rem;
-        background-color: var(--secondary-bg);
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-        transform: translateY(-150%);
-        opacity: 0;
-        z-index: 99;
-      }
+        .current-image img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
 
-      nav.main-nav.show {
-        transform: translateY(0);
-        opacity: 1;
-      }
+        footer {
+            background-color: var(--secondary-bg);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+            font-size: 0.9rem;
+        }
 
-      nav.main-nav a {
-        display: block;
-        margin: 0.5rem 0;
-        padding: 0.8rem;
-      }
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
 
-      .container {
-        padding: 1rem;
-        margin: 1rem auto;
-      }
+            .hamburger {
+                display: block;
+            }
 
-      section {
-        padding: 1.2rem;
-      }
-    }
+            nav.main-nav {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                padding: 1rem;
+                background-color: var(--secondary-bg);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+                transform: translateY(-150%);
+                opacity: 0;
+                z-index: 99;
+            }
 
-    @media (max-width: 480px) {
-      .container {
-        grid-template-columns: 1fr;
-      }
+            nav.main-nav.show {
+                transform: translateY(0);
+                opacity: 1;
+            }
 
-      .button-group {
-        flex-direction: column;
-      }
+            nav.main-nav a {
+                display: block;
+                margin: 0.5rem 0;
+                padding: 0.8rem;
+            }
 
-      .button-group button {
-        width: 100%;
-      }
-    }
+            .container {
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+
+            section {
+                padding: 1.2rem;
+            }
+
+            .content-list {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
@@ -402,11 +442,16 @@
     <p class="loading">Memuat konten</p>
 </div>
 
+<div id="imageModal" class="modal">
+    <button class="close-modal" onclick="closeModal()">&times;</button>
+    <div class="modal-content">
+        <img id="modalImage" class="modal-image" src="" alt="Preview">
+    </div>
+</div>
+
 <footer>
     &copy; 2025 YesZie Admin Panel | All Rights Reserved
 </footer>
-
-<div id="toast" class="toast"></div>
 
 <script>
     // Hamburger menu toggle
@@ -424,18 +469,30 @@
         });
     });
 
-    // Toast notification function
-    function showToast(message, type = 'success') {
-        const toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.className = `toast show ${type}`;
-        
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000);
+    // Modal functions
+    function openModal(imageUrl) {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        modalImg.src = imageUrl;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
     }
 
-    // Rest of your existing JavaScript code remains unchanged
+    function closeModal() {
+        const modal = document.getElementById('imageModal');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside the image
+    window.addEventListener('click', (e) => {
+        const modal = document.getElementById('imageModal');
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Rest of your existing JavaScript code with modifications for list view
     const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -443,17 +500,13 @@
     // Otentikasi
     supabaseClient.auth.getSession().then(({ data: { session } }) => {
         if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
-            showToast("Akses ditolak. Silakan login kembali.", "error");
-            setTimeout(() => {
-                window.location.href = "login.html";
-            }, 2000);
+            alert("Akses ditolak. Silakan login kembali.");
+            window.location.href = "login.html";
         }
     }).catch(err => {
         console.error("Error fetching session on edit page:", err);
-        showToast("Terjadi kesalahan saat memverifikasi sesi.", "error");
-        setTimeout(() => {
-            window.location.href = "login.html";
-        }, 2000);
+        alert("Terjadi kesalahan saat memverifikasi sesi. Silakan coba lagi.");
+        window.location.href = "login.html";
     });
 
     async function logout() {
@@ -461,16 +514,13 @@
             const { error } = await supabaseClient.auth.signOut();
             if (error) {
                 console.error('Error during logout:', error.message);
-                showToast('Gagal logout: ' + error.message, "error");
+                alert('Gagal logout: ' + error.message);
             } else {
-                showToast('Logout berhasil!', "success");
-                setTimeout(() => {
-                    window.location.href = "login.html";
-                }, 1500);
+                window.location.href = "login.html";
             }
         } catch (e) {
             console.error("Unexpected error in logout function:", e);
-            showToast("Terjadi kesalahan tak terduga saat logout.", "error");
+            alert("Terjadi kesalahan tak terduga saat logout.");
         }
     }
 
@@ -484,7 +534,7 @@
 
     function renderSection({ table, title, bucket, isSingular = false }) {
         const section = document.createElement('section');
-        section.innerHTML = `<h2>${title}</h2><div id="list-${table}">Loading...</div>`;
+        section.innerHTML = `<h2>${title}</h2><div class="content-list" id="list-${table}">Loading...</div>`;
         document.getElementById('content').appendChild(section);
         fetchData(table, bucket, isSingular);
 
@@ -509,24 +559,105 @@
             container.innerHTML = '<p style="text-align: center; color: #aaa;">Tidak ada item ditemukan.</p>';
             return;
         }
+        
         displayData.forEach(item => {
             const div = document.createElement('div');
-            div.className = 'item';
+            div.className = 'list-item';
             const hasLink = table === 'projects';
-            const linkInput = hasLink ? `<input type="text" value="${item.link || ''}" id="link-${table}-${item.id}" placeholder="Link Project" />` : '';
+            
+            const thumbnail = item.image_url 
+                ? `<img src="${item.image_url}" class="item-thumbnail" onclick="openModal('${item.image_url}')" alt="${item.title || 'Thumbnail'}">`
+                : `<div class="no-thumbnail">No Image</div>`;
+            
+            const linkDisplay = hasLink && item.link 
+                ? `<a href="${item.link}" target="_blank" class="item-link">${item.link}</a>`
+                : '';
+            
             div.innerHTML = `
-                <input type="text" value="${item.title || ''}" id="title-${table}-${item.id}" placeholder="Judul" />
-                <textarea id="desc-${table}-${item.id}" placeholder="Deskripsi">${item.description || ''}</textarea>
-                ${linkInput}
-                <input type="file" id="file-${table}-${item.id}" accept="image/*" />
-                ${item.image_url ? `<img src="${item.image_url}" alt="${item.title || 'Image'}" />` : '<p style="color: #aaa;">No image uploaded</p>'}
-                <div class="button-group">
-                    <button onclick="handleEdit('${table}', ${item.id}, '${bucket}', ${hasLink})"><i class="fas fa-save"></i> Update</button>
-                    ${!isSingular ? `<button class="delete-btn" onclick="deleteItem('${table}', ${item.id}, '${bucket}', '${item.image_url || ''}')"><i class="fas fa-trash-alt"></i> Delete</button>` : ''}
+                <div class="item-header">
+                    ${thumbnail}
+                    <div>
+                        <h3 class="item-title">${item.title || 'No Title'}</h3>
+                        ${linkDisplay}
+                    </div>
+                </div>
+                <p class="item-desc">${item.description || 'No description available'}</p>
+                <div class="item-actions">
+                    <button onclick="showEditForm('${table}', ${item.id}, '${bucket}', ${hasLink})">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    ${!isSingular ? `
+                    <button class="delete-btn" onclick="deleteItem('${table}', ${item.id}, '${bucket}', '${item.image_url || ''}')">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>` : ''}
                 </div>
             `;
             container.appendChild(div);
         });
+    }
+
+    function showEditForm(table, id, bucket, hasLink) {
+        // Ambil data yang akan diedit terlebih dahulu
+        supabaseClient.from(table)
+            .select('*')
+            .eq('id', id)
+            .single()
+            .then(({ data, error }) => {
+                if (error) {
+                    alert("Gagal mengambil data: " + error.message);
+                    return;
+                }
+                
+                // Buat modal untuk form edit
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.style.display = 'flex';
+                modal.innerHTML = `
+                    <div class="modal-content" style="width: 90%; max-width: 600px;">
+                        <button class="close-modal" onclick="this.parentElement.parentElement.remove(); document.body.style.overflow = 'auto';">&times;</button>
+                        <h2>Edit ${table}</h2>
+                        <form id="editForm" onsubmit="event.preventDefault(); handleEdit('${table}', ${id}, '${bucket}', ${hasLink})">
+                            <div class="form-group">
+                                <label for="edit-title">Judul</label>
+                                <input type="text" id="edit-title" value="${data.title || ''}" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-desc">Deskripsi</label>
+                                <textarea id="edit-desc" required>${data.description || ''}</textarea>
+                            </div>
+                            
+                            ${hasLink ? `
+                            <div class="form-group">
+                                <label for="edit-link">Link</label>
+                                <input type="url" id="edit-link" value="${data.link || ''}">
+                            </div>` : ''}
+                            
+                            <div class="form-group">
+                                <label for="edit-image">Gambar (biarkan kosong jika tidak ingin mengubah)</label>
+                                <input type="file" id="edit-image" accept="image/*">
+                                ${data.image_url ? `
+                                <div class="current-image">
+                                    <span>Gambar saat ini:</span>
+                                    <img src="${data.image_url}" onclick="openModal('${data.image_url}')" style="cursor: pointer;">
+                                </div>` : ''}
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit">
+                                    <i class="fas fa-save"></i> Simpan Perubahan
+                                </button>
+                                <button type="button" class="delete-btn" onclick="this.parentElement.parentElement.parentElement.remove(); document.body.style.overflow = 'auto';">
+                                    <i class="fas fa-times"></i> Batal
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                document.body.style.overflow = 'hidden';
+            });
     }
 
     async function uploadImage(bucket, file) {
@@ -534,7 +665,7 @@
         const fileName = `${Date.now()}-${file.name}`;
         const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file, { upsert: false });
         if (error) {
-            showToast("❌ Upload gambar gagal: " + error.message, "error");
+            alert("❌ Upload gambar gagal: " + error.message);
             return null;
         }
         const { data: publicUrl } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
@@ -549,21 +680,16 @@
     }
 
     async function handleEdit(table, id, bucket, hasLink) {
-        const title = document.getElementById(`title-${table}-${id}`).value.trim();
-        const description = document.getElementById(`desc-${table}-${item.id}`).value.trim();
-        const fileInput = document.getElementById(`file-${table}-${id}`);
+        const title = document.getElementById('edit-title').value.trim();
+        const description = document.getElementById('edit-desc').value.trim();
+        const fileInput = document.getElementById('edit-image');
         const file = fileInput.files[0];
-        const link = hasLink ? document.getElementById(`link-${table}-${id}`).value.trim() : null;
-        if (!title || !description) {
-            showToast("Judul dan Deskripsi tidak boleh kosong!", "error");
-            return;
-        }
+        const link = hasLink ? document.getElementById('edit-link').value.trim() : null;
+        
+        if (!title || !description) return alert("Judul dan Deskripsi tidak boleh kosong!");
 
         const { data: current, error: currentError } = await supabaseClient.from(table).select('image_url').eq('id', id).single();
-        if (currentError) {
-            showToast("Gagal ambil data lama: " + currentError.message, "error");
-            return;
-        }
+        if (currentError) return alert("Gagal ambil data lama: " + currentError.message);
 
         let imageUrl = current.image_url || null;
         if (file) {
@@ -579,9 +705,13 @@
 
         const { error } = await supabaseClient.from(table).update(update).eq('id', id);
         if (error) {
-            showToast("Gagal update: " + error.message, "error");
+            alert("Gagal update: " + error.message);
         } else {
-            showToast("✅ Berhasil update!", "success");
+            alert("✅ Berhasil update!");
+            // Tutup modal dan refresh data
+            document.querySelector('.modal').remove();
+            document.body.style.overflow = 'auto';
+            fetchData(table, bucket, false);
         }
     }
 
@@ -589,65 +719,17 @@
         if (!confirm(`Yakin ingin menghapus dari ${table}?`)) return;
         if (imageUrl) await deleteImage(bucket, imageUrl);
         const { error } = await supabaseClient.from(table).delete().eq('id', id);
-        if (error) {
-            showToast("Gagal hapus item: " + error.message, "error");
-        } else {
-            showToast("✅ Item berhasil dihapus!", "success");
+        if (error) alert("Gagal hapus item: " + error.message);
+        else {
+            alert("✅ Item berhasil dihapus!");
+            fetchData(table, bucket, false);
         }
-    }
-
-    async function deleteMessage(id) {
-        if (!confirm("Anda yakin ingin menghapus pesan ini?")) return;
-        const { error } = await supabaseClient.from('contact_messages').delete().eq('id', id);
-        if (error) {
-            showToast('❌ Gagal menghapus pesan: ' + error.message, "error");
-        } else {
-            showToast('✅ Pesan berhasil dihapus!', "success");
-            fetchContactMessages();
-        }
-    }
-
-    async function fetchContactMessages() {
-        const container = document.getElementById('contact-messages');
-        const { data, error } = await supabaseClient.from('contact_messages').select('*').order('created_at', { ascending: false });
-        if (error) {
-            container.innerHTML = '<p style="color: red;">Gagal memuat pesan</p>';
-            return;
-        }
-        if (!data || data.length === 0) {
-            container.innerHTML = '<p style="color: #aaa;">Belum ada pesan masuk.</p>';
-            return;
-        }
-        container.innerHTML = '';
-        data.forEach(msg => {
-            const msgBox = document.createElement('div');
-            msgBox.classList.add('item');
-            msgBox.innerHTML = `
-                <p><strong>Nama:</strong> ${msg.name}</p>
-                <p><strong>Email:</strong> ${msg.email}</p>
-                <p><strong>Pesan:</strong><br>${msg.message}</p>
-                <div class="button-group">
-                    <button class="delete-btn" onclick="deleteMessage(${msg.id})"><i class="fas fa-trash-alt"></i> Hapus</button>
-                </div>
-            `;
-            container.appendChild(msgBox);
-        });
     }
 
     // Event listener DOM
     window.addEventListener('DOMContentLoaded', () => {
         menus.forEach(menu => renderSection(menu));
-        fetchContactMessages();
     });
-
-    // Realtime listener untuk contact_messages
-    supabaseClient
-        .channel('realtime_contact_messages')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_messages' }, payload => {
-            console.log("📩 Realtime Form Letter:", payload);
-            fetchContactMessages();
-        })
-        .subscribe();
 </script>
 </body>
 </html>
