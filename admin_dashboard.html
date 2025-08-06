@@ -1,159 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard - YesZie</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <style>
-    :root {
-      --primary-bg: #1e1e2f;
-      --secondary-bg: #2a2f45;
-      --accent-color: #4fc3f7;
-      --danger-color: #e74c3c;
-      --text-color: #ffffff;
-      --card-bg: #32394f;
-      --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      --radius: 12px;
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--primary-bg);
-      color: var(--text-color);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      background-color: var(--secondary-bg);
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: var(--shadow);
-    }
-
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: var(--accent-color);
-      text-decoration: none;
-    }
-
-    .container {
-      flex-grow: 1;
-      padding: 40px 20px;
-      max-width: 1000px;
-      margin: 30px auto;
-      background-color: var(--secondary-bg);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    h2 {
-      text-align: center;
-      color: var(--accent-color);
-      font-size: 2rem;
-      margin-bottom: 30px;
-    }
-
-    .admin-options {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 25px;
-    }
-
-    .admin-options a,
-    .admin-options button {
-      background-color: var(--card-bg);
-      color: var(--text-color);
-      padding: 30px 20px;
-      text-decoration: none;
-      border: none;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      text-align: center;
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .admin-options a:hover,
-    .admin-options button:hover {
-      transform: translateY(-5px);
-      background-color: #3b4262;
-    }
-
-    .admin-options a span,
-    .admin-options button span {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-
-    .admin-options button.logout {
-      background-color: var(--danger-color);
-      color: white;
-    }
-
-    .admin-options button.logout:hover {
-      background-color: #c0392b;
-    }
-
-    footer {
-      background-color: var(--secondary-bg);
-      color: var(--text-color);
-      text-align: center;
-      padding: 15px;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-    }
-  </style>
+  <title>Admin Content - Diskominfo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
 </head>
-<body onload="window.location.hash = '#home'">
-  <header>
-    <a href="#" class="logo">Dashboard YesZie</a>
+<body class="bg-gray-100">
+
+  <header class="flex items-center justify-between bg-white px-4 py-3 border-b shadow md:hidden">
+    <h1 class="text-lg font-semibold text-gray-800">ADMIN</h1>
+    <button id="hamburger" class="text-gray-800 focus:outline-none text-2xl">
+      ☰
+    </button>
   </header>
 
-  <div class="container">
-    <section id="home">
-      <h2>🤓 Hai Yess!! 🤓</h2>
-      <div class="admin-options">
-        <a href="edit.html">
-          <span>✏️</span>
-          Edit Content
-        </a>
-        <a href="tambah.html">
-          <span>➕</span>
-          Add New Content
-        </a>
-        <a href="form.html">
-          <span>📩</span>
-          Form
-        </a>
-        <button onclick="logout()" class="logout">
-          <span>👋</span>
-          Log Out
-        </button>
+  <div class="flex h-screen overflow-hidden">
+
+    <aside id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white border-r shadow-md z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+      <div class="p-6 border-b flex justify-between items-center md:block">
+        <h1 class="text-xl font-semibold text-primary">ADMIN</h1>
+        <button id="closeSidebar" class="md:hidden text-xl text-gray-800">✕</button>
       </div>
-    </section>
+      <nav class="p-4">
+        <ul class="space-y-2 text-gray-700 font-medium">
+          <li><a href="edit.html" class="block hover:text-red-600">✏️ Edit Content</a></li>
+          <li><a href="tambah.html" class="block hover:text-red-600">➕ Add New Content</a></li>
+          <li><a href="form.html" class="block hover:text-red-600">📩 Form</a></li>
+          <li>
+            <button onclick="logout()" class="w-full text-left hover:text-red-600">👋 Log Out</button>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="flex-1 p-6 overflow-y-auto relative bg-cover bg-center" 
+          style="background-image: url('https://source.unsplash.com/1600x900/?technology');">
+      <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-md"></div>
+
+      <div class="relative z-10 flex flex-col items-center justify-center min-h-[70vh] text-center text-white">
+        <h2 class="text-3xl font-bold mb-4">🤓 Hai Yess!! 🤓</h2>
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <a href="edit.html" class="bg-white text-gray-800 py-3 px-6 rounded-lg shadow hover:bg-gray-100 transition">
+            ✏️ Edit Content
+          </a>
+          <a href="tambah.html" class="bg-white text-gray-800 py-3 px-6 rounded-lg shadow hover:bg-gray-100 transition">
+            ➕ Add New Content
+          </a>
+          <a href="form.html" class="bg-white text-gray-800 py-3 px-6 rounded-lg shadow hover:bg-gray-100 transition">
+            📩 Form
+          </a>
+          <button onclick="logout()" class="bg-white text-gray-800 py-3 px-6 rounded-lg shadow hover:bg-gray-100 transition">
+            👋 Log Out
+          </button>
+        </div>
+      </div>
+    </main>
   </div>
 
-  <footer>
-    &copy; 2025 YesZie Admin Panel &copy;
-  </footer>
+  <!-- TOGGLE SCRIPT -->
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const sidebar = document.getElementById("sidebar");
+    const closeSidebar = document.getElementById("closeSidebar");
+
+    hamburger.addEventListener("click", () => {
+      sidebar.classList.remove("-translate-x-full");
+    });
+
+    closeSidebar.addEventListener("click", () => {
+      sidebar.classList.add("-translate-x-full");
+    });
+  </script>
 
   <script>
     const supabase = window.supabase.createClient(
@@ -162,35 +81,26 @@
     );
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log("Current session data on dashboard:", session);
       const email = session?.user?.email;
       if (!session || email !== "grayesi.silitonga@gmail.com") {
         alert("Akses ditolak. Silakan login kembali.");
         window.location.href = "login.html";
-      } else {
-        console.log("Pengguna terautentikasi:", email);
       }
     }).catch(err => {
-      console.error("Error fetching session on dashboard:", err);
-      alert("Terjadi kesalahan saat memverifikasi sesi. Silakan coba lagi.");
+      alert("Terjadi kesalahan saat verifikasi login.");
       window.location.href = "login.html";
     });
 
     async function logout() {
-      console.log("Fungsi logout dipanggil dari admin_dashboard.html.");
       try {
         const { error } = await supabase.auth.signOut();
-
         if (error) {
-          console.error('Error during logout:', error.message);
           alert('Gagal logout: ' + error.message);
         } else {
-          console.log("Logout berhasil. Mengarahkan ke login.html.");
           window.location.href = "login.html";
         }
       } catch (e) {
-        console.error("Unexpected error in logout function (admin_dashboard.html):", e);
-        alert("Terjadi kesalahan tak terduga saat logout.");
+        alert("Terjadi kesalahan saat logout.");
       }
     }
   </script>
