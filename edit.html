@@ -5,24 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Edit Konten - Admin YesZie</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <style>
         :root {
-      --primary-bg: #20232a;
-      --secondary-bg: #282c34;
-      --accent-color: #61dafb;
-      --purple-accent: #bb86fc;
+      --primary-bg: #1a1c22;
+      --secondary-bg: #252a33;
+      --accent-color: #6c63ff;
+      --purple-accent: #9c7bff;
       --text-color: #ffffff;
-      --input-bg: #3a3f4b;
-      --button-primary: #03dac5;
-      --button-hover-primary: #018786;
-      --button-logout: #e53935;
-      --button-hover-logout: #b71c1c;
+      --text-muted: #b0b0b0;
+      --input-bg: #2e3440;
+      --button-primary: #6c63ff;
+      --button-hover-primary: #564dff;
+      --button-logout: #ff4757;
+      --button-hover-logout: #ff2d3e;
+      --success-color: #2ecc71;
+      --error-color: #e74c3c;
+      --transition-speed: 0.3s;
     }
 
     * {
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
     body {
@@ -32,15 +39,19 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      line-height: 1.6;
     }
 
     header {
       background-color: var(--secondary-bg);
-      padding: 20px 40px;
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     header .logo {
@@ -48,82 +59,136 @@
       font-weight: 700;
       color: var(--accent-color);
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo i {
+      font-size: 1.5rem;
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      cursor: pointer;
     }
 
     nav.main-nav {
       background-color: var(--primary-bg);
-      padding: 15px 0;
+      padding: 1rem 0;
       text-align: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      transition: all var(--transition-speed) ease;
     }
 
     nav.main-nav a {
       color: var(--text-color);
-      margin: 0 20px;
+      margin: 0 1rem;
       text-decoration: none;
       font-weight: 500;
-      padding: 8px 16px;
+      padding: 0.5rem 1.2rem;
       border-radius: 6px;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: all var(--transition-speed) ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav.main-nav a i {
+      font-size: 0.9rem;
     }
 
     nav.main-nav a:hover,
     nav.main-nav a.active {
       background-color: var(--accent-color);
-      color: #000;
+      color: #fff;
+      transform: translateY(-2px);
     }
 
     .container {
       flex-grow: 1;
-      padding: 40px 20px;
-      max-width: 1200px;
-      margin: 30px auto;
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 2rem auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
     }
 
     section {
       background-color: var(--secondary-bg);
-      padding: 25px;
+      padding: 1.5rem;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       display: flex;
       flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+
+    section:hover {
+      transform: translateY(-5px);
     }
 
     h2 {
       color: var(--accent-color);
       font-size: 1.5rem;
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 3px;
+      background: var(--accent-color);
+      border-radius: 3px;
     }
 
     input, textarea {
       width: 100%;
-      margin-bottom: 12px;
-      padding: 12px 16px;
+      margin-bottom: 1rem;
+      padding: 0.8rem 1rem;
       border-radius: 8px;
       border: 1px solid var(--input-bg);
       background-color: var(--input-bg);
       color: var(--text-color);
       font-size: 0.95rem;
+      transition: all var(--transition-speed) ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
     }
 
     input[type="file"] {
       background-color: transparent;
-      border: 1px dashed var(--accent-color);
-      padding: 10px;
+      border: 2px dashed var(--accent-color);
+      padding: 0.8rem;
       cursor: pointer;
+      margin-top: 0.5rem;
     }
 
     input[type="file"]::file-selector-button {
       background-color: var(--purple-accent);
-      color: #000;
-      padding: 8px 12px;
+      color: #fff;
+      padding: 0.5rem 1rem;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      font-weight: 500;
+      transition: all var(--transition-speed) ease;
     }
 
     input[type="file"]::file-selector-button:hover {
@@ -132,26 +197,30 @@
 
     button {
       width: 100%;
-      margin-top: 12px;
-      padding: 12px;
+      margin-top: 0.5rem;
+      padding: 0.8rem;
       border-radius: 8px;
       border: none;
       background-color: var(--button-primary);
-      color: #000;
+      color: #fff;
       font-weight: 600;
       cursor: pointer;
       font-size: 1rem;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      transition: all var(--transition-speed) ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
     }
 
     button:hover {
       background-color: var(--button-hover-primary);
       transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     .delete-btn {
       background-color: var(--button-logout);
-      color: #fff;
     }
 
     .delete-btn:hover {
@@ -160,334 +229,425 @@
 
     .item {
       background-color: var(--input-bg);
-      padding: 16px;
+      padding: 1.2rem;
       border-radius: 8px;
-      margin-top: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      margin-top: 1rem;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+      transition: all var(--transition-speed) ease;
+    }
+
+    .item:hover {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
     }
 
     .item img {
       max-width: 100%;
-      border-radius: 6px;
-      margin-top: 10px;
+      border-radius: 8px;
+      margin-top: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .button-group {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .button-group button {
+      flex: 1;
+      min-width: 120px;
     }
 
     footer {
       background-color: var(--secondary-bg);
-      color: var(--text-color);
+      color: var(--text-muted);
       text-align: center;
-      padding: 20px;
+      padding: 1.5rem;
       margin-top: auto;
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+      font-size: 0.9rem;
+    }
+
+    /* Loading state */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+    }
+
+    .loading::after {
+      content: '...';
+      animation: dots 1.5s steps(5, end) infinite;
+    }
+
+    @keyframes dots {
+      0%, 20% { content: '.'; }
+      40% { content: '..'; }
+      60%, 100% { content: '...'; }
+    }
+
+    /* Toast notifications */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      color: white;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      transform: translateX(200%);
+      transition: transform 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast.success {
+      background-color: var(--success-color);
+    }
+
+    .toast.error {
+      background-color: var(--error-color);
+    }
+
+    /* Responsive styles */
+    @media (max-width: 992px) {
+      .container {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        padding: 1.5rem;
+      }
     }
 
     @media (max-width: 768px) {
-      .container {
-        grid-template-columns: 1fr;
-        padding: 20px 10px;
+      header {
+        padding: 1rem;
       }
 
-      header {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
+      .hamburger {
+        display: block;
+      }
+
+      nav.main-nav {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+        background-color: var(--secondary-bg);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        transform: translateY(-150%);
+        opacity: 0;
+        z-index: 99;
+      }
+
+      nav.main-nav.show {
+        transform: translateY(0);
+        opacity: 1;
       }
 
       nav.main-nav a {
-        display: inline-block;
-        margin: 10px 10px;
-        font-size: 0.9rem;
+        display: block;
+        margin: 0.5rem 0;
+        padding: 0.8rem;
+      }
+
+      .container {
+        padding: 1rem;
+        margin: 1rem auto;
       }
 
       section {
-        padding: 20px 15px;
+        padding: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        grid-template-columns: 1fr;
       }
 
-      input, textarea, button {
-        font-size: 0.9rem;
+      .button-group {
+        flex-direction: column;
+      }
+
+      .button-group button {
+        width: 100%;
       }
     }
     </style>
 </head>
 <body>
 
- <header class="flex items-center justify-between bg-white px-4 py-3 border-b shadow md:hidden">
-    <button id="hamburger" class="text-gray-800 focus:outline-none text-2xl">
-      ☰
+<header>
+    <a href="admin_dashboard.html" class="logo">
+        <i class="fas fa-user-shield"></i> Admin YesZie
+    </a>
+    <button class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
     </button>
-  </header>
+</header>
 
-<nav class="main-nav"> <a href="admin_dashboard.html">Dashboard</a>
-    <a href="tambah.html">Add </a> 
-    <a href="index.html" onclick="logout()">Log Out</a> </nav>
+<nav class="main-nav" id="mainNav">
+    <a href="admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    <a href="tambah.html"><i class="fas fa-plus-circle"></i> Add Content</a> 
+    <a href="index.html" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+</nav>
 
 <div class="container" id="content">
-    <p style="text-align: center; color: var(--text-color);">Memuat konten...</p>
+    <p class="loading">Memuat konten</p>
 </div>
 
 <footer>
-    &copy; 2025_YesZie Admin Panel &copy;
+    &copy; 2025 YesZie Admin Panel | All Rights Reserved
 </footer>
 
+<div id="toast" class="toast"></div>
+
 <script>
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const mainNav = document.getElementById('mainNav');
+    
+    hamburger.addEventListener('click', () => {
+        mainNav.classList.toggle('show');
+    });
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('#mainNav a').forEach(link => {
+        link.addEventListener('click', () => {
+            mainNav.classList.remove('show');
+        });
+    });
+
+    // Toast notification function
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = `toast show ${type}`;
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    // Rest of your existing JavaScript code remains unchanged
     const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Otentikasi
-supabaseClient.auth.getSession().then(({ data: { session } }) => {
-    if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
-        alert("Akses ditolak. Silakan login kembali.");
-        window.location.href = "login.html";
-    }
-}).catch(err => {
-    console.error("Error fetching session on edit page:", err);
-    alert("Terjadi kesalahan saat memverifikasi sesi. Silakan coba lagi.");
-    window.location.href = "login.html";
-});
-
-async function logout() {
-    try {
-        const { error } = await supabaseClient.auth.signOut();
-        if (error) {
-            console.error('Error during logout:', error.message);
-            alert('Gagal logout: ' + error.message);
-        } else {
-            window.location.href = "login.html";
+    // Otentikasi
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+        if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
+            showToast("Akses ditolak. Silakan login kembali.", "error");
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 2000);
         }
-    } catch (e) {
-        console.error("Unexpected error in logout function:", e);
-        alert("Terjadi kesalahan tak terduga saat logout.");
+    }).catch(err => {
+        console.error("Error fetching session on edit page:", err);
+        showToast("Terjadi kesalahan saat memverifikasi sesi.", "error");
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 2000);
+    });
+
+    async function logout() {
+        try {
+            const { error } = await supabaseClient.auth.signOut();
+            if (error) {
+                console.error('Error during logout:', error.message);
+                showToast('Gagal logout: ' + error.message, "error");
+            } else {
+                showToast('Logout berhasil!', "success");
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 1500);
+            }
+        } catch (e) {
+            console.error("Unexpected error in logout function:", e);
+            showToast("Terjadi kesalahan tak terduga saat logout.", "error");
+        }
     }
-}
 
-const menus = [
-    { table: 'about_me', title: 'About Me', bucket: 'aboutimages', isSingular: true },
-    { table: 'projects', title: 'Projects', bucket: 'projectimages' },
-    { table: 'experience', title: 'Experience', bucket: 'experienceimages' },
-    { table: 'activity', title: 'My Activity', bucket: 'activityimages' },
-    { table: 'articles', title: 'My Articles', bucket: 'articleimages' }
-];
+    const menus = [
+        { table: 'about_me', title: 'About Me', bucket: 'aboutimages', isSingular: true },
+        { table: 'projects', title: 'Projects', bucket: 'projectimages' },
+        { table: 'experience', title: 'Experience', bucket: 'experienceimages' },
+        { table: 'activity', title: 'My Activity', bucket: 'activityimages' },
+        { table: 'articles', title: 'My Articles', bucket: 'articleimages' }
+    ];
 
-function renderSection({ table, title, bucket, isSingular = false }) {
-    const section = document.createElement('section');
-    section.innerHTML = `<h2>${title}</h2><div id="list-${table}">Loading...</div>`;
-    document.getElementById('content').appendChild(section);
-    fetchData(table, bucket, isSingular);
+    function renderSection({ table, title, bucket, isSingular = false }) {
+        const section = document.createElement('section');
+        section.innerHTML = `<h2>${title}</h2><div id="list-${table}">Loading...</div>`;
+        document.getElementById('content').appendChild(section);
+        fetchData(table, bucket, isSingular);
 
-    supabaseClient.channel(`realtime_${table}`)
-        .on('postgres_changes', { event: '*', schema: 'public', table }, payload => {
-            console.log(`Realtime update on ${table}:`, payload);
-            fetchData(table, bucket, isSingular);
+        supabaseClient.channel(`realtime_${table}`)
+            .on('postgres_changes', { event: '*', schema: 'public', table }, payload => {
+                console.log(`Realtime update on ${table}:`, payload);
+                fetchData(table, bucket, isSingular);
+            })
+            .subscribe();
+    }
+
+    async function fetchData(table, bucket, isSingular) {
+        const { data, error } = await supabaseClient.from(table).select('*');
+        const container = document.getElementById(`list-${table}`);
+        if (error || !container) {
+            container.innerText = 'Error loading data.';
+            return;
+        }
+        container.innerHTML = '';
+        const displayData = isSingular && data.length > 0 ? [data[0]] : data;
+        if (displayData.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #aaa;">Tidak ada item ditemukan.</p>';
+            return;
+        }
+        displayData.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'item';
+            const hasLink = table === 'projects';
+            const linkInput = hasLink ? `<input type="text" value="${item.link || ''}" id="link-${table}-${item.id}" placeholder="Link Project" />` : '';
+            div.innerHTML = `
+                <input type="text" value="${item.title || ''}" id="title-${table}-${item.id}" placeholder="Judul" />
+                <textarea id="desc-${table}-${item.id}" placeholder="Deskripsi">${item.description || ''}</textarea>
+                ${linkInput}
+                <input type="file" id="file-${table}-${item.id}" accept="image/*" />
+                ${item.image_url ? `<img src="${item.image_url}" alt="${item.title || 'Image'}" />` : '<p style="color: #aaa;">No image uploaded</p>'}
+                <div class="button-group">
+                    <button onclick="handleEdit('${table}', ${item.id}, '${bucket}', ${hasLink})"><i class="fas fa-save"></i> Update</button>
+                    ${!isSingular ? `<button class="delete-btn" onclick="deleteItem('${table}', ${item.id}, '${bucket}', '${item.image_url || ''}')"><i class="fas fa-trash-alt"></i> Delete</button>` : ''}
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    async function uploadImage(bucket, file) {
+        if (!file) return null;
+        const fileName = `${Date.now()}-${file.name}`;
+        const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file, { upsert: false });
+        if (error) {
+            showToast("❌ Upload gambar gagal: " + error.message, "error");
+            return null;
+        }
+        const { data: publicUrl } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
+        return publicUrl.publicUrl;
+    }
+
+    async function deleteImage(bucket, imageUrl) {
+        if (!imageUrl) return;
+        const fileName = imageUrl.split('/').pop();
+        const { error } = await supabaseClient.storage.from(bucket).remove([fileName]);
+        if (error) console.error("Gagal hapus gambar lama:", error.message);
+    }
+
+    async function handleEdit(table, id, bucket, hasLink) {
+        const title = document.getElementById(`title-${table}-${id}`).value.trim();
+        const description = document.getElementById(`desc-${table}-${item.id}`).value.trim();
+        const fileInput = document.getElementById(`file-${table}-${id}`);
+        const file = fileInput.files[0];
+        const link = hasLink ? document.getElementById(`link-${table}-${id}`).value.trim() : null;
+        if (!title || !description) {
+            showToast("Judul dan Deskripsi tidak boleh kosong!", "error");
+            return;
+        }
+
+        const { data: current, error: currentError } = await supabaseClient.from(table).select('image_url').eq('id', id).single();
+        if (currentError) {
+            showToast("Gagal ambil data lama: " + currentError.message, "error");
+            return;
+        }
+
+        let imageUrl = current.image_url || null;
+        if (file) {
+            const newUrl = await uploadImage(bucket, file);
+            if (!newUrl) return;
+            if (imageUrl) await deleteImage(bucket, imageUrl);
+            imageUrl = newUrl;
+        }
+
+        const update = { title, description };
+        if (imageUrl) update.image_url = imageUrl;
+        if (hasLink) update.link = link;
+
+        const { error } = await supabaseClient.from(table).update(update).eq('id', id);
+        if (error) {
+            showToast("Gagal update: " + error.message, "error");
+        } else {
+            showToast("✅ Berhasil update!", "success");
+        }
+    }
+
+    async function deleteItem(table, id, bucket, imageUrl) {
+        if (!confirm(`Yakin ingin menghapus dari ${table}?`)) return;
+        if (imageUrl) await deleteImage(bucket, imageUrl);
+        const { error } = await supabaseClient.from(table).delete().eq('id', id);
+        if (error) {
+            showToast("Gagal hapus item: " + error.message, "error");
+        } else {
+            showToast("✅ Item berhasil dihapus!", "success");
+        }
+    }
+
+    async function deleteMessage(id) {
+        if (!confirm("Anda yakin ingin menghapus pesan ini?")) return;
+        const { error } = await supabaseClient.from('contact_messages').delete().eq('id', id);
+        if (error) {
+            showToast('❌ Gagal menghapus pesan: ' + error.message, "error");
+        } else {
+            showToast('✅ Pesan berhasil dihapus!', "success");
+            fetchContactMessages();
+        }
+    }
+
+    async function fetchContactMessages() {
+        const container = document.getElementById('contact-messages');
+        const { data, error } = await supabaseClient.from('contact_messages').select('*').order('created_at', { ascending: false });
+        if (error) {
+            container.innerHTML = '<p style="color: red;">Gagal memuat pesan</p>';
+            return;
+        }
+        if (!data || data.length === 0) {
+            container.innerHTML = '<p style="color: #aaa;">Belum ada pesan masuk.</p>';
+            return;
+        }
+        container.innerHTML = '';
+        data.forEach(msg => {
+            const msgBox = document.createElement('div');
+            msgBox.classList.add('item');
+            msgBox.innerHTML = `
+                <p><strong>Nama:</strong> ${msg.name}</p>
+                <p><strong>Email:</strong> ${msg.email}</p>
+                <p><strong>Pesan:</strong><br>${msg.message}</p>
+                <div class="button-group">
+                    <button class="delete-btn" onclick="deleteMessage(${msg.id})"><i class="fas fa-trash-alt"></i> Hapus</button>
+                </div>
+            `;
+            container.appendChild(msgBox);
+        });
+    }
+
+    // Event listener DOM
+    window.addEventListener('DOMContentLoaded', () => {
+        menus.forEach(menu => renderSection(menu));
+        fetchContactMessages();
+    });
+
+    // Realtime listener untuk contact_messages
+    supabaseClient
+        .channel('realtime_contact_messages')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_messages' }, payload => {
+            console.log("📩 Realtime Form Letter:", payload);
+            fetchContactMessages();
         })
         .subscribe();
-}
-
-async function fetchData(table, bucket, isSingular) {
-    const { data, error } = await supabaseClient.from(table).select('*');
-    const container = document.getElementById(`list-${table}`);
-    if (error || !container) {
-        container.innerText = 'Error loading data.';
-        return;
-    }
-    container.innerHTML = '';
-    const displayData = isSingular && data.length > 0 ? [data[0]] : data;
-    if (displayData.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #aaa;">Tidak ada item ditemukan.</p>';
-        return;
-    }
-    displayData.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'item';
-        const hasLink = table === 'projects';
-        const linkInput = hasLink ? `<input type="text" value="${item.link || ''}" id="link-${table}-${item.id}" placeholder="Link Project" />` : '';
-        div.innerHTML = `
-            <input type="text" value="${item.title || ''}" id="title-${table}-${item.id}" placeholder="Judul" />
-            <textarea id="desc-${table}-${item.id}" placeholder="Deskripsi">${item.description || ''}</textarea>
-            ${linkInput}
-            <input type="file" id="file-${table}-${item.id}" accept="image/*" />
-            ${item.image_url ? `<img src="${item.image_url}" alt="${item.title || 'Image'}" />` : '<p style="color: #aaa;">No image uploaded</p>'}
-            <div class="button-group">
-                <button onclick="handleEdit('${table}', ${item.id}, '${bucket}', ${hasLink})">Update</button>
-                ${!isSingular ? `<button class="delete-btn" onclick="deleteItem('${table}', ${item.id}, '${bucket}', '${item.image_url || ''}')">Delete</button>` : ''}
-            </div>
-        `;
-        container.appendChild(div);
-    });
-}
-
-async function uploadImage(bucket, file) {
-    if (!file) return null;
-    const fileName = `${Date.now()}-${file.name}`;
-    const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file, { upsert: false });
-    if (error) {
-        alert("❌ Upload gambar gagal: " + error.message);
-        return null;
-    }
-    const { data: publicUrl } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
-    return publicUrl.publicUrl;
-}
-
-async function deleteImage(bucket, imageUrl) {
-    if (!imageUrl) return;
-    const fileName = imageUrl.split('/').pop();
-    const { error } = await supabaseClient.storage.from(bucket).remove([fileName]);
-    if (error) console.error("Gagal hapus gambar lama:", error.message);
-}
-
-async function handleEdit(table, id, bucket, hasLink) {
-    const title = document.getElementById(`title-${table}-${id}`).value.trim();
-    const description = document.getElementById(`desc-${table}-${id}`).value.trim();
-    const fileInput = document.getElementById(`file-${table}-${id}`);
-    const file = fileInput.files[0];
-    const link = hasLink ? document.getElementById(`link-${table}-${id}`).value.trim() : null;
-    if (!title || !description) return alert("Judul dan Deskripsi tidak boleh kosong!");
-
-    const { data: current, error: currentError } = await supabaseClient.from(table).select('image_url').eq('id', id).single();
-    if (currentError) return alert("Gagal ambil data lama: " + currentError.message);
-
-    let imageUrl = current.image_url || null;
-    if (file) {
-        const newUrl = await uploadImage(bucket, file);
-        if (!newUrl) return;
-        if (imageUrl) await deleteImage(bucket, imageUrl);
-        imageUrl = newUrl;
-    }
-
-    const update = { title, description };
-    if (imageUrl) update.image_url = imageUrl;
-    if (hasLink) update.link = link;
-
-    const { error } = await supabaseClient.from(table).update(update).eq('id', id);
-    if (error) alert("Gagal update: " + error.message);
-    else alert("✅ Berhasil update!");
-}
-
-async function deleteItem(table, id, bucket, imageUrl) {
-    if (!confirm(`Yakin ingin menghapus dari ${table}?`)) return;
-    if (imageUrl) await deleteImage(bucket, imageUrl);
-    const { error } = await supabaseClient.from(table).delete().eq('id', id);
-    if (error) alert("Gagal hapus item: " + error.message);
-    else alert("✅ Item berhasil dihapus!");
-}
-
-async function deleteMessage(id) {
-    if (!confirm("Anda yakin ingin menghapus pesan ini?")) return;
-    const { error } = await supabaseClient.from('contact_messages').delete().eq('id', id);
-    if (error) {
-        alert('❌ Gagal menghapus pesan: ' + error.message);
-    } else {
-        alert('✅ Pesan berhasil dihapus!');
-        fetchContactMessages();
-    }
-}
-
-async function fetchContactMessages() {
-    const container = document.getElementById('contact-messages');
-    const { data, error } = await supabaseClient.from('contact_messages').select('*').order('created_at', { ascending: false });
-    if (error) {
-        container.innerHTML = '<p style="color: red;">Gagal memuat pesan</p>';
-        return;
-    }
-    if (!data || data.length === 0) {
-        container.innerHTML = '<p style="color: #aaa;">Belum ada pesan masuk.</p>';
-        return;
-    }
-    container.innerHTML = '';
-    data.forEach(msg => {
-        const msgBox = document.createElement('div');
-        msgBox.classList.add('item');
-        msgBox.innerHTML = `
-            <p><strong>Nama:</strong> ${msg.name}</p>
-            <p><strong>Email:</strong> ${msg.email}</p>
-            <p><strong>Pesan:</strong><br>${msg.message}</p>
-            <div class="button-group">
-                <button class="delete-btn" onclick="deleteMessage(${msg.id})">Hapus</button>
-            </div>
-        `;
-        container.appendChild(msgBox);
-    });
-}
-
-// Event listener DOM
-window.addEventListener('DOMContentLoaded', () => {
-    menus.forEach(menu => renderSection(menu));
-    fetchContactMessages();
-});
-
-// Realtime listener untuk contact_messages
-supabaseClient
-    .channel('realtime_contact_messages')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_messages' }, payload => {
-        console.log("📩 Realtime Form Letter:", payload);
-        fetchContactMessages();
-    })
-    .subscribe();
-</script>
-
-<script>
-  async function fetchContactMessages() {
-    const container = document.getElementById('contact-messages');
-    const { data, error } = await supabaseClient
-      .from('contact_messages')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      container.innerHTML = '<p style="color:red">Gagal memuat pesan.</p>';
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      container.innerHTML = '<p style="color:#aaa;">Belum ada pesan masuk.</p>';
-      return;
-    }
-
-    container.innerHTML = '';
-    data.forEach(msg => {
-      const box = document.createElement('div');
-      box.classList.add('item');
-      box.innerHTML = `
-        <p><strong>Nama:</strong> ${msg.name}</p>
-        <p><strong>Email:</strong> ${msg.email}</p>
-        <p><strong>Pesan:</strong><br>${msg.message}</p>
-        <div class="button-group">
-          <button class="delete-btn" onclick="deleteMessage(${msg.id})">Hapus</button>
-        </div>`;
-      container.appendChild(box);
-    });
-  }
-
-  async function deleteMessage(id) {
-    if (!confirm('Yakin ingin menghapus pesan ini?')) return;
-    const { error } = await supabaseClient
-      .from('contact_messages')
-      .delete()
-      .eq('id', id);
-    if (error) {
-      alert('❌ Gagal menghapus: ' + error.message);
-    } else {
-      alert('✅ Pesan berhasil dihapus!');
-      fetchContactMessages();
-    }
-  }
-
-  window.addEventListener('DOMContentLoaded', fetchContactMessages);
-  supabaseClient
-    .channel('realtime_contact_messages')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_messages' }, payload => {
-      console.log('Realtime update pada FORM LETTER:', payload);
-      fetchContactMessages();
-    })
-    .subscribe();
 </script>
 </body>
 </html>
