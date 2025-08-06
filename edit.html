@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Konten - Admin YesZie</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <style>
         :root {
             --primary-bg: #1a1c22;
@@ -435,7 +434,7 @@
 <nav class="main-nav" id="mainNav">
     <a href="admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
     <a href="tambah.html"><i class="fas fa-plus-circle"></i> Add Content</a> 
-    <a href="index.html" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+    <a href="index.html" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Log Out</a>
 </nav>
 
 <div class="container" id="content">
@@ -443,7 +442,7 @@
 </div>
 
 <div id="imageModal" class="modal">
-    <button class="close-modal" onclick="closeModal()">&times;</button>
+    <button class="close-modal" id="closeModal">&times;</button>
     <div class="modal-content">
         <img id="modalImage" class="modal-image" src="" alt="Preview">
     </div>
@@ -453,223 +452,303 @@
     &copy; 2025 YesZie Admin Panel | All Rights Reserved
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
-    // Hamburger menu toggle
-    const hamburger = document.getElementById('hamburger');
-    const mainNav = document.getElementById('mainNav');
-    
-    hamburger.addEventListener('click', () => {
-        mainNav.classList.toggle('show');
-    });
-
-    // Close mobile menu when clicking on a link
-    document.querySelectorAll('#mainNav a').forEach(link => {
-        link.addEventListener('click', () => {
-            mainNav.classList.remove('show');
-        });
-    });
-
-    // Modal functions
-    function openModal(imageUrl) {
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
-        modalImg.src = imageUrl;
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-        const modal = document.getElementById('imageModal');
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-
-    // Close modal when clicking outside the image
-    window.addEventListener('click', (e) => {
-        const modal = document.getElementById('imageModal');
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-
-    // Rest of your existing JavaScript code with modifications for list view
+    // Konfigurasi Supabase (sebaiknya dipindahkan ke backend)
     const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Otentikasi
-    supabaseClient.auth.getSession().then(({ data: { session } }) => {
-        if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
-            alert("Akses ditolak. Silakan login kembali.");
+    // Fungsi sanitasi untuk mencegah XSS
+    function sanitizeInput(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    // Inisialisasi DOM
+    document.addEventListener('DOMContentLoaded', () => {
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const mainNav = document.getElementById('mainNav');
+        
+        hamburger.addEventListener('click', () => {
+            mainNav.classList.toggle('show');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mainNav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('show');
+            });
+        });
+
+        // Modal functions
+        const closeModalBtn = document.getElementById('closeModal');
+        const modal = document.getElementById('imageModal');
+        
+        function openModal(imageUrl) {
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = imageUrl;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside the image
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Logout handler
+        document.getElementById('logoutLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            logout();
+        });
+
+        // Otentikasi
+        checkAuth();
+
+        // Render sections
+        const menus = [
+            { table: 'about_me', title: 'About Me', bucket: 'aboutimages', isSingular: true },
+            { table: 'projects', title: 'Projects', bucket: 'projectimages' },
+            { table: 'experience', title: 'Experience', bucket: 'experienceimages' },
+            { table: 'activity', title: 'My Activity', bucket: 'activityimages' },
+            { table: 'articles', title: 'My Articles', bucket: 'articleimages' }
+        ];
+
+        menus.forEach(menu => renderSection(menu));
+    });
+
+    async function checkAuth() {
+        try {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
+                alert("Akses ditolak. Silakan login kembali.");
+                window.location.href = "login.html";
+            }
+        } catch (err) {
+            console.error("Error fetching session:", err);
+            alert("Terjadi kesalahan saat memverifikasi sesi.");
             window.location.href = "login.html";
         }
-    }).catch(err => {
-        console.error("Error fetching session on edit page:", err);
-        alert("Terjadi kesalahan saat memverifikasi sesi. Silakan coba lagi.");
-        window.location.href = "login.html";
-    });
+    }
 
     async function logout() {
         try {
             const { error } = await supabaseClient.auth.signOut();
-            if (error) {
-                console.error('Error during logout:', error.message);
-                alert('Gagal logout: ' + error.message);
-            } else {
-                window.location.href = "login.html";
-            }
-        } catch (e) {
-            console.error("Unexpected error in logout function:", e);
-            alert("Terjadi kesalahan tak terduga saat logout.");
+            if (error) throw error;
+            window.location.href = "login.html";
+        } catch (error) {
+            console.error('Logout error:', error.message);
+            alert('Gagal logout: ' + error.message);
         }
     }
 
-    const menus = [
-        { table: 'about_me', title: 'About Me', bucket: 'aboutimages', isSingular: true },
-        { table: 'projects', title: 'Projects', bucket: 'projectimages' },
-        { table: 'experience', title: 'Experience', bucket: 'experienceimages' },
-        { table: 'activity', title: 'My Activity', bucket: 'activityimages' },
-        { table: 'articles', title: 'My Articles', bucket: 'articleimages' }
-    ];
-
     function renderSection({ table, title, bucket, isSingular = false }) {
         const section = document.createElement('section');
-        section.innerHTML = `<h2>${title}</h2><div class="content-list" id="list-${table}">Loading...</div>`;
+        section.innerHTML = `
+            <h2>${sanitizeInput(title)}</h2>
+            <div class="content-list" id="list-${table}">Loading...</div>
+        `;
         document.getElementById('content').appendChild(section);
         fetchData(table, bucket, isSingular);
 
+        // Realtime subscription
         supabaseClient.channel(`realtime_${table}`)
-            .on('postgres_changes', { event: '*', schema: 'public', table }, payload => {
-                console.log(`Realtime update on ${table}:`, payload);
+            .on('postgres_changes', { event: '*', schema: 'public', table }, () => {
                 fetchData(table, bucket, isSingular);
             })
             .subscribe();
     }
 
     async function fetchData(table, bucket, isSingular) {
-        const { data, error } = await supabaseClient.from(table).select('*');
-        const container = document.getElementById(`list-${table}`);
-        if (error || !container) {
-            container.innerText = 'Error loading data.';
-            return;
-        }
-        container.innerHTML = '';
-        const displayData = isSingular && data.length > 0 ? [data[0]] : data;
-        if (displayData.length === 0) {
-            container.innerHTML = '<p style="text-align: center; color: #aaa;">Tidak ada item ditemukan.</p>';
-            return;
-        }
-        
-        displayData.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'list-item';
-            const hasLink = table === 'projects';
+        try {
+            const { data, error } = await supabaseClient.from(table).select('*');
+            const container = document.getElementById(`list-${table}`);
             
-            const thumbnail = item.image_url 
-                ? `<img src="${item.image_url}" class="item-thumbnail" onclick="openModal('${item.image_url}')" alt="${item.title || 'Thumbnail'}">`
-                : `<div class="no-thumbnail">No Image</div>`;
-            
-            const linkDisplay = hasLink && item.link 
-                ? `<a href="${item.link}" target="_blank" class="item-link">${item.link}</a>`
-                : '';
-            
-            div.innerHTML = `
-                <div class="item-header">
-                    ${thumbnail}
-                    <div>
-                        <h3 class="item-title">${item.title || 'No Title'}</h3>
-                        ${linkDisplay}
-                    </div>
-                </div>
-                <p class="item-desc">${item.description || 'No description available'}</p>
-                <div class="item-actions">
-                    <button onclick="showEditForm('${table}', ${item.id}, '${bucket}', ${hasLink})">
-                        <i class="fas fa-edit"></i> Edit
-                    </button>
-                    ${!isSingular ? `
-                    <button class="delete-btn" onclick="deleteItem('${table}', ${item.id}, '${bucket}', '${item.image_url || ''}')">
-                        <i class="fas fa-trash-alt"></i> Delete
-                    </button>` : ''}
-                </div>
-            `;
-            container.appendChild(div);
-        });
-    }
+            if (error) throw error;
+            if (!container) return;
 
-    function showEditForm(table, id, bucket, hasLink) {
-        // Ambil data yang akan diedit terlebih dahulu
-        supabaseClient.from(table)
-            .select('*')
-            .eq('id', id)
-            .single()
-            .then(({ data, error }) => {
-                if (error) {
-                    alert("Gagal mengambil data: " + error.message);
-                    return;
-                }
+            container.innerHTML = '';
+            const displayData = isSingular && data.length > 0 ? [data[0]] : data;
+            
+            if (displayData.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #aaa;">Tidak ada item ditemukan.</p>';
+                return;
+            }
+            
+            displayData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'list-item';
+                const hasLink = table === 'projects';
                 
-                // Buat modal untuk form edit
-                const modal = document.createElement('div');
-                modal.className = 'modal';
-                modal.style.display = 'flex';
-                modal.innerHTML = `
-                    <div class="modal-content" style="width: 90%; max-width: 600px;">
-                        <button class="close-modal" onclick="this.parentElement.parentElement.remove(); document.body.style.overflow = 'auto';">&times;</button>
-                        <h2>Edit ${table}</h2>
-                        <form id="editForm" onsubmit="event.preventDefault(); handleEdit('${table}', ${id}, '${bucket}', ${hasLink})">
-                            <div class="form-group">
-                                <label for="edit-title">Judul</label>
-                                <input type="text" id="edit-title" value="${data.title || ''}" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="edit-desc">Deskripsi</label>
-                                <textarea id="edit-desc" required>${data.description || ''}</textarea>
-                            </div>
-                            
-                            ${hasLink ? `
-                            <div class="form-group">
-                                <label for="edit-link">Link</label>
-                                <input type="url" id="edit-link" value="${data.link || ''}">
-                            </div>` : ''}
-                            
-                            <div class="form-group">
-                                <label for="edit-image">Gambar (biarkan kosong jika tidak ingin mengubah)</label>
-                                <input type="file" id="edit-image" accept="image/*">
-                                ${data.image_url ? `
-                                <div class="current-image">
-                                    <span>Gambar saat ini:</span>
-                                    <img src="${data.image_url}" onclick="openModal('${data.image_url}')" style="cursor: pointer;">
-                                </div>` : ''}
-                            </div>
-                            
-                            <div class="form-actions">
-                                <button type="submit">
-                                    <i class="fas fa-save"></i> Simpan Perubahan
-                                </button>
-                                <button type="button" class="delete-btn" onclick="this.parentElement.parentElement.parentElement.remove(); document.body.style.overflow = 'auto';">
-                                    <i class="fas fa-times"></i> Batal
-                                </button>
-                            </div>
-                        </form>
+                const thumbnail = item.image_url 
+                    ? `<img src="${sanitizeInput(item.image_url)}" class="item-thumbnail" alt="${sanitizeInput(item.title || 'Thumbnail')}">`
+                    : `<div class="no-thumbnail">No Image</div>`;
+                
+                const linkDisplay = hasLink && item.link 
+                    ? `<a href="${sanitizeInput(item.link)}" target="_blank" class="item-link">${sanitizeInput(item.link)}</a>`
+                    : '';
+                
+                div.innerHTML = `
+                    <div class="item-header">
+                        ${thumbnail}
+                        <div>
+                            <h3 class="item-title">${sanitizeInput(item.title || 'No Title')}</h3>
+                            ${linkDisplay}
+                        </div>
+                    </div>
+                    <p class="item-desc">${sanitizeInput(item.description || 'No description available')}</p>
+                    <div class="item-actions">
+                        <button data-action="edit" data-table="${table}" data-id="${item.id}" data-bucket="${bucket}" data-haslink="${hasLink}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        ${!isSingular ? `
+                        <button class="delete-btn" data-action="delete" data-table="${table}" data-id="${item.id}" data-bucket="${bucket}" data-image="${item.image_url || ''}">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>` : ''}
                     </div>
                 `;
-                
-                document.body.appendChild(modal);
-                document.body.style.overflow = 'hidden';
+                container.appendChild(div);
             });
+
+            // Add event listeners to buttons
+            container.querySelectorAll('[data-action="edit"]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const table = btn.dataset.table;
+                    const id = btn.dataset.id;
+                    const bucket = btn.dataset.bucket;
+                    const hasLink = btn.dataset.haslink === 'true';
+                    showEditForm(table, id, bucket, hasLink);
+                });
+            });
+
+            container.querySelectorAll('[data-action="delete"]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const table = btn.dataset.table;
+                    const id = btn.dataset.id;
+                    const bucket = btn.dataset.bucket;
+                    const imageUrl = btn.dataset.image;
+                    deleteItem(table, id, bucket, imageUrl);
+                });
+            });
+
+            // Add click handler for thumbnails
+            container.querySelectorAll('.item-thumbnail').forEach(img => {
+                img.addEventListener('click', () => openModal(img.src));
+            });
+
+        } catch (error) {
+            console.error(`Error fetching ${table}:`, error);
+            const container = document.getElementById(`list-${table}`);
+            if (container) {
+                container.innerHTML = '<p style="color: var(--error-color);">Error loading data.</p>';
+            }
+        }
+    }
+
+    async function showEditForm(table, id, bucket, hasLink) {
+        try {
+            const { data, error } = await supabaseClient.from(table)
+                .select('*')
+                .eq('id', id)
+                .single();
+            
+            if (error) throw error;
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="modal-content" style="width: 90%; max-width: 600px;">
+                    <button class="close-modal" id="closeEditModal">&times;</button>
+                    <h2>Edit ${sanitizeInput(table)}</h2>
+                    <form id="editForm">
+                        <div class="form-group">
+                            <label for="edit-title">Judul</label>
+                            <input type="text" id="edit-title" value="${sanitizeInput(data.title || '')}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-desc">Deskripsi</label>
+                            <textarea id="edit-desc" required>${sanitizeInput(data.description || '')}</textarea>
+                        </div>
+                        
+                        ${hasLink ? `
+                        <div class="form-group">
+                            <label for="edit-link">Link</label>
+                            <input type="url" id="edit-link" value="${sanitizeInput(data.link || '')}">
+                        </div>` : ''}
+                        
+                        <div class="form-group">
+                            <label for="edit-image">Gambar (biarkan kosong jika tidak ingin mengubah)</label>
+                            <input type="file" id="edit-image" accept="image/*">
+                            ${data.image_url ? `
+                            <div class="current-image">
+                                <span>Gambar saat ini:</span>
+                                <img src="${sanitizeInput(data.image_url)}" style="cursor: pointer;">
+                            </div>` : ''}
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit">
+                                <i class="fas fa-save"></i> Simpan Perubahan
+                            </button>
+                            <button type="button" class="delete-btn" id="cancelEdit">
+                                <i class="fas fa-times"></i> Batal
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+
+            // Add event listeners
+            modal.querySelector('#closeEditModal').addEventListener('click', () => {
+                modal.remove();
+                document.body.style.overflow = 'auto';
+            });
+
+            modal.querySelector('#cancelEdit').addEventListener('click', () => {
+                modal.remove();
+                document.body.style.overflow = 'auto';
+            });
+
+            modal.querySelector('img')?.addEventListener('click', () => {
+                openModal(data.image_url);
+            });
+
+            modal.querySelector('#editForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleEdit(table, id, bucket, hasLink, modal);
+            });
+
+        } catch (error) {
+            console.error('Error showing edit form:', error);
+            alert("Gagal mengambil data: " + error.message);
+        }
     }
 
     async function uploadImage(bucket, file) {
         if (!file) return null;
         const fileName = `${Date.now()}-${file.name}`;
-        const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file, { upsert: false });
-        if (error) {
-            alert("❌ Upload gambar gagal: " + error.message);
-            return null;
-        }
-        const { data: publicUrl } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
-        return publicUrl.publicUrl;
+        const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file);
+        if (error) throw error;
+        const { data: { publicUrl } } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
+        return publicUrl;
     }
 
     async function deleteImage(bucket, imageUrl) {
@@ -679,57 +758,60 @@
         if (error) console.error("Gagal hapus gambar lama:", error.message);
     }
 
-    async function handleEdit(table, id, bucket, hasLink) {
-        const title = document.getElementById('edit-title').value.trim();
-        const description = document.getElementById('edit-desc').value.trim();
-        const fileInput = document.getElementById('edit-image');
-        const file = fileInput.files[0];
-        const link = hasLink ? document.getElementById('edit-link').value.trim() : null;
-        
-        if (!title || !description) return alert("Judul dan Deskripsi tidak boleh kosong!");
+    async function handleEdit(table, id, bucket, hasLink, modal) {
+        try {
+            const title = document.getElementById('edit-title').value.trim();
+            const description = document.getElementById('edit-desc').value.trim();
+            const fileInput = document.getElementById('edit-image');
+            const file = fileInput.files[0];
+            const link = hasLink ? document.getElementById('edit-link').value.trim() : null;
+            
+            if (!title || !description) {
+                alert("Judul dan Deskripsi tidak boleh kosong!");
+                return;
+            }
 
-        const { data: current, error: currentError } = await supabaseClient.from(table).select('image_url').eq('id', id).single();
-        if (currentError) return alert("Gagal ambil data lama: " + currentError.message);
+            const { data: current, error: currentError } = await supabaseClient.from(table).select('image_url').eq('id', id).single();
+            if (currentError) throw currentError;
 
-        let imageUrl = current.image_url || null;
-        if (file) {
-            const newUrl = await uploadImage(bucket, file);
-            if (!newUrl) return;
-            if (imageUrl) await deleteImage(bucket, imageUrl);
-            imageUrl = newUrl;
-        }
+            let imageUrl = current.image_url || null;
+            if (file) {
+                const newUrl = await uploadImage(bucket, file);
+                if (imageUrl) await deleteImage(bucket, imageUrl);
+                imageUrl = newUrl;
+            }
 
-        const update = { title, description };
-        if (imageUrl) update.image_url = imageUrl;
-        if (hasLink) update.link = link;
+            const update = { title, description };
+            if (imageUrl) update.image_url = imageUrl;
+            if (hasLink) update.link = link;
 
-        const { error } = await supabaseClient.from(table).update(update).eq('id', id);
-        if (error) {
-            alert("Gagal update: " + error.message);
-        } else {
+            const { error } = await supabaseClient.from(table).update(update).eq('id', id);
+            if (error) throw error;
+
             alert("✅ Berhasil update!");
-            // Tutup modal dan refresh data
-            document.querySelector('.modal').remove();
+            modal.remove();
             document.body.style.overflow = 'auto';
             fetchData(table, bucket, false);
+
+        } catch (error) {
+            console.error('Error handling edit:', error);
+            alert("Gagal update: " + error.message);
         }
     }
 
     async function deleteItem(table, id, bucket, imageUrl) {
         if (!confirm(`Yakin ingin menghapus dari ${table}?`)) return;
-        if (imageUrl) await deleteImage(bucket, imageUrl);
-        const { error } = await supabaseClient.from(table).delete().eq('id', id);
-        if (error) alert("Gagal hapus item: " + error.message);
-        else {
+        try {
+            if (imageUrl) await deleteImage(bucket, imageUrl);
+            const { error } = await supabaseClient.from(table).delete().eq('id', id);
+            if (error) throw error;
             alert("✅ Item berhasil dihapus!");
             fetchData(table, bucket, false);
+        } catch (error) {
+            console.error('Error deleting item:', error);
+            alert("Gagal hapus item: " + error.message);
         }
     }
-
-    // Event listener DOM
-    window.addEventListener('DOMContentLoaded', () => {
-        menus.forEach(menu => renderSection(menu));
-    });
 </script>
 </body>
 </html>

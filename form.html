@@ -5,167 +5,622 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pesan Masuk - Admin YesZie</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
     :root {
-      --primary-bg: #273760;
-      --secondary-bg: #1f2a40;
+      --primary-bg: #1a2332;
+      --secondary-bg: #273760;
+      --sidebar-bg: #1f2a40;
       --accent-color: #89c3f3;
       --purple-accent: #aa80c7;
       --text-color: #f7f7f7;
+      --text-muted: #b8c2cc;
       --input-bg: #3a4a70;
       --button-logout: #dc3545;
       --button-hover-logout: #c82333;
+      --success-color: #28a745;
+      --warning-color: #ffc107;
+      --transition-speed: 0.3s;
     }
 
     * {
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
     body {
       margin: 0;
       background-color: var(--primary-bg);
       color: var(--text-color);
+      min-height: 100vh;
+      transition: all var(--transition-speed) ease;
+    }
+
+    .main-container {
       display: flex;
-      flex-direction: column;
       min-height: 100vh;
     }
 
-    header, footer {
-      background-color: var(--secondary-bg);
+    /* Sidebar/Navbar */
+    .sidebar {
+      width: 250px;
+      background: var(--sidebar-bg);
+      min-height: 100vh;
+      transition: all var(--transition-speed) ease;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar.collapsed {
+      width: 70px;
+    }
+
+    .sidebar-header {
       padding: 20px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    nav {
-      background-color: var(--primary-bg);
-      text-align: center;
-      padding: 10px;
+    .sidebar-header h3 {
+      white-space: nowrap;
+      opacity: 1;
+      transition: opacity var(--transition-speed);
     }
 
-    nav a {
+    .sidebar.collapsed .sidebar-header h3 {
+      opacity: 0;
+      width: 0;
+    }
+
+    .toggle-btn {
+      background: transparent;
+      border: none;
       color: var(--text-color);
-      margin: 0 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 50%;
+      transition: all var(--transition-speed) ease;
+    }
+
+    .toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-menu {
+      padding: 20px 0;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: var(--text-color);
       text-decoration: none;
+      transition: all var(--transition-speed) ease;
+      white-space: nowrap;
+    }
+
+    .sidebar-menu a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--accent-color);
+    }
+
+    .sidebar-menu a i {
+      margin-right: 10px;
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+    }
+
+    .sidebar.collapsed .sidebar-menu a span {
+      opacity: 0;
+      width: 0;
+    }
+
+    .sidebar-menu a.active {
+      background: var(--secondary-bg);
+      border-left: 4px solid var(--accent-color);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      transition: all var(--transition-speed) ease;
+      margin-left: 250px;
+    }
+
+    .main-content.collapsed {
+      margin-left: 70px;
+    }
+
+    .header {
+      background: var(--secondary-bg);
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .user-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
     }
 
     .container {
-      flex-grow: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Message Items */
+    .message-container {
+      background: var(--secondary-bg);
       padding: 20px;
-      max-width: 800px;
-      margin: auto;
-    }
-
-    .item {
-      background-color: var(--input-bg);
-      padding: 15px;
       border-radius: 8px;
-      margin-bottom: 15px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
     }
 
-    .item .button-group {
-      margin-top: 10px;
+    .message-container h2 {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      color: var(--accent-color);
     }
 
-    .item .button-group button {
-      background-color: var(--button-logout);
-      border: none;
-      padding: 8px 12px;
+    .message-container h2 i {
+      margin-right: 10px;
+    }
+
+    .message-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .message-item {
+      background: var(--input-bg);
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--accent-color);
+      transition: transform 0.2s ease;
+    }
+
+    .message-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .message-item p {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    .message-item strong {
+      color: var(--accent-color);
+    }
+
+    .message-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      padding: 8px 15px;
       border-radius: 4px;
-      color: white;
+      border: none;
       cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .item .button-group button:hover {
+    .btn i {
+      margin-right: 5px;
+    }
+
+    .btn-delete {
+      background-color: var(--button-logout);
+      color: white;
+    }
+
+    .btn-delete:hover {
       background-color: var(--button-hover-logout);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      color: var(--accent-color);
+    }
+
+    .empty-state p {
+      font-size: 1.1rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: none;
+      background: var(--secondary-bg);
+      border: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 5px;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 999;
+    }
+
+    /* Overlay for mobile */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 900;
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        left: -250px;
+      }
+      
+      .sidebar.active {
+        left: 0;
+      }
+      
+      .sidebar.collapsed {
+        left: -250px;
+      }
+      
+      .main-content {
+        margin-left: 0 !important;
+        width: 100%;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .sidebar-overlay.active {
+        display: block;
+      }
     }
   </style>
 </head>
 <body>
+<div class="main-container">
+  <!-- Mobile Menu Button -->
+  <button class="mobile-menu-btn" id="mobileMenuBtn">
+    <i class="fas fa-bars"></i>
+  </button>
 
-<header>
-  <h1>Admin YesZie - Pesan Masuk</h1>
-</header>
+  <!-- Overlay for mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<nav>
-  <a href="admin_dashboard.html">Dashboard</a>
-  <a href="tambah.html">Tambah</a>
-  <a href="edit.html">Edit</a>
-</nav>
+  <!-- Sidebar/Navbar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>YesZie Admin</h3>
+      <button class="toggle-btn" id="toggleSidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div class="sidebar-menu">
+      <a href="admin_dashboard.html">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="tambah.html">
+        <i class="fas fa-plus-circle"></i>
+        <span>Tambah Konten</span>
+      </a>
+      <a href="edit.html">
+        <i class="fas fa-edit"></i>
+        <span>Edit Konten</span>
+      </a>
+      <a href="#" class="active">
+        <i class="fas fa-envelope"></i>
+        <span>Pesan Masuk</span>
+      </a>
+      <a href="#" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
+    </div>
+  </div>
 
-<div class="container">
-  <h2>📥 Daftar Pesan Masuk</h2>
-  <div id="contact-messages">Memuat pesan...</div>
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <div class="header">
+      <h1><i class="fas fa-envelope"></i> Pesan Masuk</h1>
+  
+    </div>
+
+    <div class="container">
+      <div class="message-container">
+        <h2><i class="fas fa-inbox"></i> Daftar Pesan Masuk</h2>
+        <div class="message-list" id="contact-messages">
+          <div class="empty-state">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Memuat pesan...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 YesZie - All rights reserved</p>
+    </footer>
+  </div>
 </div>
-
-<footer>
-  <p>&copy; 2025 YesZie</p>
-</footer>
 
 <script>
   const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+  // DOM Elements
+  const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('toggleSidebar');
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mainContent = document.getElementById('mainContent');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+  // Toggle sidebar collapse/expand
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+    mainContent.classList.toggle('collapsed');
+  });
+
+  // Mobile menu toggle
+  mobileMenuBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    sidebarOverlay.classList.toggle('active');
+  });
+
+  // Close sidebar when clicking overlay
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+  });
+
+  // Close sidebar when clicking a menu item on mobile
+  document.querySelectorAll('.sidebar-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      }
+    });
+  });
+
+  // Adjust main content margin when resizing
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      if (sidebar.classList.contains('collapsed')) {
+        mainContent.classList.add('collapsed');
+      } else {
+        mainContent.classList.remove('collapsed');
+      }
+    }
+  });
+
+  // Initialize sidebar state
+  function initSidebar() {
+    if (window.innerWidth > 768) {
+      sidebar.classList.remove('active');
+      sidebarOverlay.classList.remove('active');
+      if (sidebar.classList.contains('collapsed')) {
+        mainContent.classList.add('collapsed');
+      } else {
+        mainContent.classList.remove('collapsed');
+      }
+    }
+  }
+
+  // Check admin status
   async function checkAdmin() {
     const { data } = await supabaseClient.auth.getSession();
     const session = data.session;
     if (!session || session.user.email !== 'grayesi.silitonga@gmail.com') {
-      alert("❌ Akses ditolak. Login sebagai admin terlebih dahulu.");
-      window.location.href = "login.html";
+      showNotification('error', "❌ Akses ditolak. Login sebagai admin terlebih dahulu.");
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 2000);
     } else {
       console.log("✅ Login sebagai admin:", session.user.email);
       fetchContactMessages();
+      initSidebar();
     }
   }
 
-  async function deleteItem(table, id, bucket, imageUrl) {
-    if (!confirm(`Yakin ingin menghapus dari ${table}?`)) return;
-    if (imageUrl) await deleteImage(bucket, imageUrl);
-    const { error } = await supabaseClient.from(table).delete().eq('id', id);
-    if (error) alert("Gagal hapus item: " + error.message);
-    else alert("✅ Item berhasil dihapus!");
-  }
-
+  // Delete message function
   async function deleteMessage(id) {
     if (!confirm("Anda yakin ingin menghapus pesan ini?")) return;
     const { error } = await supabaseClient.from('contact_messages').delete().eq('id', id);
     if (error) {
-      alert('❌ Gagal menghapus pesan: ' + error.message);
+      showNotification('error', 'Gagal menghapus pesan: ' + error.message);
     } else {
-      alert('✅ Pesan berhasil dihapus!');
+      showNotification('success', 'Pesan berhasil dihapus!');
       fetchContactMessages();
     }
   }
 
+  // Fetch contact messages
   async function fetchContactMessages() {
     const container = document.getElementById('contact-messages');
     const { data, error } = await supabaseClient.from('contact_messages').select('*').order('created_at', { ascending: false });
+    
     if (error) {
-      container.innerHTML = '<p style="color: red;">Gagal memuat pesan</p>';
+      container.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>Gagal memuat pesan</p>
+        </div>
+      `;
       return;
     }
+    
     if (!data || data.length === 0) {
-      container.innerHTML = '<p style="color: #aaa;">Belum ada pesan masuk.</p>';
+      container.innerHTML = `
+        <div class="empty-state">
+          <i class="far fa-folder-open"></i>
+          <p>Belum ada pesan masuk</p>
+        </div>
+      `;
       return;
     }
+    
     container.innerHTML = '';
     data.forEach(msg => {
+      const msgDate = new Date(msg.created_at);
+      const formattedDate = msgDate.toLocaleString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      
       const msgBox = document.createElement('div');
-      msgBox.classList.add('item');
+      msgBox.classList.add('message-item');
       msgBox.innerHTML = `
         <p><strong>Nama:</strong> ${msg.name}</p>
         <p><strong>Email:</strong> ${msg.email}</p>
-        <p><strong>Pesan:</strong><br>${msg.message}</p>
+        <p><strong>Pesan:</strong><br>${msg.message.replace(/\n/g, '<br>')}</p>
+        <div class="message-meta">
+          <span>Diterima: ${formattedDate}</span>
+          <span>ID: ${msg.id}</span>
+        </div>
         <div class="button-group">
-          <button class="delete-btn" onclick="deleteMessage('${msg.id}')">Hapus</button>
+          <button class="btn btn-delete" onclick="deleteMessage('${msg.id}')">
+            <i class="fas fa-trash"></i> Hapus
+          </button>
         </div>
       `;
       container.appendChild(msgBox);
     });
   }
 
+  // Notification function
+  function showNotification(type, message) {
+    const notification = document.createElement('div');
+    notification.style.position = 'fixed';
+    notification.style.top = '20px';
+    notification.style.right = '20px';
+    notification.style.padding = '15px 20px';
+    notification.style.borderRadius = '5px';
+    notification.style.color = 'white';
+    notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+    notification.style.zIndex = '1000';
+    notification.style.animation = 'slideIn 0.3s ease-out';
+    notification.style.display = 'flex';
+    notification.style.alignItems = 'center';
+    notification.style.gap = '10px';
+    
+    if (type === 'success') {
+      notification.style.background = 'var(--success-color)';
+    } else {
+      notification.style.background = 'var(--button-logout)';
+    }
+    
+    notification.innerHTML = `
+      <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+      <span>${message}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.style.animation = 'slideOut 0.3s ease-in';
+      setTimeout(() => {
+        notification.remove();
+      }, 300);
+    }, 3000);
+  }
+
+  // Add animation styles
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Logout functionality
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) {
+      showNotification('error', 'Gagal logout: ' + error.message);
+    } else {
+      window.location.href = 'login.html';
+    }
+  });
+
+  // Realtime updates
   supabaseClient
     .channel('realtime_contact_messages')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_messages' }, payload => {
@@ -174,6 +629,7 @@
     })
     .subscribe();
 
+  // Initialize
   document.addEventListener("DOMContentLoaded", checkAdmin);
 </script>
 </body>
