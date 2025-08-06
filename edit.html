@@ -219,11 +219,11 @@
 </head>
 <body>
 
-<header>
-    <a href="admin_dashboard.html" class="logo">Admin YesZie</a>
-    <nav>
-        </nav>
-</header>
+ <header class="flex items-center justify-between bg-white px-4 py-3 border-b shadow md:hidden">
+    <button id="hamburger" class="text-gray-800 focus:outline-none text-2xl">
+      ☰
+    </button>
+  </header>
 
 <nav class="main-nav"> <a href="admin_dashboard.html">Dashboard</a>
     <a href="tambah.html">Add </a> 
@@ -480,7 +480,6 @@ supabaseClient
     }
   }
 
-  // Jalankan fetch saat pertama kali dan saat realtime
   window.addEventListener('DOMContentLoaded', fetchContactMessages);
   supabaseClient
     .channel('realtime_contact_messages')
@@ -490,6 +489,5 @@ supabaseClient
     })
     .subscribe();
 </script>
-
 </body>
 </html>
