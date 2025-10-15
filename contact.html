@@ -14,25 +14,37 @@
             --second-bg-color: #ffffff;
             --main-color: #3f6399;
             --text-color: #333333;
-            --dark-bg-color: #1a1a1a;
-            --dark-second-bg-color: #2a2a2a;
-            --dark-text-color: #f5f5f5;
+            --shadow-color: rgba(0, 0, 0, .1);
+            --white-color: #ffffff;
+        }
+
+        .dark-mode {
+            --bg-color: #0b061f;
+            --second-bg-color: #1a1532;
+            --text-color: #fdfdfd;
+            --shadow-color: rgba(0, 0, 0, .7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 62.5%;
+            overflow-x: hidden;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
             background: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            transition: background 0.3s, color 0.3s;
+            line-height: 1.6;
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        body.dark-mode {
-            background: var(--dark-bg-color);
-            color: var(--dark-text-color);
-        }
-
+        /* Header */
         .header {
             position: fixed;
             top: 0;
@@ -44,373 +56,888 @@
             align-items: center;
             padding: 2rem 5%;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: background 0.3s;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
         }
 
-        body.dark-mode .header {
-            background: var(--dark-second-bg-color);
+        .header.sticky {
+            background: var(--second-bg-color);
+            box-shadow: 0 .1rem 1rem var(--shadow-color);
         }
 
+        .header .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--main-color);
+            text-decoration: none;
+        }
+
+        /* Navbar - Desktop */
         .navbar {
             display: flex;
+            align-items: center;
         }
 
         .navbar a {
-            margin: 0 1.5rem; /* Consistent spacing */
+            margin-left: 2rem;
             font-size: 1.6rem;
             color: var(--text-color);
             text-decoration: none;
             transition: 0.3s;
-        }
-
-        body.dark-mode .navbar a {
-            color: var(--dark-text-color);
+            font-weight: 500;
+            position: relative;
         }
 
         .navbar a:hover,
         .navbar a.active {
             color: var(--main-color);
-            transform: translateY(-2px);
         }
 
-        .contact-hero {
-            margin-top: 120px;
-            text-align: center;
-            padding: 8rem 5% 4rem;
-            background: var(--second-bg-color);
+        .navbar a.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 100%;
+            height: .2rem;
+            background: var(--main-color);
         }
 
-        body.dark-mode .contact-hero {
-            background: var(--dark-second-bg-color);
-        }
-
-        .contact-section {
-            padding: 5rem 5%;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .contact-box {
-            background: var(--second-bg-color);
-            border-radius: 1rem;
-            box-shadow: 0 0 1rem hsla(183, 62%, 93%, 0.884);
-            padding: 1,5rem;
-            transition: transform 0.3s;
-        }
-
-        body.dark-mode .contact-box {
-            background: var(--dark-second-bg-color);
-        }
-
-        .contact-box:hover {
-            transform: scale(1.05);
-        }
-
-        .info-card {
-            background: var(--second-bg-color);
-            border-radius: 1rem;
-            box-shadow: 0 0 1rem rgba(0,0,0,0.1);
-            padding: 1rem;
+        /* Header Icons */
+        .header-icons {
             display: flex;
             align-items: center;
-            transition: transform 0.3s;
+            gap: 1.5rem;
         }
 
-        body.dark-mode .info-card {
-            background: var(--dark-second-bg-color);
+        #menu-icon,
+        #darkMode-icon {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #darkMode-icon:hover,
+        #menu-icon:hover {
+            color: var(--main-color);
+        }
+
+        /* Sembunyikan menu icon di desktop */
+        #menu-icon {
+            display: none;
+        }
+
+        /* Contact Hero Section */
+        .contact-hero {
+            margin-top: 120px;
+            min-height: 30vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: var(--second-bg-color);
+            padding: 8rem 5% 4rem;
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        .contact-hero .heading {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .contact-hero .heading span {
+            color: var(--main-color);
+        }
+
+        .contact-hero p {
+            font-size: 1.8rem;
+            color: var(--text-color);
+            max-width: 700px;
+            opacity: 0.9;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--bg-color);
+            padding: 5rem 5% 8rem;
+            min-height: calc(100vh - 120px - 80px);
+        }
+
+        .contact-section .heading {
+            text-align: center;
+            font-size: 4rem;
+            margin-bottom: 3rem;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .contact-section .heading::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--main-color);
+            border-radius: 2px;
+        }
+
+        .contact-section .heading span {
+            color: var(--main-color);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Contact Cards */
+        .contact-card {
+            background: var(--second-bg-color);
+            border-radius: 1.5rem;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            padding: 3rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--main-color), #5d8cc9);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px var(--shadow-color);
+            border-color: var(--main-color);
+        }
+
+        .contact-card h4 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .contact-card h4 span {
+            color: var(--main-color);
+        }
+
+        /* Info Cards */
+        .info-card {
+            background: var(--bg-color);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+            border-left: 4px solid var(--main-color);
         }
 
         .info-card:hover {
-            transform: scale(1.05);
+            transform: translateX(5px);
         }
 
         .info-card i {
             font-size: 2.5rem;
             color: var(--main-color);
             margin-right: 1.5rem;
+            min-width: 30px;
         }
 
         .info-card p {
             margin: 0;
             font-size: 1.4rem;
-        }
-
-        .pricing-card {
-            background: var(--second-bg-color);
-            border-radius: 1rem;
-            box-shadow: 0 0 1rem rgba(0,0,0,0.1);
-            padding: 2rem;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        body.dark-mode .pricing-card {
-            background: var(--dark-second-bg-color);
-        }
-
-        .pricing-card:hover {
-            transform: scale(1.05);
-        }
-
-        .pricing-card h4 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--main-color);
-        }
-
-        .pricing-card p {
-            font-size: 1.4rem;
-            margin: 0.5rem 0;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-
-        .social-links a {
-            margin: 0 1rem;
-            font-size: 2rem;
-            color: var(--main-color);
-            transition: color 0.3s;
-        }
-
-        body.dark-mode .social-links a {
-            color: var(--dark-text-color);
-        }
-
-        .social-links a:hover {
             color: var(--text-color);
         }
 
-        form.contact-form {
+        .info-card a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .info-card a:hover {
+            color: var(--main-color);
+        }
+
+        /* Service Cards */
+        .service-card {
+            background: var(--bg-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--main-color);
+        }
+
+        .service-card h5 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .service-card p {
+            font-size: 1.6rem;
+            color: var(--main-color);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
             display: flex;
             flex-direction: column;
         }
 
         .contact-form input,
         .contact-form textarea {
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 0.5rem;
-            border: 1px solid #ccc;
-            font-size: 1.3rem;
-        }
-
-        body.dark-mode .contact-form input,
-        body.dark-mode .contact-form textarea {
-            background: var(--dark-second-bg-color);
-            color: var(--dark-text-color);
-            border: 1px solid #555;
-        }
-
-        .contact-form button {
-            padding: 1rem;
+            padding: 1.5rem;
+            border: 2px solid var(--shadow-color);
+            border-radius: 0.8rem;
             font-size: 1.4rem;
-            background-color: var(--main-color);
-            color: white;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--main-color);
+            box-shadow: 0 0 0 3px rgba(63, 99, 153, 0.1);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            padding: 1.5rem 2rem;
+            background: var(--main-color);
+            color: var(--white-color);
             border: none;
             border-radius: 0.8rem;
+            font-size: 1.6rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            margin-top: 1rem;
         }
 
-        .contact-form button:hover {
-            background-color: var(--text-color);
+        .submit-btn:hover {
+            background: transparent;
             color: var(--main-color);
+            border-color: var(--main-color);
+            transform: translateY(-2px);
         }
 
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 4.5rem;
+            height: 4.5rem;
+            background: var(--main-color);
+            color: var(--white-color);
+            border-radius: 50%;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: var(--text-color);
+            color: var(--main-color);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
         .footer {
-            background: #3f6399;
-            color: #1b1c1d;
+            background: var(--main-color);
+            color: var(--white-color);
             padding: 2rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 -2px 8px var(--shadow-color);
+            min-height: 80px;
         }
 
+        .footer-text p {
+            font-size: 1.6rem;
+            color: var(--white-color);
+        }
+
+        .footer-iconTop a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: .8rem;
+            background: var(--white-color);
+            border-radius: .8rem;
+            border: .2rem solid var(--white-color);
+            outline: .2rem solid transparent;
+            transition: .5s ease;
+            width: 4.5rem;
+            height: 4.5rem;
+        }
+
+        .footer-iconTop a i {
+            font-size: 2.4rem;
+            color: var(--main-color);
+        }
+
+        .footer-iconTop a:hover {
+            outline-color: var(--white-color);
+            transform: translateY(-2px);
+            background: var(--main-color);
+        }
+        .footer-iconTop a:hover i {
+            color: var(--white-color);
+        }
+
+        /* Floating Back Button */
         .floating-back-btn {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background-color: #3f6399;
+            bottom: 25px;
+            right: 25px;
+            width: 55px;
+            height: 55px;
+            background: var(--main-color);
             color: white;
             border-radius: 50%;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            font-size: 24px;
+            box-shadow: 0 6px 20px var(--shadow-color);
             text-decoration: none;
             z-index: 1000;
-            transition: background 0.3s, transform 0.2s;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            border: 2px solid var(--white-color);
+        }
+
+        .floating-back-btn.show {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .floating-back-btn:hover {
-            background-color: #3f6399;
-            transform: scale(1.1);
+            background: var(--text-color);
+            transform: translateY(-3px) scale(1.05);
         }
 
-        #darkMode-icon {
-            font-size: 2rem;
-            color: var(--text-color);
-            cursor: pointer;
-            margin-left: 2rem;
-            transition: color 0.3s;
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        
+        /* Tablet & Mobile Landscape (max-width: 991px) */
+        @media (max-width: 991px) {
+            .header {
+                padding: 1.5rem 4%;
+            }
+
+            .contact-hero {
+                margin-top: 80px;
+                padding: 6rem 4% 3rem;
+            }
+
+            .contact-hero .heading {
+                font-size: 4rem;
+            }
+
+            .contact-section {
+                padding: 4rem 4% 6rem;
+            }
+
+            .contact-section .heading {
+                font-size: 3.5rem;
+            }
         }
 
-        body.dark-mode #darkMode-icon {
-            color: var(--dark-text-color);
+        /* Mobile Devices (max-width: 768px) */
+        @media (max-width: 768px) {
+            /* Tampilkan menu icon di mobile */
+            #menu-icon {
+                display: block;
+                font-size: 3rem;
+            }
+
+            /* Sembunyikan navbar default di mobile */
+            .navbar {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 1rem 3%;
+                background: var(--second-bg-color);
+                border-top: .1rem solid rgba(0, 0, 0, 0.1);
+                box-shadow: 0 .5rem 1rem var(--shadow-color);
+                display: none;
+                flex-direction: column;
+                transition: all 0.3s ease;
+            }
+
+            /* Tampilkan navbar ketika active */
+            .navbar.active {
+                display: flex;
+            }
+
+            /* Style untuk link navbar di mobile */
+            .navbar a {
+                display: block;
+                font-size: 2rem;
+                margin: 1.5rem 0;
+                text-align: center;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                transition: all 0.3s ease;
+                color: var(--text-color);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            /* Hilangkan border bottom untuk item terakhir */
+            .navbar a:last-child {
+                border-bottom: none;
+            }
+
+            /* Hover effect untuk mobile */
+            .navbar a:hover {
+                background: var(--main-color);
+                color: var(--white-color);
+                transform: translateX(5px);
+            }
+
+            /* Active state untuk mobile */
+            .navbar a.active {
+                background: var(--main-color);
+                color: var(--white-color);
+            }
+
+            /* Hilangkan pseudo-element active di mobile */
+            .navbar a.active::before {
+                display: none;
+            }
+
+            .contact-hero {
+                margin-top: 70px;
+                padding: 5rem 4% 2rem;
+                min-height: 25vh;
+            }
+
+            .contact-hero .heading {
+                font-size: 3.5rem;
+            }
+
+            .contact-hero p {
+                font-size: 1.5rem;
+            }
+
+            .contact-section {
+                padding: 3rem 4% 5rem;
+            }
+
+            .contact-section .heading {
+                font-size: 3rem;
+                margin-bottom: 2rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-card {
+                padding: 2.5rem;
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+                padding: 2rem 4%;
+            }
+
+            .footer-text {
+                order: 2;
+            }
+
+            .footer-iconTop {
+                order: 1;
+                width: 100%;
+                justify-content: center;
+            }
         }
 
-        #darkMode-icon:hover {
-            color: var(--main-color);
+        /* Small Mobile Devices (max-width: 450px) */
+        @media (max-width: 450px) {
+            html {
+                font-size: 55%;
+            }
+
+            .header {
+                padding: 1.2rem 3%;
+            }
+
+            .contact-hero {
+                margin-top: 60px;
+                padding: 4rem 3% 2rem;
+            }
+
+            .contact-hero .heading {
+                font-size: 3rem;
+            }
+
+            .contact-hero p {
+                font-size: 1.4rem;
+            }
+
+            .contact-section {
+                padding: 2rem 3% 4rem;
+            }
+
+            .contact-section .heading {
+                font-size: 2.5rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .contact-card {
+                padding: 2rem;
+                margin: 0 0.5rem;
+            }
+
+            .navbar {
+                padding: 1rem 3%;
+            }
+
+            .navbar a {
+                font-size: 1.8rem;
+                margin: 1rem 0;
+                padding: 1.5rem;
+            }
+
+            .footer {
+                padding: 1.5rem 3%;
+            }
+
+            .footer-text p {
+                font-size: 1.4rem;
+            }
+
+            .floating-back-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
         }
+
+        .login-button {
+            display: inline-block;
+            background-color: #8caed3;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.8rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.4rem;
+            transition: 0.3s;
+        }
+
+        .login-button:hover {
+            background-color: #6a8cb8;
+            transform: translateY(-2px);
+        }
+
     </style>
 </head>
 <body>
     <header class="header">
         <a href="index.html" class="logo">YesZie</a>
+        
         <nav class="navbar">
             <a href="index.html#home">Home</a>
             <a href="articles.html">Articles</a>
             <a href="contact.html" class="active">Contact</a>
-            <a href="login.html">Sign In</a>
         </nav>
-        <i class='bx bx-moon' id="darkMode-icon"></i>
-        <i class="bx bx-menu" id="menu-icon"></i>
+
+        <div class="header-icons">
+            <i class='bx bx-moon' id="darkMode-icon"></i>
+            <i class="bx bx-menu" id="menu-icon"></i>
+        </div>
     </header>
 
-    <section>
-    <div class="pricing-card">
-        <h4>CONTACT <span>ME</span></h4>
+    <section class="contact-hero">
+        <h1 class="heading">CONTACT <span>ME</span></h1>
         <p>Ada pertanyaan? Kerja sama? Atau cuma mau ngobrol? Kirimkan saja pesanmu di bawah ini ya!</p>
-    </div>
-  
-  <section class="contact-section">
-        <div class="pricing-card">
-                <h4>INFORMATION CONTACT</h4>
-            <div class="info-card">
-                <i class='bx bx-envelope'></i>
-                <p><strong>Email:</strong> <a href="mailto:grayesi.silitonga@email.com">grayesi.silitonga@email.com</a></p>
-            </div>
-            <div class="info-card">
-                <i class='bx bx-phone'></i>
-                <p><strong>WhatsApp:</strong> <a href="https://wa.me/6281360930979">+62 813-6093-0979</a></p>
-            </div>
-            <div class="info-card">
-                <i class='bx bxl-facebook'></i>
-                <p><strong>Facebook:</strong> <a href="https://facebook.com/Grayesi Silitonga" > Grayesi Silitonga</a>
-            </div>
-            <div class="info-card">
-                <i class='bx bxl-twitter'></i>
-                <p><strong>Twitter:</strong> <a href="https://twitter.com/pentasgw" > PentasGW</a>
-            </div>
-            <div class="info-card">
-                <i class='bx bxl-instagram'></i>
-                <p><strong>Instagram:</strong> <a href="https://instagram.com/grayesii" > Grayesii</a>
-            </div>
-            <div class="info-card">
-                <i class='bx bx-map'></i>
-                <p><strong>Lokasi:</strong> Tanjungpinang, Kepulauan Riau</p>
-            </div>
-        </div>
-      
+    </section>
 
-        <div class="contact-box">
-          <div class="pricing-card">
-                <h4>SERVICE OFFERING</h4>
-            <div class="pricing-card">
-                <h4>🖍️ Desain UI/UX</h4>
-                <p>Rp. 250.000 - Rp. 850.000</p>
+    <section class="contact-section">
+        <h2 class="heading">Get In <span>Touch</span></h2>
+        
+        <div class="contact-container">
+            <!-- Contact Information -->
+            <div class="contact-card">
+                <h4>INFORMATION <span>CONTACT</span></h4>
+                <div class="info-card">
+                    <i class='bx bx-envelope'></i>
+                    <p><strong>Email:</strong> <a href="mailto:grayesi.silitonga@email.com">grayesi.silitonga@email.com</a></p>
+                </div>
+                <div class="info-card">
+                    <i class='bx bx-phone'></i>
+                    <p><strong>WhatsApp:</strong> <a href="https://wa.me/6281360930979">+62 813-6093-0979</a></p>
+                </div>
+                <div class="info-card">
+                    <i class='bx bxl-facebook'></i>
+                    <p><strong>Facebook:</strong> <a href="https://facebook.com/Grayesi Silitonga">Grayesi Silitonga</a></p>
+                </div>
+                <div class="info-card">
+                    <i class='bx bxl-twitter'></i>
+                    <p><strong>Twitter:</strong> <a href="https://twitter.com/pentasgw">PentasGW</a></p>
+                </div>
+                <div class="info-card">
+                    <i class='bx bxl-instagram'></i>
+                    <p><strong>Instagram:</strong> <a href="https://instagram.com/grayesii">Grayesii</a></p>
+                </div>
+                <div class="info-card">
+                    <i class='bx bx-map'></i>
+                    <p><strong>Lokasi:</strong> Tanjungpinang, Kepulauan Riau</p>
+                </div>
+                
+                <div class="social-links">
+                    <a href="mailto:grayesi.silitonga@email.com" title="Email"><i class='bx bx-envelope'></i></a>
+                    <a href="https://wa.me/6281360930979" title="WhatsApp"><i class='bx bxl-whatsapp'></i></a>
+                    <a href="https://facebook.com/Grayesi Silitonga" title="Facebook"><i class='bx bxl-facebook'></i></a>
+                    <a href="https://twitter.com/pentasgw" title="Twitter"><i class='bx bxl-twitter'></i></a>
+                    <a href="https://instagram.com/grayesii" title="Instagram"><i class='bx bxl-instagram'></i></a>
+                </div>
             </div>
-            <div class="pricing-card">
-                <h4>💻 Website Portfolio</h4>
-                <p>Rp 400.000 - 1.000.000</p>
-            </div>
-            <div class="pricing-card">
-                <h4>📽️ Edit Video / Musik</h4>
-                <p>Rp 150.000 - 300.000</p>
-            </div>
-          </div>
-        </div>
 
-        <div class="contact-box">
-            <div class="pricing-card">
-                <h4>FORM LETTER</h4>
-            <form id="contactForm" class="contact-form">
-                <input type="text" name="name" id="name" placeholder="Nama Lengkap" required>
-                <input type="email" name="email" id="email" placeholder="Email Kamu" required>
-                <textarea name="message" rows="5" id="message" placeholder="Pesan Kamu..." required></textarea>
-                <button type="submit">Kirim Pesan</button>
-            </form>
+            <!-- Service Offering -->
+            <div class="contact-card">
+                <h4>SERVICE <span>OFFERING</span></h4>
+                <div class="service-card">
+                    <h5>🖍️ Desain UI/UX</h5>
+                    <p>Rp 250.000 - Rp 850.000</p>
+                </div>
+                <div class="service-card">
+                    <h5>💻 Website Portfolio</h5>
+                    <p>Rp 400.000 - Rp 1.000.000</p>
+                </div>
+                <div class="service-card">
+                    <h5>📽️ Edit Video / Musik</h5>
+                    <p>Rp 150.000 - Rp 300.000</p>
+                </div>
+                <div class="service-card">
+                    <h5>🎨 Desain Grafis</h5>
+                    <p>Rp 100.000 - Rp 500.000</p>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-card">
+                <h4>SEND <span>MESSAGE</span></h4>
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <input type="text" name="name" id="name" placeholder="Nama Lengkap" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" id="email" placeholder="Email Kamu" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" id="message" placeholder="Pesan Kamu..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Kirim Pesan</button>
+                </form>
+            </div>
         </div>
     </section>
 
-    <a href="index.html" class="floating-back-btn" title="Kembali ke Beranda"><i class='bx bx-left-arrow-alt'></i></a>
+    <a href="index.html" class="floating-back-btn" title="Kembali ke Beranda">
+        <i class='bx bx-left-arrow-alt'></i>
+    </a>
 
     <footer class="footer">
         <div class="footer-text">
             <p>Made by © Grayesi Silitonga | All Rights Reserved.</p>
+            <a href="login.html" class="login-button">Sign In</a>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-       const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co'; 
-      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA'; // GANTI DENGAN ANON KEY SUPABASE ANDA
-      const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        const contactForm = document.getElementById('contactForm');
+        const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co'; 
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        if (contactForm) {
-            contactForm.addEventListener('submit', async (event) => {
-                event.preventDefault(); // Mencegah pengiriman form default
+        document.addEventListener('DOMContentLoaded', function() {
+            initCommonFeatures();
+            setupContactForm();
+        });
 
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const message = document.getElementById('message').value;
+        function setupContactForm() {
+            const contactForm = document.getElementById('contactForm');
 
-                // Kirim data ke tabel 'contact_messages' di Supabase
-                const { data, error } = await supabaseClient
-                    .from('contact_messages')
-                    .insert([
-                        { name: name, email: email, message: message }
-                    ]);
+            if (contactForm) {
+                contactForm.addEventListener('submit', async (event) => {
+                    event.preventDefault();
 
-                if (error) {
-                    console.error('Error mengirim pesan:', error.message);
-                    alert('Maaf, ada masalah saat mengirim pesan Anda. Silakan coba lagi.');
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
+
+                    // Kirim data ke tabel 'contact_messages' di Supabase
+                    const { data, error } = await supabaseClient
+                        .from('contact_messages')
+                        .insert([
+                            { name: name, email: email, message: message }
+                        ]);
+
+                    if (error) {
+                        console.error('Error mengirim pesan:', error.message);
+                        alert('Maaf, ada masalah saat mengirim pesan Anda. Silakan coba lagi.');
+                    } else {
+                        console.log('Pesan berhasil dikirim:', data);
+                        alert('Pesan Anda berhasil dikirim! Saya akan membalasnya segera.');
+                        contactForm.reset();
+                    }
+                });
+            }
+        }
+
+        function initCommonFeatures() {
+            // Dark Mode Toggle
+            const darkModeIcon = document.querySelector('#darkMode-icon');
+            const body = document.body;
+            
+            if (localStorage.getItem('dark-mode') === 'enabled') {
+                body.classList.add('dark-mode');
+                darkModeIcon.classList.replace('bx-moon', 'bx-sun');
+            }
+
+            darkModeIcon.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                const isDarkMode = body.classList.contains('dark-mode');
+                
+                if (isDarkMode) {
+                    darkModeIcon.classList.replace('bx-moon', 'bx-sun');
+                    localStorage.setItem('dark-mode', 'enabled');
                 } else {
-                    console.log('Pesan berhasil dikirim:', data);
-                    alert('Pesan Anda berhasil dikirim!');
-                    contactForm.reset(); // Mengatur ulang formulir setelah berhasil
+                    darkModeIcon.classList.replace('bx-sun', 'bx-moon');
+                    localStorage.setItem('dark-mode', 'disabled');
+                }
+            });
+
+            // Mobile Menu Toggle
+            const menuIcon = document.querySelector('#menu-icon');
+            const navbar = document.querySelector('.navbar');
+            
+            menuIcon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navbar.classList.toggle('active');
+                menuIcon.classList.toggle('bx-x');
+            });
+
+            // Close menu when clicking on links
+            document.querySelectorAll('.navbar a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navbar.classList.remove('active');
+                    menuIcon.classList.remove('bx-x');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navbar.contains(e.target) && !menuIcon.contains(e.target) && navbar.classList.contains('active')) {
+                    navbar.classList.remove('active');
+                    menuIcon.classList.remove('bx-x');
+                }
+            });
+
+            // Sticky Header
+            const header = document.querySelector('.header');
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('sticky', window.scrollY > 100);
+            });
+
+            // Floating Back Button
+            const floatingBackBtn = document.querySelector('.floating-back-btn');
+            if (floatingBackBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        floatingBackBtn.classList.add('show');
+                    } else {
+                        floatingBackBtn.classList.remove('show');
+                    }
+                });
+
+                floatingBackBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navbar.classList.remove('active');
+                    menuIcon.classList.remove('bx-x');
                 }
             });
         }
-
-        // Skrip untuk menu dan dark mode
-        const menuIcon = document.querySelector('#menu-icon');
-        const navbar = document.querySelector('.navbar');
-
-        menuIcon.onclick = () => {
-            navbar.classList.toggle('active');
-        };
-
-        const darkModeIcon = document.querySelector('#darkMode-icon');
-
-        darkModeIcon.onclick = () => {
-            document.body.classList.toggle('dark-mode');
-            darkModeIcon.classList.toggle('bx-sun');
-            darkModeIcon.classList.toggle('bx-moon');
-        };
     </script>
 </body>
 </html>
