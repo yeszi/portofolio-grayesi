@@ -1253,308 +1253,254 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        // Supabase Configuration
-        const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+<script>
+    // Supabase Configuration
+    const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+    
+    // Initialize Supabase client
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // DOM Elements
-        const menuIcon = document.getElementById('menu-icon');
-        const navbar = document.querySelector('.navbar');
-        const darkModeIcon = document.getElementById('darkMode-icon');
-        const body = document.body;
+    console.log('🚀 Supabase client initialized');
 
-        // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            initNavigation();
-            initDarkMode();
-            initScrollEffects();
-            loadAllData();
-            setupRealTimeListeners();
-        });
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('📄 DOM Loaded - Starting data loading...');
+        loadAllData();
+    });
 
-        // Navigation Functions
-        function initNavigation() {
-            // Mobile Menu Toggle
-            menuIcon.addEventListener('click', (e) => {
-                e.stopPropagation();
-                navbar.classList.toggle('active');
-                menuIcon.classList.toggle('bx-x');
-            });
-
-            // Close mobile menu when clicking on links
-            document.querySelectorAll('.navbar a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navbar.classList.remove('active');
-                    menuIcon.classList.remove('bx-x');
-                });
-            });
-
-            // Close menu when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!navbar.contains(e.target) && !menuIcon.contains(e.target) && navbar.classList.contains('active')) {
-                    navbar.classList.remove('active');
-                    menuIcon.classList.remove('bx-x');
-                }
-            });
+    // Load all data from Supabase
+    async function loadAllData() {
+        console.log('🔄 Loading all data from Supabase...');
+        
+        try {
+            await Promise.all([
+                loadAboutMe(),
+                loadProjects(),
+                loadActivities(),
+                loadExperiences()
+            ]);
+            console.log('✅ All data loaded successfully!');
+        } catch (error) {
+            console.error('❌ Error loading data:', error);
         }
+    }
 
-        // Dark Mode Functions
-        function initDarkMode() {
-            // Load dark mode preference
-            if (localStorage.getItem('dark-mode') === 'enabled') {
-                body.classList.add('dark-mode');
-                darkModeIcon.classList.replace('bx-moon', 'bx-sun');
+    // Load About Me from Supabase
+    async function loadAboutMe() {
+        console.log('👤 Loading About Me...');
+        const aboutContent = document.querySelector('.about-content p');
+        
+        if (!aboutContent) {
+            console.log('❌ About content element not found');
+            return;
+        }
+        
+        try {
+            const { data, error } = await supabase
+                .from('about_me')
+                .select('*')
+                .single();
+
+            if (error) {
+                console.log('ℹ️ No about_me data, using default content');
+                return; // Keep default content
             }
 
-            // Dark Mode Toggle
-            darkModeIcon.addEventListener('click', () => {
-                body.classList.toggle('dark-mode');
-                const isDarkMode = body.classList.contains('dark-mode');
+            if (data && data.description) {
+                console.log('✅ About Me loaded from Supabase');
+                aboutContent.textContent = data.description;
                 
-                if (isDarkMode) {
-                    darkModeIcon.classList.replace('bx-moon', 'bx-sun');
-                    localStorage.setItem('dark-mode', 'enabled');
-                } else {
-                    darkModeIcon.classList.replace('bx-sun', 'bx-moon');
-                    localStorage.setItem('dark-mode', 'disabled');
+                // Update image if available
+                if (data.image_url) {
+                    const aboutImg = document.querySelector('.about-img img');
+                    if (aboutImg) {
+                        aboutImg.src = data.image_url;
+                        aboutImg.alt = "About Me";
+                    }
                 }
-            });
+            }
+        } catch (error) {
+            console.error('❌ Error loading About Me:', error);
         }
+    }
 
-        // Scroll Effects
-        function initScrollEffects() {
-            // Sticky Header
-            window.addEventListener('scroll', () => {
-                const header = document.querySelector('.header');
-                header.classList.toggle('sticky', window.scrollY > 100);
-            });
-
-            // Floating Back Button
-            const floatingBtn = document.querySelector('.floating-back-btn');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    floatingBtn.classList.add('show');
-                } else {
-                    floatingBtn.classList.remove('show');
-                }
-            });
-
-            // Handle window resize
-            window.addEventListener('resize', () => {
-                if (window.innerWidth > 991) {
-                    navbar.classList.remove('active');
-                    menuIcon.classList.remove('bx-x');
-                }
-            });
+    // Load Projects from Supabase
+    async function loadProjects() {
+        console.log('💼 Loading Projects...');
+        const projectContainer = document.querySelector('.project-container');
+        
+        if (!projectContainer) {
+            console.log('❌ Project container not found');
+            return;
         }
+        
+        try {
+            const { data, error } = await supabase
+                .from('projects')
+                .select('*')
+                .order('created_at', { ascending: false });
 
-        // Supabase Data Functions
-        async function loadAllData() {
-            await loadProjects();
-            await loadActivities();
-            await loadExperiences();
-        }
+            if (error) {
+                console.log('ℹ️ No projects data, showing default projects');
+                return; // Keep default projects
+            }
 
-        // Load Projects from Supabase
-        async function loadProjects() {
-            try {
-                const { data: projects, error } = await supabaseClient
-                    .from('projects')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-
-                const projectContainer = document.querySelector('.project-container');
-                
-                if (projects && projects.length > 0) {
-                    projectContainer.innerHTML = projects.map(project => `
-                        <div class="project-box">
-                            <div class="project-image">
-                                <img src="${project.image_url || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'}" 
-                                     alt="${project.title}">
-                            </div>
-                            <div class="project-content">
-                                <h4>${project.title}</h4>
-                                <p>${project.description}</p>
-                                ${project.project_url ? `
-                                    <a href="${project.project_url}" class="btn" target="_blank">
-                                        View Details <i class='bx bx-right-arrow-alt'></i>
-                                    </a>
-                                ` : ''}
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    projectContainer.innerHTML = `
-                        <div class="project-box">
-                            <div class="project-content">
-                                <h4>No Projects Yet</h4>
-                                <p>Exciting projects are on the way! Stay tuned for updates.</p>
-                            </div>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error('Error loading projects:', error);
-                document.querySelector('.project-container').innerHTML = `
+            if (data && data.length > 0) {
+                console.log(`✅ ${data.length} projects loaded from Supabase`);
+                projectContainer.innerHTML = data.map(project => `
                     <div class="project-box">
+                        <div class="project-image">
+                            <img src="${project.image_url || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'}" 
+                                 alt="${project.title}" 
+                                 onerror="this.src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'">
+                        </div>
                         <div class="project-content">
-                            <h4>Error Loading Projects</h4>
-                            <p>Unable to load projects at the moment. Please try again later.</p>
+                            <h4>${project.title}</h4>
+                            <p>${project.description}</p>
+                            ${project.technologies ? `<p><small><strong>Technologies:</strong> ${project.technologies}</small></p>` : ''}
+                            ${project.project_url ? `
+                                <a href="${project.project_url}" class="btn" target="_blank">
+                                    View Project <i class='bx bx-right-arrow-alt'></i>
+                                </a>
+                            ` : '<a href="#project" class="btn">View Details <i class=\'bx bx-right-arrow-alt\'></i></a>'}
                         </div>
                     </div>
-                `;
+                `).join('');
             }
+        } catch (error) {
+            console.error('❌ Error loading projects:', error);
         }
+    }
 
-        // Load Activities from Supabase
-        async function loadActivities() {
-            try {
-                const { data: activities, error } = await supabaseClient
-                    .from('activities')
-                    .select('*')
-                    .order('date', { ascending: false });
+    // Load Activities from Supabase
+    async function loadActivities() {
+        console.log('🎯 Loading Activities...');
+        const activityContainer = document.querySelector('.activity-grid');
+        
+        if (!activityContainer) {
+            console.log('❌ Activity container not found');
+            return;
+        }
+        
+        try {
+            const { data, error } = await supabase
+                .from('activities')
+                .select('*')
+                .order('date', { ascending: false });
 
-                if (error) throw error;
+            if (error) {
+                console.log('ℹ️ No activities data, showing default activities');
+                return; // Keep default activities
+            }
 
-                const activityContainer = document.querySelector('.activity-grid');
-                
-                if (activities && activities.length > 0) {
-                    activityContainer.innerHTML = activities.map(activity => `
-                        <div class="activity-card">
-                            <div class="activity-image">
-                                <img src="${activity.image_url || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'}" 
-                                     alt="${activity.title}">
-                            </div>
-                            <div class="activity-content">
-                                <h4>${activity.title}</h4>
-                                <p>${activity.description}</p>
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    activityContainer.innerHTML = `
-                        <div class="activity-card">
-                            <div class="activity-content">
-                                <h4>No Activities Yet</h4>
-                                <p>Activities and events will be displayed here once they are added.</p>
-                            </div>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error('Error loading activities:', error);
-                document.querySelector('.activity-grid').innerHTML = `
+            if (data && data.length > 0) {
+                console.log(`✅ ${data.length} activities loaded from Supabase`);
+                activityContainer.innerHTML = data.map(activity => `
                     <div class="activity-card">
+                        <div class="activity-image">
+                            <img src="${activity.image_url || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'}" 
+                                 alt="${activity.title}" 
+                                 onerror="this.src='https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'">
+                        </div>
                         <div class="activity-content">
-                            <h4>Error Loading Activities</h4>
-                            <p>Unable to load activities at the moment. Please try again later.</p>
+                            <h4>${activity.title}</h4>
+                            <p>${activity.description}</p>
+                            ${activity.date ? `<p><small>📅 ${new Date(activity.date).toLocaleDateString('id-ID')}</small></p>` : ''}
+                            ${activity.location ? `<p><small>📍 ${activity.location}</small></p>` : ''}
                         </div>
                     </div>
-                `;
+                `).join('');
             }
+        } catch (error) {
+            console.error('❌ Error loading activities:', error);
         }
+    }
 
-        // Load Experiences from Supabase
-        async function loadExperiences() {
-            try {
-                const { data: experiences, error } = await supabaseClient
-                    .from('experiences')
-                    .select('*')
-                    .order('start_date', { ascending: false });
+    // Load Experiences from Supabase
+    async function loadExperiences() {
+        console.log('💼 Loading Experiences...');
+        const experienceContainer = document.querySelector('.experience-container');
+        
+        if (!experienceContainer) {
+            console.log('❌ Experience container not found');
+            return;
+        }
+        
+        try {
+            const { data, error } = await supabase
+                .from('experiences')
+                .select('*')
+                .order('start_date', { ascending: false });
 
-                if (error) throw error;
+            if (error) {
+                console.log('ℹ️ No experiences data, showing default experiences');
+                return; // Keep default experiences
+            }
 
-                const experienceContainer = document.querySelector('.experience-container');
-                
-                if (experiences && experiences.length > 0) {
-                    experienceContainer.innerHTML = experiences.map(exp => `
-                        <div class="experience-card">
-                            <div class="experience-header">
-                                <div class="experience-info">
-                                    <h3>${exp.position || exp.title}</h3>
-                                    <div class="experience-company">${exp.company || exp.organization}</div>
-                                    <span class="experience-period">
-                                        ${new Date(exp.start_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - 
-                                        ${exp.end_date ? new Date(exp.end_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Present'}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="experience-description">
-                                ${exp.description}
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    experienceContainer.innerHTML = `
-                        <div class="experience-card">
-                            <div class="experience-header">
-                                <div class="experience-info">
-                                    <h3>No Experiences Yet</h3>
-                                    <div class="experience-company">Looking for opportunities</div>
-                                    <span class="experience-period">Present</span>
-                                </div>
-                            </div>
-                            <div class="experience-description">
-                                Professional experiences will be displayed here once they are added to the database.
-                            </div>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error('Error loading experiences:', error);
-                document.querySelector('.experience-container').innerHTML = `
+            if (data && data.length > 0) {
+                console.log(`✅ ${data.length} experiences loaded from Supabase`);
+                experienceContainer.innerHTML = data.map(exp => `
                     <div class="experience-card">
-                        <div class="experience-content">
-                            <h4>Error Loading Experiences</h4>
-                            <p>Unable to load experiences at the moment. Please try again later.</p>
+                        <div class="experience-header">
+                            <div class="experience-info">
+                                <h3>${exp.position}</h3>
+                                <div class="experience-company">${exp.company}</div>
+                                <span class="experience-period">
+                                    ${new Date(exp.start_date).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' })} - 
+                                    ${exp.end_date ? new Date(exp.end_date).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' }) : 'Sekarang'}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="experience-description">
+                            ${exp.description}
+                            ${exp.achievements ? `<br><br><strong>Pencapaian:</strong> ${exp.achievements}` : ''}
+                            ${exp.technologies ? `<br><br><strong>Teknologi:</strong> ${exp.technologies}` : ''}
                         </div>
                     </div>
-                `;
+                `).join('');
             }
+        } catch (error) {
+            console.error('❌ Error loading experiences:', error);
         }
+    }
 
-        // Real-time Listeners
-        function setupRealTimeListeners() {
-            // Listen for changes in projects
-            supabaseClient
-                .channel('projects-changes')
+    // Real-time updates (optional)
+    function setupRealTimeUpdates() {
+        // Listen for changes in all tables
+        const tables = ['about_me', 'projects', 'activities', 'experiences'];
+        
+        tables.forEach(table => {
+            supabase
+                .channel(`public:${table}`)
                 .on('postgres_changes', 
-                    { event: '*', schema: 'public', table: 'projects' },
-                    () => {
-                        console.log('Projects updated - reloading...');
-                        loadProjects();
+                    { event: '*', schema: 'public', table: table },
+                    (payload) => {
+                        console.log(`Change detected in ${table}:`, payload);
+                        // Reload the corresponding section
+                        switch(table) {
+                            case 'about_me':
+                                loadAboutMe();
+                                break;
+                            case 'projects':
+                                loadProjects();
+                                break;
+                            case 'activities':
+                                loadActivities();
+                                break;
+                            case 'experiences':
+                                loadExperiences();
+                                break;
+                        }
                     }
                 )
                 .subscribe();
+        });
+    }
 
-            // Listen for changes in activities
-            supabaseClient
-                .channel('activities-changes')
-                .on('postgres_changes', 
-                    { event: '*', schema: 'public', table: 'activities' },
-                    () => {
-                        console.log('Activities updated - reloading...');
-                        loadActivities();
-                    }
-                )
-                .subscribe();
-
-            // Listen for changes in experiences
-            supabaseClient
-                .channel('experiences-changes')
-                .on('postgres_changes', 
-                    { event: '*', schema: 'public', table: 'experiences' },
-                    () => {
-                        console.log('Experiences updated - reloading...');
-                        loadExperiences();
-                    }
-                )
-                .subscribe();
-        }
+    // Initialize real-time updates
+    setupRealTimeUpdates();
+</script>
     </script>
 </body>
 </html>
