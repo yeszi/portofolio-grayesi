@@ -494,137 +494,6 @@
             border: 2px solid var(--main-color);
         }
 
-        /* === ACTIVITY SECTION === */
-        .activity-section {
-            background: var(--bg-color);
-            padding: 10rem 5% 5rem;
-        }
-
-        .activity-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .activity-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-        }
-
-        .activity-card {
-            background: var(--second-bg-color);
-            border-radius: 2rem;
-            overflow: hidden;
-            box-shadow: 0 15px 40px var(--shadow-color);
-            transition: all 0.4s ease;
-            position: relative;
-        }
-
-        .activity-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px var(--shadow-color);
-        }
-
-        .activity-image {
-            position: relative;
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .activity-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: all 0.4s ease;
-        }
-
-        .activity-card:hover img {
-            transform: scale(1.1);
-        }
-
-        .activity-content {
-            padding: 2.5rem;
-        }
-
-        .activity-content h4 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--main-color);
-            font-weight: 600;
-            line-height: 1.3;
-        }
-
-        .activity-content p {
-            font-size: 1.4rem;
-            line-height: 1.7;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        /* === EXPERIENCE SECTION === */
-        .experience {
-            background: var(--bg-color);
-        }
-
-        .experience-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-        }
-
-        .experience-card {
-            background: var(--second-bg-color);
-            border-radius: 2rem;
-            padding: 3rem;
-            box-shadow: 0 15px 40px var(--shadow-color);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .experience-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px var(--shadow-color);
-        }
-
-        .experience-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .experience-info h3 {
-            font-size: 2rem;
-            color: var(--main-color);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .experience-company {
-            font-size: 1.6rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            opacity: 0.9;
-        }
-
-        .experience-period {
-            display: inline-block;
-            background: var(--main-color);
-            color: var(--white-color);
-            padding: 0.5rem 1.5rem;
-            border-radius: 2rem;
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-
-        .experience-description {
-            font-size: 1.4rem;
-            line-height: 1.7;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
         /* === ORGANIZATION SECTION === */
         .article-list {
             background: var(--bg-color);
@@ -717,7 +586,7 @@
             min-height: 80px;
         }
 
-        .footer-text p {
+        .footer-text {
             font-size: 1.6rem;
             color: var(--white-color);
         }
@@ -913,8 +782,6 @@
             }
 
             .project-container,
-            .activity-grid,
-            .experience-container,
             .article-container {
                 grid-template-columns: 1fr;
             }
@@ -1028,15 +895,13 @@
             <div class="social-media">
                 <a href="https://github.com/Yeszi" target="_blank"><i class='bx bxl-github'></i></a>
                 <a href="https://www.tiktok.com/@oraelingrek" target="_blank"><i class='bx bxl-tiktok'></i></a>
-                <a href="https://www.instagram.com/szieup" target="_blank"><i class='bx bxl-instagram-alt'></i></a>
-                <a href="https://wa.me/6283147320226" target="_blank"><i class='bx bxl-whatsapp'></i></a>
                 <a href="mailto:grayesi.silitonga@email.com" target="_blank"><i class='bx bx-envelope'></i></a>
             </div>
             <a href="contact.html" class="btn">Get In Touch <i class='bx bx-right-arrow-alt'></i></a>
         </div>
         
         <div class="home-img">
-            <img src="images/home.png" alt="Profile Picture">
+            <img src="images/about.jpeg" alt="Profile Picture">
         </div>
     </section>
 
@@ -1066,21 +931,6 @@
                 <h3>SMA NEGERI 14 BATAM</h3>
                 <span class="year">2019 - 2022</span>
                 <p>Jurusan IPA. Belajar Matematika,Fisika,Kimia dan Biologi.</p>
-            </div>
-            <div class="education-box">
-                <h3>SMP NEGERI 4 BATAM</h3>
-                <span class="year">2016 - 2019</span>
-                <p>Aktif dalam kegiatan PMR (Palang Merah Remaja).</p>
-            </div>
-            <div class="education-box">
-                <h3>SDN 002 BATU AMPAR</h3>
-                <span class="year">2010 - 2016</span>
-                <p>Aktif dalam kegiatan Cerdas Cermat ATB.</p>
-            </div>
-            <div class="education-box">
-                <h3>TK TUNAS BANGSA BATU AMPAR</h3>
-                <span class="year">2009 - 2010</span>
-                <p>Aktif dalam kegiatan Menari.</p>
             </div>
         </div>
     </section>
@@ -1116,22 +966,6 @@
         <h2 class="heading">My <span>Projects</span></h2>
         <div class="project-container">
             <div class="loading">Loading projects</div>
-        </div>
-    </section>
-
-    <section class="activity-section" id="activity">
-        <h2 class="heading">My <span>Activities</span></h2>
-        <div class="activity-container">
-            <div class="activity-grid">
-                <div class="loading">Loading activities</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="experience" id="experience">
-        <h2 class="heading">My <span>Experience</span></h2>
-        <div class="experience-container">
-            <div class="loading">Loading experiences</div>
         </div>
     </section>
 
@@ -1185,8 +1019,6 @@
                 await Promise.all([
                     loadAboutMe(),
                     loadProjects(),
-                    loadActivities(),
-                    loadExperiences(),
                     loadOrganizations()
                 ]);
                 console.log('✅ All data loaded successfully!');
@@ -1289,108 +1121,6 @@
             }
         }
 
-        // Load Activities from Supabase
-        async function loadActivities() {
-            console.log('🎯 Loading Activities...');
-            const activityContainer = document.querySelector('.activity-grid');
-            
-            if (!activityContainer) {
-                console.log('❌ Activity container not found');
-                return;
-            }
-            
-            try {
-                const { data, error } = await supabase
-                    .from('activities')
-                    .select('*')
-                    .order('date', { ascending: false });
-
-                if (error) {
-                    console.log('ℹ️ No activities data, showing fallback activities');
-                    showFallbackActivities();
-                    return;
-                }
-
-                if (data && data.length > 0) {
-                    console.log(`✅ ${data.length} activities loaded from Supabase`);
-                    activityContainer.innerHTML = data.map(activity => `
-                        <div class="activity-card">
-                            <div class="activity-image">
-                                <img src="${activity.image_url || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'}" 
-                                     alt="${activity.title}" 
-                                     onerror="this.src='https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'">
-                            </div>
-                            <div class="activity-content">
-                                <h4>${activity.title}</h4>
-                                <p>${activity.description}</p>
-                                ${activity.date ? `<p><small>📅 ${new Date(activity.date).toLocaleDateString('id-ID')}</small></p>` : ''}
-                                ${activity.location ? `<p><small>📍 ${activity.location}</small></p>` : ''}
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    console.log('ℹ️ No activities found, showing fallback');
-                    showFallbackActivities();
-                }
-            } catch (error) {
-                console.error('❌ Error loading activities:', error);
-                showFallbackActivities();
-            }
-        }
-
-        // Load Experiences from Supabase
-        async function loadExperiences() {
-            console.log('💼 Loading Experiences...');
-            const experienceContainer = document.querySelector('.experience-container');
-            
-            if (!experienceContainer) {
-                console.log('❌ Experience container not found');
-                return;
-            }
-            
-            try {
-                const { data, error } = await supabase
-                    .from('experiences')
-                    .select('*')
-                    .order('start_date', { ascending: false });
-
-                if (error) {
-                    console.log('ℹ️ No experiences data, showing fallback experiences');
-                    showFallbackExperiences();
-                    return;
-                }
-
-                if (data && data.length > 0) {
-                    console.log(`✅ ${data.length} experiences loaded from Supabase`);
-                    experienceContainer.innerHTML = data.map(exp => `
-                        <div class="experience-card">
-                            <div class="experience-header">
-                                <div class="experience-info">
-                                    <h3>${exp.position}</h3>
-                                    <div class="experience-company">${exp.company}</div>
-                                    <span class="experience-period">
-                                        ${new Date(exp.start_date).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' })} - 
-                                        ${exp.end_date ? new Date(exp.end_date).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' }) : 'Sekarang'}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="experience-description">
-                                ${exp.description}
-                                ${exp.achievements ? `<br><br><strong>Pencapaian:</strong> ${exp.achievements}` : ''}
-                                ${exp.technologies ? `<br><br><strong>Teknologi:</strong> ${exp.technologies}` : ''}
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    console.log('ℹ️ No experiences found, showing fallback');
-                    showFallbackExperiences();
-                }
-            } catch (error) {
-                console.error('❌ Error loading experiences:', error);
-                showFallbackExperiences();
-            }
-        }
-
         // Load Organizations from Supabase
         async function loadOrganizations() {
             console.log('🏢 Loading Organizations...');
@@ -1487,95 +1217,6 @@
             `;
         }
 
-        function showFallbackActivities() {
-            console.log('🔄 Showing fallback activities');
-            const activityContainer = document.querySelector('.activity-grid');
-            activityContainer.innerHTML = `
-                <div class="activity-card">
-                    <div class="activity-image">
-                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Coding Workshop">
-                    </div>
-                    <div class="activity-content">
-                        <h4>Web Development Workshop</h4>
-                        <p>Mengikuti workshop pengembangan web modern dengan fokus pada responsive design dan JavaScript frameworks.</p>
-                        <p><small>📅 15 Maret 2024</small></p>
-                        <p><small>📍 Universitas Maritim Raja Ali Haji</small></p>
-                    </div>
-                </div>
-                <div class="activity-card">
-                    <div class="activity-image">
-                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Music Performance">
-                    </div>
-                    <div class="activity-content">
-                        <h4>Music Performance</h4>
-                        <p>Menampilkan lagu original dalam acara pentas seni kampus dengan menggunakan piano dan gitar.</p>
-                        <p><small>📅 10 Februari 2024</small></p>
-                        <p><small>📍 Auditorium Kampus</small></p>
-                    </div>
-                </div>
-                <div class="activity-card">
-                    <div class="activity-image">
-                        <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Hackathon">
-                    </div>
-                    <div class="activity-content">
-                        <h4>University Hackathon 2023</h4>
-                        <p>Berpartisipasi dalam hackathon 48 jam untuk mengembangkan solusi teknologi untuk masalah lingkungan.</p>
-                        <p><small>📅 5-7 November 2023</small></p>
-                        <p><small>📍 Gedung Teknik UMRAH</small></p>
-                    </div>
-                </div>
-            `;
-        }
-
-        function showFallbackExperiences() {
-            console.log('🔄 Showing fallback experiences');
-            const experienceContainer = document.querySelector('.experience-container');
-            experienceContainer.innerHTML = `
-                <div class="experience-card">
-                    <div class="experience-header">
-                        <div class="experience-info">
-                            <h3>Frontend Developer Intern</h3>
-                            <div class="experience-company">Tech Solutions Inc.</div>
-                            <span class="experience-period">Jun 2023 - Sep 2023</span>
-                        </div>
-                    </div>
-                    <div class="experience-description">
-                        Mengembangkan dan memelihara aplikasi web menggunakan React.js dan TypeScript. Berkolaborasi dengan tim desain untuk mengimplementasikan UI/UX yang responsif dan menarik.
-                        <br><br><strong>Pencapaian:</strong> Meningkatkan performa aplikasi sebesar 30% dengan mengoptimalkan kode dan mengurangi bundle size.
-                        <br><br><strong>Teknologi:</strong> React.js, TypeScript, CSS3, Git
-                    </div>
-                </div>
-                <div class="experience-card">
-                    <div class="experience-header">
-                        <div class="experience-info">
-                            <h3>UI/UX Designer</h3>
-                            <div class="experience-company">Creative Design Studio</div>
-                            <span class="experience-period">Mar 2023 - Mei 2023</span>
-                        </div>
-                    </div>
-                    <div class="experience-description">
-                        Merancang wireframe, mockup, dan prototype untuk aplikasi mobile dan web. Melakukan user research dan usability testing untuk meningkatkan pengalaman pengguna.
-                        <br><br><strong>Pencapaian:</strong> Meningkatkan konversi user sebesar 25% melalui redesign user flow.
-                        <br><br><strong>Teknologi:</strong> Figma, Adobe XD, Photoshop, Illustrator
-                    </div>
-                </div>
-                <div class="experience-card">
-                    <div class="experience-header">
-                        <div class="experience-info">
-                            <h3>Freelance Web Developer</h3>
-                            <div class="experience-company">Self-Employed</div>
-                            <span class="experience-period">Jan 2022 - Sekarang</span>
-                        </div>
-                    </div>
-                    <div class="experience-description">
-                        Membuat website custom untuk klien kecil dan menengah. Fokus pada solusi e-commerce, portfolio, dan landing pages yang responsif dan SEO-friendly.
-                        <br><br><strong>Pencapaian:</strong> Menyelesaikan 15+ proyek dengan rating client 5/5.
-                        <br><br><strong>Teknologi:</strong> HTML, CSS, JavaScript, WordPress, Shopify
-                    </div>
-                </div>
-            `;
-        }
-
         function showFallbackOrganizations() {
             console.log('🔄 Showing fallback organizations');
             const organizationContainer = document.querySelector('.article-container');
@@ -1588,29 +1229,18 @@
                         <p>JIka anda penasaran dengan kegiatan apa saja yang dilakukan oleh kami,silahkan berkunjung klik menu dibawah ini ya gengss!!</p>
                         <a href="https://www.instagram.com/dpmfttk.umrah" class="article-btn" target="_blank">Site Profil <i class='bx bx-right-arrow-alt'></i></a>
                     </div>
-                </div>
-                <div class="article-box">
-                    <img src="https://images.unsplash.com/photo-1541336032412-2048a678540d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Himpunan Mahasiswa">
-                    <div class="article-content">
-                        <h4>Himpunan Mahasiswa Teknik Informatika</h4>
-                        <p>Aktif sebagai anggota divisi akademik yang bertanggung jawab dalam mengorganisir seminar dan workshop untuk mahasiswa.</p>
-                        <a href="#organization" class="article-btn">View Details <i class='bx bx-right-arrow-alt'></i></a>
-                    </div>
-                </div>
             `;
         }
 
         function showFallbackContent() {
             showFallbackProjects();
-            showFallbackActivities();
-            showFallbackExperiences();
             showFallbackOrganizations();
         }
 
         // Real-time updates (optional)
         function setupRealTimeUpdates() {
             // Listen for changes in all tables
-            const tables = ['about_me', 'projects', 'activities', 'experiences', 'organizations'];
+            const tables = ['about_me', 'projects', 'organizations'];
             
             tables.forEach(table => {
                 supabase
@@ -1626,12 +1256,6 @@
                                     break;
                                 case 'projects':
                                     loadProjects();
-                                    break;
-                                case 'activities':
-                                    loadActivities();
-                                    break;
-                                case 'experiences':
-                                    loadExperiences();
                                     break;
                                 case 'organizations':
                                     loadOrganizations();
@@ -1702,7 +1326,7 @@
             });
 
             sr.reveal('.home-content, .heading', { origin: 'top' });
-            sr.reveal('.home-img, .services-container, .project-box, .activity-card, .experience-card, .article-box', { origin: 'bottom' });
+            sr.reveal('.home-img, .services-container, .project-box, .article-box', { origin: 'bottom' });
             sr.reveal('.home-content h1, .about-img', { origin: 'left' });
             sr.reveal('.home-content p, .about-content', { origin: 'right' });
         }
