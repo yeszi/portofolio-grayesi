@@ -2,13 +2,13 @@
 :root {
     --primary-bg: #f8f9fa;       /* Light Gray */
     --secondary-bg: #ffffff;     /* White */
-    --accent-color: #6f42c1;     /* Purple (Bootstrap Purple) */
-    --purple-accent: #8a63d2;    /* Lighter Purple */
+    --accent-color: #8653e6;     /* Purple (Bootstrap Purple) */
+    --purple-accent: #906cd3;    /* Lighter Purple */
     --text-color: #212529;       /* Dark Gray */
     --text-muted: #6c757d;       /* Medium Gray */
     --input-bg: #e9ecef;         /* Lighter input background */
     --button-primary: #6f42c1;     /* Purple */
-    --button-hover-primary: #5a32a3; /* Darker Purple */
+    --button-hover-primary: #926dd8; /* Darker Purple */
     --button-logout: #dc3545;       /* Red */
     --button-hover-logout: #c82333; /* Darker Red */
     --success-color: #28a745;       /* Green */
