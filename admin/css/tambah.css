@@ -1,15 +1,22 @@
-  /* --- CSS DI COPY DARI edit.html --- */
-         :root {
-          --primary-bg: #20232a;
-          --secondary-bg: #282c34;
-          --accent-color: #61dafb;
-          --purple-accent: #bb86fc;
-          --text-color: #ffffff;
-          --input-bg: #3a3f4b;
-          --button-primary: #03dac5;
-          --button-hover-primary: #018786;
-          --button-logout: #e53935;
-          --button-hover-logout: #b71c1c;
+        :root {
+        --primary-bg: #f8f9fa;      
+        --secondary-bg: #ffffff;     
+        --text-color: #212529;       
+        --text-muted: #6c757d;       
+        --accent-color: #4fadca;     
+        --purple-accent: #bb86fc;   
+        --input-bg: #e9ecef;        
+        --border-color: #dee2e6;     
+        --button-primary: #66c2df;     
+        --button-hover-primary: #66c2df; 
+        --button-logout: #e74a3b;       
+        --button-hover-logout: #c13c2f; 
+        --success-color: #1cc88a;     
+        --error-color: #e74a3b;    
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --white-color: #ffffff; 
+        --transition-speed: 0.3s;
+        --sidebar-width: 260px;
         }
 
         * {
