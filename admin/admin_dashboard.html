@@ -1,159 +1,738 @@
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard - Diskominfo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  </head>
-<body class="bg-gray-100">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Admin Dashboard - YesZie</title> <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        /* --- TEMA WARNA COKLAT/PUTIH --- */
+        :root {
+            --primary-bg: #f8f9fa;       /* Light Gray */
+            --secondary-bg: #ffffff;     /* White */
+            --accent-color: #A0522D;     /* Sienna (Coklat Utama) */
+            --purple-accent: #CD853F;    /* Peru (Coklat Muda Aksen) */
+            --text-color: #212529;       /* Dark Gray */
+            --text-muted: #6c757d;       /* Medium Gray */
+            --input-bg: #e9ecef;         /* Lighter input background */
+            --button-primary: #A0522D;     /* Sienna */
+            --button-hover-primary: #8B4513; /* SaddleBrown (Coklat Lebih Tua Hover) */
+            --button-logout: #dc3545;       /* Red */
+            --button-hover-logout: #c82333; /* Darker Red */
+            --success-color: #28a745;       /* Green */
+            --error-color: #e74c3c;       /* Red */
+            --transition-speed: 0.3s;
+            --border-color: #dee2e6;       /* Light Gray Border */
+            --sidebar-width: 260px;
+        }
 
-  <header class="flex items-center justify-between bg-white px-4 py-3 border-b shadow md:hidden">
-    <h1 class="text-lg font-semibold text-gray-800">Admin YesZie</h1>
-    <button id="hamburger" class="text-gray-800 focus:outline-none text-2xl">
-      ☰
-    </button>
-  </header>
+        /* Dark Mode Opsional (jika ingin menambahkan tombol dark mode nanti) */
+        /*
+        body.dark-theme {
+            --primary-bg: #1a1c22;
+            --secondary-bg: #252a33;
+            --text-color: #ffffff;
+            --text-muted: #b0b0b0;
+            --input-bg: #2e3440;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        */
 
-  <div class="flex h-screen overflow-hidden">
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-    <aside id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white border-r shadow-md z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
-      <div class="p-6 border-b flex justify-between items-center md:block">
-        <h1 class="text-xl font-semibold text-blue-600">ADMIN PANEL</h1>
-        <button id="closeSidebar" class="md:hidden text-xl text-gray-800">✕</button>
-      </div>
-      <nav class="p-4">
-        <ul class="space-y-2">
-          <li>
-            <a href="admin_dashboard.html" class="block px-4 py-3 rounded-lg transition-all duration-200 bg-blue-100 text-blue-600 font-medium">
-              🏠 Dashboard
+        body {
+            margin: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            line-height: 1.6;
+            display: flex;
+        }
+
+        /* --- Sidebar CSS (Copy dari form.html, warna disesuaikan) --- */
+        #sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--secondary-bg); /* Sidebar putih */
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: transform var(--transition-speed) ease;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color); /* Logo coklat */
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+         .sidebar-header .logo i { color: var(--accent-color); }
+
+        #sidebar-close {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        nav.sidebar-nav {
+            flex-grow: 1;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav.sidebar-nav a {
+            color: var(--text-muted);
+            margin: 0.25rem 0;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        nav.sidebar-nav a i {
+            font-size: 0.9rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        nav.sidebar-nav a:hover {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            transform: translateX(5px);
+        }
+
+        nav.sidebar-nav a.active {
+            background-color: var(--accent-color); /* Background coklat */
+            color: #fff; /* Teks putih */
+            transform: none;
+            box-shadow: 0 4px 10px rgba(160, 82, 45, 0.3); /* Shadow coklat */
+        }
+         nav.sidebar-nav a.active i { color: #fff; }
+
+        nav.sidebar-nav a#logoutLink {
+            margin-top: auto;
+            color: var(--button-logout);
+        }
+        nav.sidebar-nav a#logoutLink:hover {
+            background-color: var(--button-logout);
+            color: var(--white-color);
+            transform: translateX(5px);
+        }
+
+        /* --- Main Content CSS (Copy dari form.html) --- */
+        .main-content {
+            flex-grow: 1;
+            margin-left: var(--sidebar-width);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .mobile-header {
+            display: none;
+            background-color: var(--secondary-bg);
+            padding: 1rem 1.5rem;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        #hamburger-open {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .container {
+            flex-grow: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* --- Styling Konten Dashboard (Menggantikan Tailwind) --- */
+
+        .dashboard-header {
+            background: var(--secondary-bg);
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        .dashboard-header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.25rem;
+        }
+         .dashboard-header p { color: var(--text-muted); font-size: 1rem; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-icon {
+            font-size: 1.8rem;
+            padding: 0.8rem;
+            border-radius: 50%;
+            margin-right: 1rem;
+            color: var(--accent-color); /* Icon coklat */
+            background-color: rgba(160, 82, 45, 0.1); /* Background coklat muda transparan */
+            width: 45px;
+            height: 45px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stat-info h3 {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .stat-info p {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .dashboard-section {
+            background: var(--secondary-bg);
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.8rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .section-header a {
+            font-size: 0.9rem;
+            color: var(--accent-color); /* Link coklat */
+            text-decoration: none;
+            font-weight: 500;
+        }
+         .section-header a:hover { text-decoration: underline; }
+
+        .message-list-dash .message-item-dash {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+        .message-list-dash .message-item-dash:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .message-meta-dash {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .message-meta-dash h4 { font-size: 1rem; font-weight: 600; }
+        .message-meta-dash span { font-size: 0.8rem; color: var(--text-muted); }
+        .message-body-dash {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            /* Memotong teks jika terlalu panjang */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block; /* Atau display: -webkit-box; jika ingin multi-line clamp */
+            /* -webkit-line-clamp: 2; */
+            /* -webkit-box-orient: vertical; */
+        }
+        .message-list-dash .empty-msg {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-link {
+            background: var(--accent-color); /* Background coklat */
+            color: var(--white-color); /* Teks putih */
+            padding: 1.2rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all var(--transition-speed) ease;
+            text-decoration: none;
+        }
+
+        .action-link:hover {
+            background: var(--button-hover-primary); /* Coklat lebih tua */
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(160, 82, 45, 0.3);
+        }
+
+        .action-icon {
+            font-size: 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.7rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-text h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.2rem;}
+        .action-text p { font-size: 0.85rem; opacity: 0.9; }
+
+        /* --- Footer CSS (Copy dari form.html) --- */
+        footer {
+            background-color: var(--secondary-bg);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        /* --- Overlay CSS (Copy dari form.html) --- */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 900;
+            display: none;
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease;
+        }
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* --- Responsive CSS (Copy dari form.html) --- */
+        @media (max-width: 768px) {
+            #sidebar {
+                transform: translateX(-100%);
+                z-index: 2000;
+                box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+            }
+            #sidebar.open {
+                transform: translateX(0);
+            }
+            #sidebar-close {
+                display: block;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .mobile-header {
+                display: flex;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .dashboard-header { margin: 1rem; padding: 1rem 1.5rem;}
+            .dashboard-header h1 { font-size: 1.4rem; }
+            .stats-grid { gap: 1rem; }
+            .stat-card { padding: 1rem; }
+            .stat-icon { font-size: 1.5rem; padding: 0.6rem; width: 40px; height: 40px; margin-right: 0.8rem;}
+            .stat-info p { font-size: 1.4rem; }
+            .dashboard-section { margin: 1rem; padding: 1rem 1.5rem; }
+            .section-header h2 { font-size: 1.1rem; }
+            footer { padding: 15px; }
+            #sidebar-overlay.active {
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar-header .logo { font-size: 1.3rem; }
+            .dashboard-header h1 { font-size: 1.2rem; }
+            .stats-grid { grid-template-columns: 1fr; } /* Stats jadi 1 kolom */
+            .stat-info p { font-size: 1.3rem; }
+            .section-header h2 { font-size: 1rem; }
+            .message-meta-dash { flex-direction: column; align-items: flex-start; gap: 5px;}
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+
+    <header class="mobile-header">
+        <button id="hamburger-open">
+            <i class="fas fa-bars"></i>
+        </button>
+        <h1 style="margin-left: 1rem; font-size: 1.2rem; color: var(--accent-color);">Admin Dashboard</h1>
+    </header>
+
+    <div id="sidebar-overlay"></div>
+
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <a href="admin_dashboard.html" class="logo">
+                <i class="fas fa-user-shield"></i> YesZie
             </a>
-          </li>
-          <li>
-            <a href="edit.html" class="block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600">
-              ✏️ Edit Content
-            </a>
-          </li>
-          <li>
-            <a href="tambah.html" class="block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600">
-              ➕ Add New Content
-            </a>
-          </li>
-          <li>
-            <a href="form.html" class="block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600">
-              📩 Form Messages
-            </a>
-          </li>
-          <li>
-            <a href="../index.html" id="logout-link" class="block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600">
-              👋 Log Out
-            </a>
-          </li>
-        </ul>
-      </nav>
+            <button id="sidebar-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="admin_dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="edit.html"><i class="fas fa-edit"></i> Edit Content</a>
+            <a href="tambah.html"><i class="fas fa-plus-circle"></i> Add Content</a>
+            <a href="form.html"><i class="fas fa-envelope"></i> Form Messages</a>
+            <a href="#" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+        </nav>
     </aside>
 
-    <main class="flex-1 p-6 overflow-y-auto relative bg-cover bg-center" 
-          style="background-image: url('https://source.unsplash.com/1600x900/?technology,abstract');">
-      <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm"></div>
+    <div class="main-content" id="mainContent">
 
-      <div class="relative z-10">
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h1 class="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
-          <p class="text-gray-600">Selamat datang kembali di panel admin YesZie</p>
-        </div>
+        <main class="container">
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <div class="flex items-center">
-              <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
-              </div>
-              <div>
-                <h3 class="text-gray-500">Total Konten</h3>
-                <p class="text-2xl font-bold" id="totalContent">Loading...</p>
-              </div>
-            </div>
-          </div>
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <div class="flex items-center">
-              <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                </svg>
-              </div>
-              <div>
-                <h3 class="text-gray-500">Pesan Baru</h3>
-                <p class="text-2xl font-bold" id="newMessages">Loading...</p>
-              </div>
-            </div>
-          </div>
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <div class="flex items-center">
-              <div class="p-3 rounded-full bg-purple-100 text-purple-600 mr-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              </div>
-              <div>
-                <h3 class="text-gray-500">Admin</h3>
-                <p class="text-2xl font-bold">YesZie</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold text-gray-800">Pesan Terbaru</h2>
-            <a href="form.html" class="text-blue-600 hover:underline">Lihat Semua</a>
-          </div>
-          <div class="space-y-4" id="recentMessages">
-            <div class="animate-pulse flex space-x-4">
-              <div class="flex-1 space-y-4 py-1">
-                <div class="h-4 bg-gray-200 rounded w-3/4"></div>
-                <div class="space-y-2">
-                  <div class="h-4 bg-gray-200 rounded"></div>
-                  <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="stat-info">
+                        <h3>Total Konten</h3>
+                        <p id="totalContent">Loading...</p>
+                    </div>
                 </div>
-              </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-envelope-open-text"></i></div>
+                    <div class="stat-info">
+                        <h3>Total Pesan</h3>
+                        <p id="newMessages">Loading...</p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
 
-        <div class="bg-white rounded-lg shadow-md p-6">
-          <h2 class="text-xl font-bold text-gray-800 mb-4">Quick Actions</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <a href="tambah.html" class="bg-blue-600 hover:bg-blue-700 text-white rounded-lg p-4 flex items-center transition-colors duration-200">
-              <div class="p-2 rounded-full bg-blue-500 mr-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
-              </div>
-              <div>
-                <h3 class="font-medium">Tambah Konten Baru</h3>
-                <p class="text-sm opacity-80">Buat postingan atau konten baru</p>
-              </div>
-            </a>
-            <a href="edit.html" class="bg-green-600 hover:bg-green-700 text-white rounded-lg p-4 flex items-center transition-colors duration-200">
-              <div class="p-2 rounded-full bg-green-500 mr-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-              </div>
-              <div>
-                <h3 class="font-medium">Edit Konten</h3>
-                <p class="text-sm opacity-80">Update atau hapus konten</p>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-  
-  <script src="./js/admin dashboard.js"></script>
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h2>Pesan Terbaru</h2>
+                    <a href="form.html">Lihat Semua</a>
+                </div>
+                <div class="message-list-dash" id="recentMessages">
+                    <div class="loading-messages">Memuat pesan terbaru...</div>
+                </div>
+            </section>
+
+            <section class="dashboard-section">
+                 <div class="section-header">
+                    <h2>Quick Actions</h2>
+                 </div>
+                 <div class="actions-grid">
+                    <a href="tambah.html" class="action-link">
+                        <div class="action-icon"><i class="fas fa-plus"></i></div>
+                        <div class="action-text">
+                             <h3>Tambah Konten Baru</h3>
+                             <p>Buat postingan atau item baru</p>
+                        </div>
+                    </a>
+                     <a href="edit.html" class="action-link" style="background-color: var(--success-color);"> <div class="action-icon" style="background: rgba(255, 255, 255, 0.2);"><i class="fas fa-edit"></i></div>
+                        <div class="action-text">
+                            <h3>Edit Konten</h3>
+                            <p>Update atau hapus konten</p>
+                        </div>
+                     </a>
+                 </div>
+            </section>
+
+        </main> <footer>
+            <p>Made by 🩷 Grayesi Silitonga</p>
+        </footer>
+
+    </div> </div> <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        /* --- LOGIKA SIDEBAR --- */
+        const sidebar = document.getElementById('sidebar');
+        const openBtn = document.getElementById('hamburger-open');
+        const closeBtn = document.getElementById('sidebar-close');
+        const overlay = document.getElementById('sidebar-overlay');
+        const mainContent = document.getElementById('mainContent');
+
+        function openSidebar() {
+            if(sidebar) sidebar.classList.add('open');
+            if(overlay) overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            if(sidebar) sidebar.classList.remove('open');
+            if(overlay) overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (openBtn) openBtn.addEventListener('click', openSidebar);
+        if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+        if (overlay) overlay.addEventListener('click', closeSidebar);
+
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+             link.addEventListener('click', (e) => {
+                 if(link.id === 'logoutLink') return;
+                 if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+                     closeSidebar();
+                 }
+             });
+        });
+
+        /* --- LOGIKA DASHBOARD --- */
+        const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function checkAdmin() {
+            try {
+                 const { data: { session } } = await supabaseClient.auth.getSession();
+                 if (!session || session.user.email !== "grayesi.silitonga@gmail.com") {
+                     showNotification('error', "❌ Akses ditolak. Login sebagai admin.");
+                     setTimeout(() => window.location.href = "login.html", 2000);
+                 } else {
+                     console.log("✅ Admin logged in:", session.user.email);
+                     loadDashboardData(); // Muat data jika admin
+                 }
+            } catch (err) {
+                 console.error("Error checking session:", err);
+                 showNotification('error', "Terjadi kesalahan saat cek sesi.");
+                 setTimeout(() => window.location.href = "login.html", 2000);
+            }
+        }
+
+        const logoutButton = document.getElementById('logoutLink');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', async (e) => {
+                e.preventDefault();
+                 const { error } = await supabaseClient.auth.signOut();
+                 if (error) {
+                     showNotification('error', 'Gagal logout: ' + error.message);
+                 } else {
+                     showNotification('success', 'Berhasil logout...');
+                     setTimeout(() => window.location.href = "login.html", 1500);
+                 }
+            });
+        }
+
+        async function loadDashboardData() {
+            // Muat Total Konten (gabungan dari semua tabel)
+            loadTotalContent();
+            // Muat Jumlah Pesan Baru
+            loadNewMessagesCount();
+            // Muat Pesan Terbaru
+            loadRecentMessages();
+        }
+
+        async function loadTotalContent() {
+             const contentTables = ['projects', 'experience', 'activity', 'articles']; // Tambahkan tabel lain jika ada
+             let totalCount = 0;
+             let errorOccurred = false;
+             const totalContentEl = document.getElementById('totalContent');
+
+             try {
+                 for (const table of contentTables) {
+                     // Kita hanya perlu count, head: true lebih efisien
+                     const { count, error } = await supabaseClient
+                         .from(table)
+                         .select('*', { count: 'exact', head: true });
+
+                     if (error) {
+                         console.warn(`Warning: Could not count table ${table}:`, error.message);
+                         // Anda bisa memilih untuk melanjutkan atau berhenti jika satu tabel error
+                         // errorOccurred = true;
+                         // break; // Uncomment jika ingin berhenti jika ada error
+                     } else {
+                         totalCount += count || 0;
+                     }
+                 }
+
+                 if (errorOccurred) {
+                      totalContentEl.textContent = 'Error';
+                 } else {
+                      totalContentEl.textContent = totalCount;
+                 }
+
+             } catch (err) {
+                 console.error("Error calculating total content:", err);
+                 totalContentEl.textContent = 'Error';
+             }
+        }
+
+        async function loadNewMessagesCount() {
+
+     const newMessagesEl = document.getElementById('newMessages');
+
+     try {
+
+         // Hitung SEMUA pesan
+
+         const { count, error } = await supabaseClient
+
+             .from('contact_messages')
+
+             .select('*', { count: 'exact', head: true }); // <-- Hapus filter tanggal .gt(...)
+
+
+
+         if (error) throw error;
+
+         newMessagesEl.textContent = count || 0;
+
+
+
+     } catch (error) {
+
+         console.error("Error loading total messages count:", error);
+
+         newMessagesEl.textContent = 'Error';
+
+     }
+
+ }
+         async function loadRecentMessages() {
+            const container = document.getElementById('recentMessages');
+             container.innerHTML = '<div class="loading-messages">Memuat pesan terbaru...</div>'; // Tampilkan loading
+
+             try {
+                 const { data, error } = await supabaseClient
+                     .from('contact_messages')
+                     .select('id, name, created_at, message') // Pilih kolom yang dibutuhkan
+                     .order('created_at', { ascending: false })
+                     .limit(3); // Ambil 3 terbaru
+
+                 if (error) throw error;
+
+                 if (!data || data.length === 0) {
+                     container.innerHTML = '<p class="empty-msg">Tidak ada pesan terbaru.</p>';
+                     return;
+                 }
+
+                 container.innerHTML = ''; // Kosongkan
+                 data.forEach(msg => {
+                     const msgDate = new Date(msg.created_at);
+                     const formattedDate = msgDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+                     const msgItem = document.createElement('div');
+                     msgItem.className = 'message-item-dash';
+                     msgItem.innerHTML = `
+                         <div class="message-meta-dash">
+                             <h4>${sanitizeInput(msg.name)}</h4>
+                             <span>${formattedDate}</span>
+                         </div>
+                         <p class="message-body-dash">${sanitizeInput(msg.message)}</p>
+                     `;
+                     container.appendChild(msgItem);
+                 });
+
+             } catch (error) {
+                 console.error("Error loading recent messages:", error);
+                 container.innerHTML = '<p class="empty-msg" style="color: var(--error-color);">Gagal memuat pesan.</p>';
+             }
+         }
+
+        function sanitizeInput(str) {
+             if (!str) return '';
+             const temp = document.createElement('div');
+             temp.textContent = str;
+             return temp.innerHTML;
+        }
+
+        function showNotification(type, message) {
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.left = '50%';
+            notification.style.transform = 'translateX(-50%)';
+            notification.style.padding = '10px 20px';
+            notification.style.borderRadius = '5px';
+            notification.style.color = 'white';
+            notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+            notification.style.zIndex = '2000';
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.3s ease';
+            notification.style.display = 'flex';
+            notification.style.alignItems = 'center';
+            notification.style.gap = '10px';
+            notification.style.background = (type === 'success') ? 'var(--success-color)' : 'var(--error-color)';
+            notification.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i><span>${message}</span>`;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.style.opacity = '1', 50);
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Initialize
+        checkAdmin(); // Mulai dengan cek admin
+
+    }); // Penutup DOMContentLoaded
+</script>
 </body>
 </html>
