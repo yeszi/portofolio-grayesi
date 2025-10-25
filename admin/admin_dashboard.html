@@ -6,18 +6,9 @@
   <title>Admin Dashboard - Diskominfo</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <style>
-    .sidebar-link {
-      @apply block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600;
-    }
-    .sidebar-link.active {
-      @apply bg-blue-100 text-blue-600 font-medium;
-    }
-  </style>
-</head>
+  </head>
 <body class="bg-gray-100">
 
-  <!-- Mobile Header -->
   <header class="flex items-center justify-between bg-white px-4 py-3 border-b shadow md:hidden">
     <h1 class="text-lg font-semibold text-gray-800">Admin YesZie</h1>
     <button id="hamburger" class="text-gray-800 focus:outline-none text-2xl">
@@ -27,7 +18,6 @@
 
   <div class="flex h-screen overflow-hidden">
 
-    <!-- Sidebar -->
     <aside id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white border-r shadow-md z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
       <div class="p-6 border-b flex justify-between items-center md:block">
         <h1 class="text-xl font-semibold text-blue-600">ADMIN PANEL</h1>
@@ -35,30 +25,45 @@
       </div>
       <nav class="p-4">
         <ul class="space-y-2">
-          <li><a href="admin_dashboard.html" class="sidebar-link active">🏠 Dashboard</a></li>
-          <li><a href="edit.html" class="sidebar-link">✏️ Edit Content</a></li>
-          <li><a href="tambah.html" class="sidebar-link">➕ Add New Content</a></li>
-          <li><a href="form.html" class="sidebar-link">📩 Form Messages</a></li>
-          <li><a href="../index.html" class="sidebar-link">👋 Log Out</a></li>
+          <li>
+            <a href="admin_dashboard.html" class="block px-4 py-3 rounded-lg transition-all duration-200 bg-blue-100 text-blue-600 font-medium">
+              🏠 Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="edit.html" class="block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600">
+              ✏️ Edit Content
+            </a>
+          </li>
+          <li>
+            <a href="tambah.html" class="block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600">
+              ➕ Add New Content
+            </a>
+          </li>
+          <li>
+            <a href="form.html" class="block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600">
+              📩 Form Messages
+            </a>
+          </li>
+          <li>
+            <a href="../index.html" id="logout-link" class="block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600">
+              👋 Log Out
+            </a>
+          </li>
         </ul>
       </nav>
     </aside>
 
-    <!-- Main Content -->
     <main class="flex-1 p-6 overflow-y-auto relative bg-cover bg-center" 
           style="background-image: url('https://source.unsplash.com/1600x900/?technology,abstract');">
-      <!-- Overlay -->
       <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm"></div>
 
-      <!-- Content -->
       <div class="relative z-10">
-        <!-- Header -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
           <h1 class="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
           <p class="text-gray-600">Selamat datang kembali di panel admin YesZie</p>
         </div>
 
-        <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex items-center">
@@ -73,7 +78,6 @@
               </div>
             </div>
           </div>
-
           <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex items-center">
               <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
@@ -87,7 +91,6 @@
               </div>
             </div>
           </div>
-
           <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex items-center">
               <div class="p-3 rounded-full bg-purple-100 text-purple-600 mr-4">
@@ -103,7 +106,6 @@
           </div>
         </div>
 
-        <!-- Recent Messages -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
           <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-bold text-gray-800">Pesan Terbaru</h2>
@@ -122,7 +124,6 @@
           </div>
         </div>
 
-        <!-- Quick Actions -->
         <div class="bg-white rounded-lg shadow-md p-6">
           <h2 class="text-xl font-bold text-gray-800 mb-4">Quick Actions</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -154,6 +155,6 @@
     </main>
   </div>
   
-  <script src="js/admin dashboard.js"></script>
+  <script src="../js/admin dashboard.js"></script>
 </body>
 </html>
