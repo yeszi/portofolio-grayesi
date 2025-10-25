@@ -889,26 +889,41 @@ section {
 
 /* Mobile */
 @media (max-width: 768px) {
-    #menu-icon {
-        display: block;
+    /* Pastikan tidak ada scroll horizontal */
+    html, body {
+        overflow-x: hidden;
     }
 
-    /* Navbar Mobile - FIXED */
+    #menu-icon {
+        display: block; /* Tampilkan ikon hamburger */
+    }
+
+    /* Navbar Mobile - Menggunakan max-height untuk toggle */
     .navbar {
         position: absolute;
-        top: 100%;
+        top: 100%; /* Tepat di bawah header */
         left: 0;
-        width: 100%;
+        right: 0; /* Otomatis jadi full width */
+        width: auto;
         background: var(--second-bg-color);
-        padding: 1rem 4%;
+        padding: 0 4%; /* Hapus padding atas/bawah saat tertutup */
         box-shadow: 0 5px 15px var(--shadow-color);
-        display: none;
+        
+        /* Logika transisi max-height */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out, padding 0.3s ease-out; 
+        
+        /* Tetap flex column */
+        display: flex; /* Ganti display:none menjadi display:flex */
         flex-direction: column;
         gap: 0.5rem;
     }
 
     .navbar.active {
-        display: flex;
+        /* Saat aktif, beri max-height dan padding */
+        max-height: 100vh; /* Tinggi maksimum yang cukup besar */
+        padding: 1rem 4%; /* Kembalikan padding atas/bawah */
     }
 
     .navbar a {
@@ -917,45 +932,49 @@ section {
         padding: 1.2rem;
         font-size: 1.6rem;
         border-radius: 0.5rem;
-        background: rgba(63, 99, 153, 0.05);
+        /* Hapus background default, hanya saat hover/active */
+        /* background: rgba(63, 99, 153, 0.05); */ 
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    .navbar a:hover {
+    /* Style hover/active tetap sama */
+    .navbar a:hover,
+    .navbar a.active {
         background: var(--main-color);
         color: var(--white-color);
     }
 
+    /* Pastikan header pas */
+    .header {
+        padding: 1.5rem 4%;
+    }
+
+    /* Sisa style mobile (home, about, footer, etc.) tidak perlu diubah */
     .home {
         flex-direction: column;
         text-align: center;
-        margin-top: 70px;
+        margin-top: 70px; /* Sesuaikan jika header lebih kecil */
         padding: 4rem 4% 2rem;
         gap: 2rem;
     }
-
     .home-img {
         order: -1;
         margin-bottom: 2rem;
     }
-
     .home-img img {
         max-width: 280px;
     }
-
     .home-content h1 {
         font-size: 3.2rem;
     }
-
     .about {
         flex-direction: column;
         text-align: center;
         gap: 2rem;
     }
-
     .about-content h2 {
         text-align: center;
     }
-
     .footer {
         flex-direction: column;
         text-align: center;
