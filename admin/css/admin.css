@@ -1,19 +1,19 @@
          :root {
-            --primary-bg: #f8f9fa;       /* Light Gray */
-            --secondary-bg: #ffffff;     /* White */
-            --accent-color: #a55e3d;     /* Sienna (Coklat Utama) */
-            --purple-accent: #CD853F;    /* Peru (Coklat Muda Aksen) */
-            --text-color: #212529;       /* Dark Gray */
-            --text-muted: #6c757d;       /* Medium Gray */
-            --input-bg: #e9ecef;         /* Lighter input background */
-            --button-primary: #A0522D;     /* Sienna */
-            --button-hover-primary: #8B4513; /* SaddleBrown (Coklat Lebih Tua Hover) */
-            --button-logout: #dc3545;       /* Red */
-            --button-hover-logout: #c82333; /* Darker Red */
-            --success-color: #28a745;       /* Green */
-            --error-color: #e74c3c;       /* Red */
+            --primary-bg: #f8f9fa;      
+            --secondary-bg: #ffffff;    
+            --accent-color: #a55e3d;    
+            --purple-accent: #CD853F;   
+            --text-color: #212529;     
+            --text-muted: #6c757d;       
+            --input-bg: #e9ecef;         
+            --button-primary: #A0522D;     
+            --button-hover-primary: #8B4513; 
+            --button-logout: #dc3545;       
+            --button-hover-logout: #c82333;
+            --success-color: #28a745;     
+            --error-color: #e74c3c;       
             --transition-speed: 0.3s;
-            --border-color: #dee2e6;       /* Light Gray Border */
+            --border-color: #dee2e6;     
             --sidebar-width: 260px;
         }
 
@@ -36,7 +36,7 @@
         #sidebar {
             width: var(--sidebar-width);
             height: 100vh;
-            background-color: var(--secondary-bg); /* Sidebar putih */
+            background-color: var(--secondary-bg); 
             border-right: 1px solid var(--border-color);
             position: fixed;
             top: 0;
@@ -59,7 +59,7 @@
         .sidebar-header .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--accent-color); /* Logo coklat */
+            color: var(--accent-color); 
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -109,10 +109,10 @@
         }
 
         nav.sidebar-nav a.active {
-            background-color: var(--accent-color); /* Background coklat */
-            color: #fff; /* Teks putih */
+            background-color: var(--accent-color); 
+            color: #fff;
             transform: none;
-            box-shadow: 0 4px 10px rgba(160, 82, 45, 0.3); /* Shadow coklat */
+            box-shadow: 0 4px 10px rgba(160, 82, 45, 0.3);
         }
          nav.sidebar-nav a.active i { color: #fff; }
 
@@ -126,7 +126,6 @@
             transform: translateX(5px);
         }
 
-        /* --- Main Content CSS (Copy dari form.html) --- */
         .main-content {
             flex-grow: 1;
             margin-left: var(--sidebar-width);
@@ -163,8 +162,6 @@
             margin: 0 auto;
             width: 100%;
         }
-
-        /* --- Styling Konten Dashboard (Menggantikan Tailwind) --- */
 
         .dashboard-header {
             background: var(--secondary-bg);
