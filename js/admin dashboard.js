@@ -1,4 +1,3 @@
-// Mobile sidebar toggle
     const hamburger = document.getElementById("hamburger");
     const sidebar = document.getElementById("sidebar");
     const closeSidebar = document.getElementById("closeSidebar");
@@ -11,7 +10,6 @@
       sidebar.classList.add("-translate-x-full");
     });
 
-    // Close sidebar when clicking outside on mobile
     document.addEventListener('click', (e) => {
       if (window.innerWidth < 768 && !sidebar.contains(e.target)) {
         if (e.target !== hamburger) {
@@ -20,13 +18,10 @@
       }
     });
  
-    // Supabase initialization
     const supabaseUrl = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
-    
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Check admin session
     async function checkSession() {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
@@ -38,7 +33,6 @@
           alert("Akses ditolak. Silakan login kembali.");
           window.location.href = "login.html";
         } else {
-          // Load dashboard data
           loadDashboardData();
         }
       } catch (err) {
@@ -48,10 +42,8 @@
       }
     }
 
-    // Call session check on page load
     checkSession();
 
-    // Logout function
     async function logout() {
       try {
         const { error } = await supabase.auth.signOut();
@@ -66,10 +58,8 @@
       }
     }
 
-    // Load dashboard data
     async function loadDashboardData() {
       try {
-        // Get total content count
         const { count: contentCount, error: contentError } = await supabase
           .from('your_content_table')
           .select('*', { count: 'exact', head: true });
@@ -78,7 +68,6 @@
         
         document.getElementById('totalContent').textContent = contentCount || 0;
 
-        // Get recent messages
         const { data: messages, error: messagesError } = await supabase
           .from('contact_messages')
           .select('*')
@@ -106,7 +95,6 @@
           messagesContainer.innerHTML = '<p class="text-gray-500">Belum ada pesan</p>';
         }
 
-        // Update new messages count
         const { count: newMessagesCount, error: countError } = await supabase
           .from('contact_messages')
           .select('*', { count: 'exact', head: true })
