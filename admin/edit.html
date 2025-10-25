@@ -1,84 +1,817 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Edit Konten - Admin YesZie</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Konten - Admin YesZie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #1a1c22;
+            --secondary-bg: #252a33;
+            --accent-color: #6c63ff;
+            --purple-accent: #9c7bff;
+            --text-color: #ffffff;
+            --text-muted: #b0b0b0;
+            --input-bg: #2e3440;
+            --button-primary: #6c63ff;
+            --button-hover-primary: #564dff;
+            --button-logout: #ff4757;
+            --button-hover-logout: #ff2d3e;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--secondary-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        nav.main-nav {
+            background-color: var(--primary-bg);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all var(--transition-speed) ease;
+        }
+
+        nav.main-nav a {
+            color: var(--text-color);
+            margin: 0 1rem;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            transition: all var(--transition-speed) ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav.main-nav a i {
+            font-size: 0.9rem;
+        }
+
+        nav.main-nav a:hover,
+        nav.main-nav a.active {
+            background-color: var(--accent-color);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            flex-grow: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+        }
+
+        section {
+            background-color: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+
+        .content-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .list-item {
+            background-color: var(--input-bg);
+            border-radius: 8px;
+            padding: 1.2rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .list-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+        }
+
+        .item-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .item-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+
+        .no-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .item-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            word-break: break-word;
+        }
+
+        .item-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            word-break: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .item-link {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            word-break: break-all;
+        }
+
+        .item-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        button {
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            border: none;
+            background-color: var(--button-primary);
+            color: #fff;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        button:hover {
+            background-color: var(--button-hover-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .delete-btn {
+            background-color: var(--button-logout);
+        }
+
+        .delete-btn:hover {
+            background-color: var(--button-hover-logout);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--secondary-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* Style untuk form edit */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="url"],
+        .form-group input[type="file"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--input-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-group input[type="file"] {
+            padding: 0.5rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .current-image {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .current-image img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer {
+            background-color: var(--secondary-bg);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            nav.main-nav {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                padding: 1rem;
+                background-color: var(--secondary-bg);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+                transform: translateY(-150%);
+                opacity: 0;
+                z-index: 99;
+            }
+
+            nav.main-nav.show {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            nav.main-nav a {
+                display: block;
+                margin: 0.5rem 0;
+                padding: 0.8rem;
+            }
+
+            .container {
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+
+            section {
+                padding: 1.2rem;
+            }
+
+            .content-list {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
+<body>
 
-  <header class="flex items-center justify-between bg-white px-4 py-3 border-b shadow md:hidden">
-    <h1 class="text-lg font-semibold text-gray-800">Admin YesZie</h1>
-    <button id="hamburger" class="text-gray-800 focus:outline-none text-2xl">
-      ☰
+<header>
+    <a href="admin_dashboard.html" class="logo">
+        <i class="fas fa-user-shield"></i> Admin YesZie
+    </a>
+    <button class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
     </button>
-  </header>
+</header>
 
-  <div class="flex h-screen overflow-hidden">
+<nav class="main-nav" id="mainNav">
+    <a href="admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    <a href="tambah.html"><i class="fas fa-plus-circle"></i> Add Content</a> 
+    <a href="../index.html" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+</nav>
 
-    <aside id="sidebar" class="fixed md:static top-0 left-0 h-full w-64 bg-white border-r shadow-md z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
-      <div class="p-6 border-b flex justify-between items-center md:block">
-        <h1 class="text-xl font-semibold text-blue-600">ADMIN PANEL</h1>
-        <button id="closeSidebar" class="md:hidden text-xl text-gray-800">✕</button>
-      </div>
-      <nav class="p-4">
-        <ul class="space-y-2">
-          <li>
-            <a href="admin_dashboard.html" class="block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600">
-              <i class="fas fa-tachometer-alt w-6 text-center mr-2"></i> Dashboard
-            </a>
-          </li>
-          <li>
-            <a href="edit.html" class="block px-4 py-3 rounded-lg transition-all duration-200 bg-blue-100 text-blue-600 font-medium">
-              <i class="fas fa-edit w-6 text-center mr-2"></i> Edit Content
-            </a>
-          </li>
-          <li>
-            <a href="tambah.html" class="block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600">
-              <i class="fas fa-plus-circle w-6 text-center mr-2"></i> Add New Content
-            </a>
-          </li>
-          <li>
-            <a href="form.html" class="block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600">
-              <i class="fas fa-envelope w-6 text-center mr-2"></i> Form Messages
-            </a>
-          </li>
-          <li>
-            <a href="#" id="logout-link" class="block px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600">
-              <i class="fas fa-sign-out-alt w-6 text-center mr-2"></i> Log Out
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </aside>
+<div class="container" id="content">
+    <p class="loading">Memuat konten</p>
+</div>
 
-    <main class="flex-1 p-6 overflow-y-auto relative bg-cover bg-center" 
-          style="background-image: url('https://source.unsplash.com/1600x900/?technology,abstract');">
-      <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm"></div>
-
-      <div class="relative z-10" id="content-wrapper">
-          <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Edit Konten</h1>
-            <p class="text-gray-600">Pilih item di bawah untuk diedit atau dihapus</p>
-          </div>
-          
-          <div id="content-sections" class="space-y-6">
-            <p class="text-white text-center text-lg">Memuat konten...</p>
-          </div>
-      </div>
-    </main>
-  </div>
-  
-  <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 items-center justify-center p-4">
-    <button class="close-modal absolute top-4 right-4 text-white text-3xl font-bold" id="closeModal">&times;</button>
-    <div class="bg-white p-4 rounded-lg max-w-4xl max-h-[90vh]">
-      <img id="modalImage" class="modal-image" src="" alt="Preview" style="max-height: 85vh; object-fit: contain;">
+<div id="imageModal" class="modal">
+    <button class="close-modal" id="closeModal">&times;</button>
+    <div class="modal-content">
+        <img id="modalImage" class="modal-image" src="" alt="Preview">
     </div>
-  </div>
+</div>
 
-  <script src="../js/edit.js></script>
+<footer>
+    &copy; 2025 YesZie Admin Panel | All Rights Reserved
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+    // Konfigurasi Supabase (sebaiknya dipindahkan ke backend)
+    const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Fungsi sanitasi untuk mencegah XSS
+    function sanitizeInput(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    // Inisialisasi DOM
+    document.addEventListener('DOMContentLoaded', () => {
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const mainNav = document.getElementById('mainNav');
+        
+        hamburger.addEventListener('click', () => {
+            mainNav.classList.toggle('show');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mainNav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('show');
+            });
+        });
+
+        // Modal functions
+        const closeModalBtn = document.getElementById('closeModal');
+        const modal = document.getElementById('imageModal');
+        
+        function openModal(imageUrl) {
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = imageUrl;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside the image
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Logout handler
+        document.getElementById('logoutLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            logout();
+        });
+
+        // Otentikasi
+        checkAuth();
+
+        // Render sections
+        const menus = [
+            { table: 'about_me', title: 'About Me', bucket: 'aboutimages', isSingular: true },
+            { table: 'projects', title: 'Projects', bucket: 'projectimages' },
+            { table: 'experience', title: 'Experience', bucket: 'experienceimages' },
+            { table: 'activity', title: 'My Activity', bucket: 'activityimages' },
+            { table: 'articles', title: 'My Articles', bucket: 'articleimages' }
+        ];
+
+        menus.forEach(menu => renderSection(menu));
+    });
+
+    async function checkAuth() {
+        try {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
+                alert("Akses ditolak. Silakan login kembali.");
+                window.location.href = "login.html";
+            }
+        } catch (err) {
+            console.error("Error fetching session:", err);
+            alert("Terjadi kesalahan saat memverifikasi sesi.");
+            window.location.href = "login.html";
+        }
+    }
+
+    async function logout() {
+        try {
+            const { error } = await supabaseClient.auth.signOut();
+            if (error) throw error;
+            window.location.href = "login.html";
+        } catch (error) {
+            console.error('Logout error:', error.message);
+            alert('Gagal logout: ' + error.message);
+        }
+    }
+
+    function renderSection({ table, title, bucket, isSingular = false }) {
+        const section = document.createElement('section');
+        section.innerHTML = `
+            <h2>${sanitizeInput(title)}</h2>
+            <div class="content-list" id="list-${table}">Loading...</div>
+        `;
+        document.getElementById('content').appendChild(section);
+        fetchData(table, bucket, isSingular);
+
+        // Realtime subscription
+        supabaseClient.channel(`realtime_${table}`)
+            .on('postgres_changes', { event: '*', schema: 'public', table }, () => {
+                fetchData(table, bucket, isSingular);
+            })
+            .subscribe();
+    }
+
+    async function fetchData(table, bucket, isSingular) {
+        try {
+            const { data, error } = await supabaseClient.from(table).select('*');
+            const container = document.getElementById(`list-${table}`);
+            
+            if (error) throw error;
+            if (!container) return;
+
+            container.innerHTML = '';
+            const displayData = isSingular && data.length > 0 ? [data[0]] : data;
+            
+            if (displayData.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #aaa;">Tidak ada item ditemukan.</p>';
+                return;
+            }
+            
+            displayData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'list-item';
+                const hasLink = table === 'projects';
+                
+                const thumbnail = item.image_url 
+                    ? `<img src="${sanitizeInput(item.image_url)}" class="item-thumbnail" alt="${sanitizeInput(item.title || 'Thumbnail')}">`
+                    : `<div class="no-thumbnail">No Image</div>`;
+                
+                const linkDisplay = hasLink && item.link 
+                    ? `<a href="${sanitizeInput(item.link)}" target="_blank" class="item-link">${sanitizeInput(item.link)}</a>`
+                    : '';
+                
+                div.innerHTML = `
+                    <div class="item-header">
+                        ${thumbnail}
+                        <div>
+                            <h3 class="item-title">${sanitizeInput(item.title || 'No Title')}</h3>
+                            ${linkDisplay}
+                        </div>
+                    </div>
+                    <p class="item-desc">${sanitizeInput(item.description || 'No description available')}</p>
+                    <div class="item-actions">
+                        <button data-action="edit" data-table="${table}" data-id="${item.id}" data-bucket="${bucket}" data-haslink="${hasLink}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        ${!isSingular ? `
+                        <button class="delete-btn" data-action="delete" data-table="${table}" data-id="${item.id}" data-bucket="${bucket}" data-image="${item.image_url || ''}">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>` : ''}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            // Add event listeners to buttons
+            container.querySelectorAll('[data-action="edit"]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const table = btn.dataset.table;
+                    const id = btn.dataset.id;
+                    const bucket = btn.dataset.bucket;
+                    const hasLink = btn.dataset.haslink === 'true';
+                    showEditForm(table, id, bucket, hasLink);
+                });
+            });
+
+            container.querySelectorAll('[data-action="delete"]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const table = btn.dataset.table;
+                    const id = btn.dataset.id;
+                    const bucket = btn.dataset.bucket;
+                    const imageUrl = btn.dataset.image;
+                    deleteItem(table, id, bucket, imageUrl);
+                });
+            });
+
+            // Add click handler for thumbnails
+            container.querySelectorAll('.item-thumbnail').forEach(img => {
+                img.addEventListener('click', () => openModal(img.src));
+            });
+
+        } catch (error) {
+            console.error(`Error fetching ${table}:`, error);
+            const container = document.getElementById(`list-${table}`);
+            if (container) {
+                container.innerHTML = '<p style="color: var(--error-color);">Error loading data.</p>';
+            }
+        }
+    }
+
+    async function showEditForm(table, id, bucket, hasLink) {
+        try {
+            const { data, error } = await supabaseClient.from(table)
+                .select('*')
+                .eq('id', id)
+                .single();
+            
+            if (error) throw error;
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="modal-content" style="width: 90%; max-width: 600px;">
+                    <button class="close-modal" id="closeEditModal">&times;</button>
+                    <h2>Edit ${sanitizeInput(table)}</h2>
+                    <form id="editForm">
+                        <div class="form-group">
+                            <label for="edit-title">Judul</label>
+                            <input type="text" id="edit-title" value="${sanitizeInput(data.title || '')}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-desc">Deskripsi</label>
+                            <textarea id="edit-desc" required>${sanitizeInput(data.description || '')}</textarea>
+                        </div>
+                        
+                        ${hasLink ? `
+                        <div class="form-group">
+                            <label for="edit-link">Link</label>
+                            <input type="url" id="edit-link" value="${sanitizeInput(data.link || '')}">
+                        </div>` : ''}
+                        
+                        <div class="form-group">
+                            <label for="edit-image">Gambar (biarkan kosong jika tidak ingin mengubah)</label>
+                            <input type="file" id="edit-image" accept="image/*">
+                            ${data.image_url ? `
+                            <div class="current-image">
+                                <span>Gambar saat ini:</span>
+                                <img src="${sanitizeInput(data.image_url)}" style="cursor: pointer;">
+                            </div>` : ''}
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit">
+                                <i class="fas fa-save"></i> Simpan Perubahan
+                            </button>
+                            <button type="button" class="delete-btn" id="cancelEdit">
+                                <i class="fas fa-times"></i> Batal
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+
+            // Add event listeners
+            modal.querySelector('#closeEditModal').addEventListener('click', () => {
+                modal.remove();
+                document.body.style.overflow = 'auto';
+            });
+
+            modal.querySelector('#cancelEdit').addEventListener('click', () => {
+                modal.remove();
+                document.body.style.overflow = 'auto';
+            });
+
+            modal.querySelector('img')?.addEventListener('click', () => {
+                openModal(data.image_url);
+            });
+
+            modal.querySelector('#editForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleEdit(table, id, bucket, hasLink, modal);
+            });
+
+        } catch (error) {
+            console.error('Error showing edit form:', error);
+            alert("Gagal mengambil data: " + error.message);
+        }
+    }
+
+    async function uploadImage(bucket, file) {
+        if (!file) return null;
+        const fileName = `${Date.now()}-${file.name}`;
+        const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file);
+        if (error) throw error;
+        const { data: { publicUrl } } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
+        return publicUrl;
+    }
+
+    async function deleteImage(bucket, imageUrl) {
+        if (!imageUrl) return;
+        const fileName = imageUrl.split('/').pop();
+        const { error } = await supabaseClient.storage.from(bucket).remove([fileName]);
+        if (error) console.error("Gagal hapus gambar lama:", error.message);
+    }
+
+    async function handleEdit(table, id, bucket, hasLink, modal) {
+        try {
+            const title = document.getElementById('edit-title').value.trim();
+            const description = document.getElementById('edit-desc').value.trim();
+            const fileInput = document.getElementById('edit-image');
+            const file = fileInput.files[0];
+            const link = hasLink ? document.getElementById('edit-link').value.trim() : null;
+            
+            if (!title || !description) {
+                alert("Judul dan Deskripsi tidak boleh kosong!");
+                return;
+            }
+
+            const { data: current, error: currentError } = await supabaseClient.from(table).select('image_url').eq('id', id).single();
+            if (currentError) throw currentError;
+
+            let imageUrl = current.image_url || null;
+            if (file) {
+                const newUrl = await uploadImage(bucket, file);
+                if (imageUrl) await deleteImage(bucket, imageUrl);
+                imageUrl = newUrl;
+            }
+
+            const update = { title, description };
+            if (imageUrl) update.image_url = imageUrl;
+            if (hasLink) update.link = link;
+
+            const { error } = await supabaseClient.from(table).update(update).eq('id', id);
+            if (error) throw error;
+
+            alert("✅ Berhasil update!");
+            modal.remove();
+            document.body.style.overflow = 'auto';
+            fetchData(table, bucket, false);
+
+        } catch (error) {
+            console.error('Error handling edit:', error);
+            alert("Gagal update: " + error.message);
+        }
+    }
+
+    async function deleteItem(table, id, bucket, imageUrl) {
+        if (!confirm(`Yakin ingin menghapus dari ${table}?`)) return;
+        try {
+            if (imageUrl) await deleteImage(bucket, imageUrl);
+            const { error } = await supabaseClient.from(table).delete().eq('id', id);
+            if (error) throw error;
+            alert("✅ Item berhasil dihapus!");
+            fetchData(table, bucket, false);
+        } catch (error) {
+            console.error('Error deleting item:', error);
+            alert("Gagal hapus item: " + error.message);
+        }
+    }
+</script>
 </body>
 </html>
