@@ -1,20 +1,37 @@
-  :root {
-            --primary-bg: #1a1c22;
-            --secondary-bg: #252a33;
-            --accent-color: #6c63ff;
-            --purple-accent: #9c7bff;
-            --text-color: #ffffff;
-            --text-muted: #b0b0b0;
-            --input-bg: #2e3440;
-            --button-primary: #6c63ff;
-            --button-hover-primary: #564dff;
-            --button-logout: #ff4757;
-            --button-hover-logout: #ff2d3e;
-            --success-color: #2ecc71;
-            --error-color: #e74c3c;
+        :root {
+
+            --primary-bg: #f8f9fa;       /* Light Gray */
+
+            --secondary-bg: #ffffff;     /* White */
+
+            --accent-color: #6f42c1;     /* Purple (Bootstrap Purple) */
+
+            --purple-accent: #8a63d2;    /* Lighter Purple */
+
+            --text-color: #212529;       /* Dark Gray */
+
+            --text-muted: #6c757d;       /* Medium Gray */
+
+            --input-bg: #e9ecef;         /* Lighter input background */
+
+            --button-primary: #6f42c1;     /* Purple */
+
+            --button-hover-primary: #5a32a3; /* Darker Purple */
+
+            --button-logout: #dc3545;       /* Red */
+
+            --button-hover-logout: #c82333; /* Darker Red */
+
+            --success-color: #28a745;       /* Green */
+
+            --error-color: #e74c3c;       /* Red */
+
             --transition-speed: 0.3s;
-            --border-color: rgba(255, 255, 255, 0.1);
+
+            --border-color: #dee2e6;       /* Light Gray Border */
+
             --sidebar-width: 260px;
+
         }
 
         * {
