@@ -1,0 +1,424 @@
+ const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    function sanitizeInput(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        const sidebar = document.getElementById('sidebar');
+        const openBtn = document.getElementById('hamburger-open');
+        const closeBtn = document.getElementById('sidebar-close');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function openSidebar() {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (openBtn) openBtn.addEventListener('click', openSidebar);
+        if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+        if (overlay) overlay.addEventListener('click', closeSidebar);
+
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('keyup', filterContent);
+        }
+        // ---------------------------------------------
+
+        const closeModalBtn = document.getElementById('closeModal');
+        const modal = document.getElementById('imageModal');
+        
+        function openImageModal(imageUrl) {
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = imageUrl;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            modal.style.display = 'none';
+            if (!sidebar.classList.contains('open')) {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        closeModalBtn.addEventListener('click', closeImageModal);
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeImageModal();
+            }
+        });
+
+        document.getElementById('logoutLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            logout();
+        });
+
+        checkAuth();
+
+        const menus = [
+            { table: 'about_me', title: 'About Me', bucket: 'aboutimages', isSingular: true },
+            { table: 'projects', title: 'Projects', bucket: 'projectimages', isSingular: false },
+            { table: 'experience', title: 'Experience', bucket: 'experienceimages', isSingular: false },
+            { table: 'activity', title: 'My Activity', bucket: 'activityimages', isSingular: false },
+            { table: 'articles', title: 'My Articles', bucket: 'articleimages', isSingular: false }
+        ];
+
+        const contentContainer = document.getElementById('content');
+        contentContainer.innerHTML = ''; 
+        menus.forEach(menu => renderSection(menu));
+    });
+
+    function filterContent() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const allSections = document.querySelectorAll('section');
+        
+        let totalMatches = 0;
+
+        allSections.forEach(section => {
+            const items = section.querySelectorAll('.list-item');
+            let sectionHasMatch = false;
+
+            items.forEach(item => {
+                const title = item.querySelector('.item-title')?.textContent.toLowerCase() || '';
+                const desc = item.querySelector('.item-desc')?.textContent.toLowerCase() || '';
+                
+                const isMatch = title.includes(query) || desc.includes(query);
+                
+                item.style.display = isMatch ? '' : 'none';
+                
+                if (isMatch) {
+                    sectionHasMatch = true;
+                    totalMatches++;
+                }
+            });
+
+            if (items.length > 0) {
+                section.style.display = sectionHasMatch ? '' : 'none';
+            }
+            
+            const list = section.querySelector('.content-list');
+            let noResultsMsg = list.querySelector('.search-no-results');
+            
+            if (!noResultsMsg) {
+                noResultsMsg = document.createElement('p');
+                noResultsMsg.className = 'search-no-results';
+                noResultsMsg.textContent = 'Tidak ada hasil yang cocok untuk pencarian ini.';
+                list.appendChild(noResultsMsg);
+            }
+            
+            if (!sectionHasMatch && items.length > 0) {
+                noResultsMsg.style.display = '';
+            } else {
+                noResultsMsg.style.display = 'none';
+            }
+        });
+    }
+
+    async function checkAuth() { 
+        try {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session || !session.user || session.user.email !== "grayesi.silitonga@gmail.com") {
+                alert("Akses ditolak. Silakan login kembali.");
+                window.location.href = "login.html";
+            }
+        } catch (err) {
+            console.error("Error fetching session:", err);
+            alert("Terjadi kesalahan saat memverifikasi sesi.");
+            window.location.href = "login.html";
+        }
+    }
+
+    async function logout() {
+        try {
+            const { error } = await supabaseClient.auth.signOut();
+            if (error) throw error;
+            window.location.href = "login.html";
+        } catch (error) {
+            console.error('Logout error:', error.message);
+            alert('Gagal logout: ' + error.message);
+        }
+    }
+
+    function renderSection({ table, title, bucket, isSingular }) {
+        const section = document.createElement('section');
+        section.innerHTML = `
+            <h2>${sanitizeInput(title)}</h2>
+            <div class="content-list" id="list-${table}">Loading...</div>
+        `;
+        document.getElementById('content').appendChild(section);
+        fetchData(table, bucket, isSingular);
+
+        supabaseClient.channel(`realtime_${table}`)
+            .on('postgres_changes', { event: '*', schema: 'public', table }, () => {
+                fetchData(table, bucket, isSingular);
+            })
+            .subscribe();
+    }
+
+    async function fetchData(table, bucket, isSingular) {
+        try {
+            const { data, error } = await supabaseClient.from(table).select('*');
+            const container = document.getElementById(`list-${table}`);
+            
+            if (error) throw error;
+            if (!container) return;
+
+            container.innerHTML = '';
+            const displayData = isSingular && data.length > 0 ? [data[0]] : data;
+            
+            if (displayData.length === 0) {
+
+                container.innerHTML = '<p class="no-items-msg">Tidak ada item ditemukan.</p>';
+            }
+            
+            displayData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'list-item';
+                const hasLink = table === 'projects';
+                
+                const thumbnail = item.image_url 
+                    ? `<img src="${sanitizeInput(item.image_url)}" class="item-thumbnail" alt="${sanitizeInput(item.title || 'Thumbnail')}">`
+                    : `<div class="no-thumbnail">No Image</div>`;
+                
+                const linkDisplay = hasLink && item.link 
+                    ? `<a href="${sanitizeInput(item.link)}" target="_blank" class="item-link">${sanitizeInput(item.link)}</a>`
+                    : '';
+                
+                div.innerHTML = `
+                    <div class="item-header">
+                        ${thumbnail}
+                        <div>
+                            <h3 class="item-title">${sanitizeInput(item.title || 'No Title')}</h3>
+                            ${linkDisplay}
+                        </div>
+                    </div>
+                    <p class="item-desc">${sanitizeInput(item.description || 'No description available')}</p>
+                    <div class="item-actions">
+                        <button data-action="edit" data-table="${table}" data-id="${item.id}" data-bucket="${bucket}" data-haslink="${hasLink}" data-issingular="${isSingular}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        ${!isSingular ? `
+                        <button class="delete-btn" data-action="delete" data-table="${table}" data-id="${item.id}" data-bucket="${bucket}" data-image="${item.image_url || ''}" data-issingular="${isSingular}">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>` : ''}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            container.querySelectorAll('[data-action="edit"]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const { table, id, bucket, haslink, issingular } = btn.dataset;
+                    showEditForm(table, id, bucket, haslink === 'true', issingular === 'true');
+                });
+            });
+
+            container.querySelectorAll('[data-action="delete"]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const { table, id, bucket, image, issingular } = btn.dataset;
+                    deleteItem(table, id, bucket, image, issingular === 'true');
+                });
+            });
+
+            container.querySelectorAll('.item-thumbnail').forEach(img => {
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openImageModal(img.src);
+                });
+            });
+            
+            filterContent();
+
+        } catch (error) {
+            console.error(`Error fetching ${table}:`, error);
+            const container = document.getElementById(`list-${table}`);
+            if (container) {
+                container.innerHTML = '<p style="color: var(--error-color);">Error loading data.</p>';
+            }
+        }
+    }
+
+    async function showEditForm(table, id, bucket, hasLink, isSingular) {
+
+        try {
+            const { data, error } = await supabaseClient.from(table).select('*').eq('id', id).single();
+            if (error) throw error;
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 600px;">
+                    <button class="close-modal" id="closeEditModal">&times;</button>
+                    <h2>Edit ${sanitizeInput(table)}</h2>
+                    <form id="editForm">
+                        <div class="form-group">
+                            <label for="edit-title">Judul</label>
+                            <input type="text" id="edit-title" value="${sanitizeInput(data.title || '')}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-desc">Deskripsi</label>
+                            <textarea id="edit-desc" required>${sanitizeInput(data.description || '')}</textarea>
+                        </div>
+                        ${hasLink ? `
+                        <div class="form-group">
+                            <label for="edit-link">Link</label>
+                            <input type="url" id="edit-link" value="${sanitizeInput(data.link || '')}">
+                        </div>` : ''}
+                        <div class="form-group">
+                            <label for="edit-image">Gambar (biarkan kosong jika tidak ingin mengubah)</label>
+                            <input type="file" id="edit-image" accept="image/*">
+                            ${data.image_url ? `
+                            <div class="current-image">
+                                <span>Gambar saat ini:</span>
+                                <img src="${sanitizeInput(data.image_url)}" style="cursor: pointer;">
+                            </div>` : ''}
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="delete-btn" id="cancelEdit" style="background-color: var(--input-bg); color: var(--text-muted);">
+                                <i class="fas fa-times"></i> Batal
+                            </button>
+                            <button type="submit">
+                                <i class="fas fa-save"></i> Simpan Perubahan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+
+            modal.querySelector('#closeEditModal').addEventListener('click', () => {
+                modal.remove();
+                if (!document.getElementById('sidebar').classList.contains('open')) {
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            modal.querySelector('#cancelEdit').addEventListener('click', () => {
+                modal.remove();
+                if (!document.getElementById('sidebar').classList.contains('open')) {
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            modal.querySelector('.current-image img')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openImageModal(data.image_url);
+            });
+
+            modal.querySelector('#editForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleEdit(table, id, bucket, hasLink, isSingular, modal);
+            });
+
+        } catch (error) {
+            console.error('Error showing edit form:', error);
+            alert("Gagal mengambil data: " + error.message);
+        }
+    }
+
+    async function uploadImage(bucket, file) {
+        if (!file) return null;
+        const fileName = `${Date.now()}-${file.name}`;
+        const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file);
+        if (error) throw error;
+        const { data: { publicUrl } } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
+        return publicUrl;
+    }
+
+    async function deleteImage(bucket, imageUrl) { 
+        if (!imageUrl) return;
+        const fileName = imageUrl.split('/').pop();
+        if (!fileName) return;
+        try {
+            const { error } = await supabaseClient.storage.from(bucket).remove([fileName]);
+            if (error) console.error("Gagal hapus gambar lama:", error.message);
+        } catch (e) {
+            console.error("Error parsing image URL:", e)
+        }
+    }
+
+    async function handleEdit(table, id, bucket, hasLink, isSingular, modal) {
+
+        const submitButton = modal.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerHTML = 'Menyimpan...';
+
+        try {
+            const title = document.getElementById('edit-title').value.trim();
+            const description = document.getElementById('edit-desc').value.trim();
+            const fileInput = document.getElementById('edit-image');
+            const file = fileInput.files[0];
+            const link = hasLink ? document.getElementById('edit-link').value.trim() : null;
+            
+            if (!title || !description) {
+                alert("Judul dan Deskripsi tidak boleh kosong!");
+                return;
+            }
+
+            const { data: current, error: currentError } = await supabaseClient.from(table).select('image_url').eq('id', id).single();
+            if (currentError) throw currentError;
+
+            let imageUrl = current.image_url || null;
+            if (file) {
+                const newUrl = await uploadImage(bucket, file);
+                if (imageUrl) await deleteImage(bucket, imageUrl);
+                imageUrl = newUrl;
+            }
+
+            const update = { title, description };
+            if (imageUrl) update.image_url = imageUrl;
+            if (hasLink) update.link = link;
+
+            const { error } = await supabaseClient.from(table).update(update).eq('id', id);
+            if (error) throw error;
+
+            alert("✅ Berhasil update!");
+            modal.remove();
+            if (!document.getElementById('sidebar').classList.contains('open')) {
+                document.body.style.overflow = 'auto';
+            }
+            fetchData(table, bucket, isSingular);
+
+        } catch (error) {
+            console.error('Error handling edit:', error);
+            alert("Gagal update: " + error.message);
+        } finally {
+            if (document.body.contains(modal)) {
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="fas fa-save"></i> Simpan Perubahan';
+            }
+        }
+    }
+
+    async function deleteItem(table, id, bucket, imageUrl, isSingular) {
+
+        if (!confirm(`Yakin ingin menghapus dari ${table}?`)) return;
+        try {
+            if (imageUrl) await deleteImage(bucket, imageUrl);
+            const { error } = await supabaseClient.from(table).delete().eq('id', id);
+            if (error) throw error;
+            alert("✅ Item berhasil dihapus!");
+            fetchData(table, bucket, isSingular);
+        } catch (error) {
+            console.error('Error deleting item:', error);
+            alert("Gagal hapus item: " + error.message);
+        }
+    }
