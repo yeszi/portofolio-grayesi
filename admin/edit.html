@@ -22,6 +22,8 @@
             --success-color: #2ecc71;
             --error-color: #e74c3c;
             --transition-speed: 0.3s;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --sidebar-width: 260px; /* Lebar sidebar */
         }
 
         * {
@@ -36,25 +38,37 @@
             background-color: var(--primary-bg);
             color: var(--text-color);
             min-height: 100vh;
+            line-height: 1.6;
+            /* PERUBAHAN: Menggunakan flex untuk layout sidebar */
+            display: flex;
+        }
+        
+        /* --- CSS BARU UNTUK SIDEBAR --- */
+        
+        #sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--secondary-bg);
+            border-right: 1px solid var(--border-color);
+            position: fixed; /* Tetap di kiri */
+            top: 0;
+            left: 0;
             display: flex;
             flex-direction: column;
-            line-height: 1.6;
+            z-index: 1000;
+            transition: transform var(--transition-speed) ease;
         }
 
-        header {
-            background-color: var(--secondary-bg);
-            padding: 1rem 2rem;
+        .sidebar-header {
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        header .logo {
-            font-size: 1.8rem;
+        .sidebar-header .logo {
+            font-size: 1.5rem; /* Sedikit lebih kecil */
             font-weight: 700;
             color: var(--accent-color);
             text-decoration: none;
@@ -63,12 +77,8 @@
             gap: 0.5rem;
         }
 
-        .logo i {
-            font-size: 1.5rem;
-        }
-
-        .hamburger {
-            display: none;
+        #sidebar-close {
+            display: none; /* Hanya tampil di mobile */
             background: none;
             border: none;
             color: var(--text-color);
@@ -76,45 +86,100 @@
             cursor: pointer;
         }
 
-        nav.main-nav {
-            background-color: var(--primary-bg);
-            padding: 1rem 0;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            transition: all var(--transition-speed) ease;
+        nav.sidebar-nav {
+            flex-grow: 1; /* Mendorong link logout ke bawah */
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
         }
 
-        nav.main-nav a {
-            color: var(--text-color);
-            margin: 0 1rem;
+        nav.sidebar-nav a {
+            color: var(--text-muted); /* Ubah warna default */
+            margin: 0.25rem 0;
             text-decoration: none;
             font-weight: 500;
-            padding: 0.5rem 1.2rem;
+            padding: 0.8rem 1.2rem;
             border-radius: 6px;
             transition: all var(--transition-speed) ease;
-            display: inline-flex;
+            display: flex; /* Ubah ke flex */
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
 
-        nav.main-nav a i {
+        nav.sidebar-nav a i {
             font-size: 0.9rem;
+            width: 20px; /* Beri lebar tetap untuk ikon */
+            text-align: center;
         }
 
-        nav.main-nav a:hover,
-        nav.main-nav a.active {
+        nav.sidebar-nav a:hover {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            transform: translateX(5px);
+        }
+        
+        nav.sidebar-nav a.active {
+            /* Style untuk link yang aktif */
             background-color: var(--accent-color);
             color: #fff;
-            transform: translateY(-2px);
+            transform: none;
+            box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
+        }
+        
+        /* Mendorong logout ke bawah */
+        nav.sidebar-nav a#logoutLink {
+            margin-top: auto;
+            color: var(--button-logout);
+        }
+        nav.sidebar-nav a#logoutLink:hover {
+            background-color: var(--button-logout);
+            color: var(--text-color);
+            transform: translateX(5px);
         }
 
+        /* --- CSS BARU UNTUK KONTEN UTAMA --- */
+
+        .main-content {
+            flex-grow: 1;
+            /* Beri margin kiri seukuran sidebar */
+            margin-left: var(--sidebar-width);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header khusus mobile, berisi tombol hamburger */
+        .mobile-header {
+            display: none; /* Sembunyi di desktop */
+            background-color: var(--secondary-bg);
+            padding: 1rem 1.5rem;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        #hamburger-open {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Ini adalah wrapper konten Anda */
         .container {
             flex-grow: 1;
             padding: 2rem;
             max-width: 1400px;
-            margin: 2rem auto;
+            /* Hapus margin auto atas/bawah */
+            margin: 0 auto;
+            width: 100%;
         }
 
+        /* Styling lama Anda untuk konten (tidak diubah) */
         section {
             background-color: var(--secondary-bg);
             padding: 1.5rem;
@@ -147,263 +212,86 @@
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
+        
+        /* (Style .list-item, .item-header, dll. Anda tetap sama) */
+        /* ... (Saya singkat agar tidak terlalu panjang, tapi style ini masih ada) ... */
 
         .list-item {
-            background-color: var(--input-bg);
-            border-radius: 8px;
-            padding: 1.2rem;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-            transition: all var(--transition-speed) ease;
-            display: flex;
-            flex-direction: column;
+            background-color: var(--input-bg); border-radius: 8px; padding: 1.2rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15); transition: all var(--transition-speed) ease;
+            display: flex; flex-direction: column;
         }
+        .list-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25); }
+        .item-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; }
+        .item-thumbnail { width: 80px; height: 80px; border-radius: 6px; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.1); flex-shrink: 0; cursor: pointer; }
+        .no-thumbnail { width: 80px; height: 80px; border-radius: 6px; background-color: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem; text-align: center; flex-shrink: 0; }
+        .item-title { font-weight: 600; margin-bottom: 0.5rem; word-break: break-word; }
+        .item-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; word-break: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .item-link { display: block; font-size: 0.8rem; color: var(--accent-color); margin-bottom: 1rem; word-break: break-all; }
+        .item-actions { margin-top: auto; display: flex; gap: 0.8rem; }
+        button { padding: 0.6rem 1rem; border-radius: 6px; border: none; background-color: var(--button-primary); color: #fff; font-weight: 500; cursor: pointer; font-size: 0.9rem; transition: all var(--transition-speed) ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex: 1; }
+        button:hover { background-color: var(--button-hover-primary); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+        .delete-btn { background-color: var(--button-logout); }
+        .delete-btn:hover { background-color: var(--button-hover-logout); }
 
-        .list-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
-        }
-
-        .item-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .item-thumbnail {
-            width: 80px;
-            height: 80px;
-            border-radius: 6px;
-            object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            flex-shrink: 0;
-        }
-
-        .no-thumbnail {
-            width: 80px;
-            height: 80px;
-            border-radius: 6px;
-            background-color: rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .item-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            word-break: break-word;
-        }
-
-        .item-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-            word-break: break-word;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .item-link {
-            display: block;
-            font-size: 0.8rem;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-            word-break: break-all;
-        }
-
-        .item-actions {
-            margin-top: auto;
-            display: flex;
-            gap: 0.8rem;
-        }
-
-        button {
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            border: none;
-            background-color: var(--button-primary);
-            color: #fff;
-            font-weight: 500;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all var(--transition-speed) ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            flex: 1;
-        }
-
-        button:hover {
-            background-color: var(--button-hover-primary);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .delete-btn {
-            background-color: var(--button-logout);
-        }
-
-        .delete-btn:hover {
-            background-color: var(--button-hover-logout);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background-color: var(--secondary-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            max-width: 800px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-image {
-            max-width: 100%;
-            max-height: 70vh;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            color: white;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-
-        /* Style untuk form edit */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="url"],
-        .form-group input[type="file"],
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            background-color: var(--input-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: var(--text-color);
-            font-size: 1rem;
-            transition: all var(--transition-speed) ease;
-        }
-
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .form-group input[type="file"] {
-            padding: 0.5rem;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .current-image {
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .current-image img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 6px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
+        /* Style Modal (tetap sama) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background-color: var(--secondary-bg); padding: 2rem; border-radius: 12px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto; }
+        .modal-image { max-width: 100%; max-height: 70vh; border-radius: 8px; margin-bottom: 1.5rem; }
+        .close-modal { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; color: white; cursor: pointer; background: none; border: none; }
+        
+        /* Style Form (tetap sama) */
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .form-group input[type="text"], .form-group input[type="url"], .form-group input[type="file"], .form-group textarea { width: 100%; padding: 0.8rem; background-color: var(--input-bg); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: var(--text-color); font-size: 1rem; transition: all var(--transition-speed) ease; }
+        .form-group textarea { min-height: 150px; resize: vertical; }
+        .form-group input[type="file"] { padding: 0.5rem; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2); }
+        .form-actions { display: flex; gap: 1rem; margin-top: 2rem; }
+        .current-image { margin-top: 1rem; display: flex; align-items: center; gap: 1rem; }
+        .current-image img { width: 100px; height: 100px; object-fit: cover; border-radius: 6px; border: 2px solid rgba(255, 255, 255, 0.1); }
+        
+        /* Footer (tetap sama, tapi di dalam main-content) */
         footer {
             background-color: var(--secondary-bg);
             color: var(--text-muted);
             text-align: center;
             padding: 1.5rem;
-            margin-top: auto;
+            margin-top: auto; /* Mendorong ke bawah */
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
             font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
         }
 
+        /* --- CSS BARU UNTUK RESPONSIVE --- */
+        
         @media (max-width: 768px) {
-            header {
-                padding: 1rem;
+            #sidebar {
+                /* Sembunyikan sidebar di kiri */
+                transform: translateX(-100%);
+                z-index: 2000; /* Pastikan di atas overlay */
             }
 
-            .hamburger {
-                display: block;
+            #sidebar.open {
+                /* Tampilkan sidebar */
+                transform: translateX(0);
+                box-shadow: 10px 0 30px rgba(0,0,0,0.3);
             }
 
-            nav.main-nav {
-                position: fixed;
-                top: 80px;
-                left: 0;
-                right: 0;
-                padding: 1rem;
-                background-color: var(--secondary-bg);
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-                transform: translateY(-150%);
-                opacity: 0;
-                z-index: 99;
+            #sidebar-close {
+                display: block; /* Tampilkan tombol close */
             }
 
-            nav.main-nav.show {
-                transform: translateY(0);
-                opacity: 1;
+            .main-content {
+                margin-left: 0; /* Konten jadi full width */
             }
-
-            nav.main-nav a {
-                display: block;
-                margin: 0.5rem 0;
-                padding: 0.8rem;
+            
+            .mobile-header {
+                display: flex; /* Tampilkan header mobile */
             }
 
             .container {
                 padding: 1rem;
-                margin: 1rem auto;
             }
 
             section {
@@ -417,29 +305,61 @@
             .form-actions {
                 flex-direction: column;
             }
+            
+            /* Overlay saat sidebar mobile terbuka */
+            #sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 1999;
+            }
+            #sidebar-overlay.active {
+                display: block;
+            }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <a href="admin_dashboard.html" class="logo">
-        <i class="fas fa-user-shield"></i> Admin YesZie
-    </a>
-    <button class="hamburger" id="hamburger">
-        <i class="fas fa-bars"></i>
-    </button>
-</header>
+<aside id="sidebar">
+    <div class="sidebar-header">
+        <a href="admin_dashboard.html" class="logo">
+            <i class="fas fa-user-shield"></i> YesZie
+        </a>
+        <button id="sidebar-close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <nav class="sidebar-nav">
+        <a href="admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="edit.html" class="active"><i class="fas fa-edit"></i> Edit Content</a>
+        <a href="tambah.html"><i class="fas fa-plus-circle"></i> Add Content</a> 
+        <a href="form.html"><i class="fas fa-envelope"></i> Form Messages</a>
+        
+        <a href="#" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+    </nav>
+</aside>
 
-<nav class="main-nav" id="mainNav">
-    <a href="admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-    <a href="tambah.html"><i class="fas fa-plus-circle"></i> Add Content</a> 
-    <a href="../index.html" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Log Out</a>
-</nav>
+<div id="sidebar-overlay"></div>
 
-<div class="container" id="content">
-    <p class="loading">Memuat konten</p>
+<div class="main-content">
+
+    <header class="mobile-header">
+        <button id="hamburger-open">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <main class="container" id="content">
+        </main>
+
+    <footer>
+        &copy; 2025 YesZie Admin Panel | All Rights Reserved
+    </footer>
 </div>
+
 
 <div id="imageModal" class="modal">
     <button class="close-modal" id="closeModal">&times;</button>
@@ -448,18 +368,15 @@
     </div>
 </div>
 
-<footer>
-    &copy; 2025 YesZie Admin Panel | All Rights Reserved
-</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
-    // Konfigurasi Supabase (sebaiknya dipindahkan ke backend)
+    // Konfigurasi Supabase (tidak berubah)
     const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Fungsi sanitasi untuk mencegah XSS
+    // Fungsi sanitasi (tidak berubah)
     function sanitizeInput(str) {
         if (!str) return '';
         const div = document.createElement('div');
@@ -469,43 +386,57 @@
 
     // Inisialisasi DOM
     document.addEventListener('DOMContentLoaded', () => {
-        // Hamburger menu toggle
-        const hamburger = document.getElementById('hamburger');
-        const mainNav = document.getElementById('mainNav');
         
-        hamburger.addEventListener('click', () => {
-            mainNav.classList.toggle('show');
-        });
+        /* --- LOGIKA BARU UNTUK TOGGLE SIDEBAR --- */
+        
+        const sidebar = document.getElementById('sidebar');
+        const openBtn = document.getElementById('hamburger-open');
+        const closeBtn = document.getElementById('sidebar-close');
+        const overlay = document.getElementById('sidebar-overlay');
 
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('#mainNav a').forEach(link => {
-            link.addEventListener('click', () => {
-                mainNav.classList.remove('show');
-            });
-        });
+        function openSidebar() {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (openBtn) openBtn.addEventListener('click', openSidebar);
+        if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+        if (overlay) overlay.addEventListener('click', closeSidebar);
+
+
+        /* --- SISA JAVASCRIPT ANDA (tidak berubah) --- */
 
         // Modal functions
         const closeModalBtn = document.getElementById('closeModal');
         const modal = document.getElementById('imageModal');
         
-        function openModal(imageUrl) {
+        function openImageModal(imageUrl) {
             const modalImg = document.getElementById('modalImage');
             modalImg.src = imageUrl;
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() {
+        function closeImageModal() {
             modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            // Hanya kembalikan overflow jika sidebar tidak terbuka
+            if (!sidebar.classList.contains('open')) {
+                document.body.style.overflow = 'auto';
+            }
         }
 
-        closeModalBtn.addEventListener('click', closeModal);
+        closeModalBtn.addEventListener('click', closeImageModal);
 
-        // Close modal when clicking outside the image
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
-                closeModal();
+                closeImageModal();
             }
         });
 
@@ -521,12 +452,15 @@
         // Render sections
         const menus = [
             { table: 'about_me', title: 'About Me', bucket: 'aboutimages', isSingular: true },
-            { table: 'projects', title: 'Projects', bucket: 'projectimages' },
-            { table: 'experience', title: 'Experience', bucket: 'experienceimages' },
-            { table: 'activity', title: 'My Activity', bucket: 'activityimages' },
-            { table: 'articles', title: 'My Articles', bucket: 'articleimages' }
+            { table: 'projects', title: 'Projects', bucket: 'projectimages', isSingular: false },
+            { table: 'experience', title: 'Experience', bucket: 'experienceimages', isSingular: false },
+            { table: 'activity', title: 'My Activity', bucket: 'activityimages', isSingular: false },
+            { table: 'articles', title: 'My Articles', bucket: 'articleimages', isSingular: false }
         ];
 
+        // Hapus "Loading..." awal jika ada
+        const contentContainer = document.getElementById('content');
+        contentContainer.innerHTML = '';
         menus.forEach(menu => renderSection(menu));
     });
 
@@ -555,7 +489,7 @@
         }
     }
 
-    function renderSection({ table, title, bucket, isSingular = false }) {
+    function renderSection({ table, title, bucket, isSingular }) {
         const section = document.createElement('section');
         section.innerHTML = `
             <h2>${sanitizeInput(title)}</h2>
@@ -584,8 +518,7 @@
             const displayData = isSingular && data.length > 0 ? [data[0]] : data;
             
             if (displayData.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #aaa;">Tidak ada item ditemukan.</p>';
-                return;
+                container.innerHTML = '<p style="text-align: center; color: var(--text-muted); grid-column: 1 / -1;">Tidak ada item ditemukan.</p>';
             }
             
             displayData.forEach(item => {
@@ -611,11 +544,11 @@
                     </div>
                     <p class="item-desc">${sanitizeInput(item.description || 'No description available')}</p>
                     <div class="item-actions">
-                        <button data-action="edit" data-table="${table}" data-id="${item.id}" data-bucket="${bucket}" data-haslink="${hasLink}">
+                        <button data-action="edit" data-table="${table}" data-id="${item.id}" data-bucket="${bucket}" data-haslink="${hasLink}" data-issingular="${isSingular}">
                             <i class="fas fa-edit"></i> Edit
                         </button>
                         ${!isSingular ? `
-                        <button class="delete-btn" data-action="delete" data-table="${table}" data-id="${item.id}" data-bucket="${bucket}" data-image="${item.image_url || ''}">
+                        <button class="delete-btn" data-action="delete" data-table="${table}" data-id="${item.id}" data-bucket="${bucket}" data-image="${item.image_url || ''}" data-issingular="${isSingular}">
                             <i class="fas fa-trash-alt"></i> Delete
                         </button>` : ''}
                     </div>
@@ -626,27 +559,24 @@
             // Add event listeners to buttons
             container.querySelectorAll('[data-action="edit"]').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const table = btn.dataset.table;
-                    const id = btn.dataset.id;
-                    const bucket = btn.dataset.bucket;
-                    const hasLink = btn.dataset.haslink === 'true';
-                    showEditForm(table, id, bucket, hasLink);
+                    const { table, id, bucket, haslink, issingular } = btn.dataset;
+                    showEditForm(table, id, bucket, haslink === 'true', issingular === 'true');
                 });
             });
 
             container.querySelectorAll('[data-action="delete"]').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const table = btn.dataset.table;
-                    const id = btn.dataset.id;
-                    const bucket = btn.dataset.bucket;
-                    const imageUrl = btn.dataset.image;
-                    deleteItem(table, id, bucket, imageUrl);
+                    const { table, id, bucket, image, issingular } = btn.dataset;
+                    deleteItem(table, id, bucket, image, issingular === 'true');
                 });
             });
 
             // Add click handler for thumbnails
             container.querySelectorAll('.item-thumbnail').forEach(img => {
-                img.addEventListener('click', () => openModal(img.src));
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Jangan trigger modal lain
+                    openImageModal(img.src);
+                });
             });
 
         } catch (error) {
@@ -658,7 +588,7 @@
         }
     }
 
-    async function showEditForm(table, id, bucket, hasLink) {
+    async function showEditForm(table, id, bucket, hasLink, isSingular) {
         try {
             const { data, error } = await supabaseClient.from(table)
                 .select('*')
@@ -668,10 +598,10 @@
             if (error) throw error;
             
             const modal = document.createElement('div');
-            modal.className = 'modal';
+            modal.className = 'modal'; // Menggunakan style modal yang ada
             modal.style.display = 'flex';
             modal.innerHTML = `
-                <div class="modal-content" style="width: 90%; max-width: 600px;">
+                <div class="modal-content" style="max-width: 600px;">
                     <button class="close-modal" id="closeEditModal">&times;</button>
                     <h2>Edit ${sanitizeInput(table)}</h2>
                     <form id="editForm">
@@ -679,18 +609,15 @@
                             <label for="edit-title">Judul</label>
                             <input type="text" id="edit-title" value="${sanitizeInput(data.title || '')}" required>
                         </div>
-                        
                         <div class="form-group">
                             <label for="edit-desc">Deskripsi</label>
                             <textarea id="edit-desc" required>${sanitizeInput(data.description || '')}</textarea>
                         </div>
-                        
                         ${hasLink ? `
                         <div class="form-group">
                             <label for="edit-link">Link</label>
                             <input type="url" id="edit-link" value="${sanitizeInput(data.link || '')}">
                         </div>` : ''}
-                        
                         <div class="form-group">
                             <label for="edit-image">Gambar (biarkan kosong jika tidak ingin mengubah)</label>
                             <input type="file" id="edit-image" accept="image/*">
@@ -700,13 +627,12 @@
                                 <img src="${sanitizeInput(data.image_url)}" style="cursor: pointer;">
                             </div>` : ''}
                         </div>
-                        
                         <div class="form-actions">
+                            <button type="button" class="delete-btn" id="cancelEdit" style="background-color: var(--input-bg); color: var(--text-muted);">
+                                <i class="fas fa-times"></i> Batal
+                            </button>
                             <button type="submit">
                                 <i class="fas fa-save"></i> Simpan Perubahan
-                            </button>
-                            <button type="button" class="delete-btn" id="cancelEdit">
-                                <i class="fas fa-times"></i> Batal
                             </button>
                         </div>
                     </form>
@@ -719,21 +645,26 @@
             // Add event listeners
             modal.querySelector('#closeEditModal').addEventListener('click', () => {
                 modal.remove();
-                document.body.style.overflow = 'auto';
+                if (!sidebar.classList.contains('open')) {
+                    document.body.style.overflow = 'auto';
+                }
             });
 
             modal.querySelector('#cancelEdit').addEventListener('click', () => {
                 modal.remove();
-                document.body.style.overflow = 'auto';
+                if (!sidebar.classList.contains('open')) {
+                    document.body.style.overflow = 'auto';
+                }
             });
 
-            modal.querySelector('img')?.addEventListener('click', () => {
-                openModal(data.image_url);
+            modal.querySelector('.current-image img')?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openImageModal(data.image_url);
             });
 
             modal.querySelector('#editForm').addEventListener('submit', (e) => {
                 e.preventDefault();
-                handleEdit(table, id, bucket, hasLink, modal);
+                handleEdit(table, id, bucket, hasLink, isSingular, modal);
             });
 
         } catch (error) {
@@ -754,11 +685,20 @@
     async function deleteImage(bucket, imageUrl) {
         if (!imageUrl) return;
         const fileName = imageUrl.split('/').pop();
-        const { error } = await supabaseClient.storage.from(bucket).remove([fileName]);
-        if (error) console.error("Gagal hapus gambar lama:", error.message);
+        if (!fileName) return;
+        try {
+            const { error } = await supabaseClient.storage.from(bucket).remove([fileName]);
+            if (error) console.error("Gagal hapus gambar lama:", error.message);
+        } catch (e) {
+            console.error("Error parsing image URL:", e)
+        }
     }
 
-    async function handleEdit(table, id, bucket, hasLink, modal) {
+    async function handleEdit(table, id, bucket, hasLink, isSingular, modal) {
+        const submitButton = modal.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerHTML = 'Menyimpan...';
+
         try {
             const title = document.getElementById('edit-title').value.trim();
             const description = document.getElementById('edit-desc').value.trim();
@@ -790,23 +730,30 @@
 
             alert("✅ Berhasil update!");
             modal.remove();
-            document.body.style.overflow = 'auto';
-            fetchData(table, bucket, false);
+            if (!sidebar.classList.contains('open')) {
+                document.body.style.overflow = 'auto';
+            }
+            fetchData(table, bucket, isSingular);
 
         } catch (error) {
             console.error('Error handling edit:', error);
             alert("Gagal update: " + error.message);
+        } finally {
+            if (document.body.contains(modal)) {
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="fas fa-save"></i> Simpan Perubahan';
+            }
         }
     }
 
-    async function deleteItem(table, id, bucket, imageUrl) {
+    async function deleteItem(table, id, bucket, imageUrl, isSingular) {
         if (!confirm(`Yakin ingin menghapus dari ${table}?`)) return;
         try {
             if (imageUrl) await deleteImage(bucket, imageUrl);
             const { error } = await supabaseClient.from(table).delete().eq('id', id);
             if (error) throw error;
             alert("✅ Item berhasil dihapus!");
-            fetchData(table, bucket, false);
+            fetchData(table, bucket, isSingular);
         } catch (error) {
             console.error('Error deleting item:', error);
             alert("Gagal hapus item: " + error.message);

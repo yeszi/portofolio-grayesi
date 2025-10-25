@@ -38,7 +38,7 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* === HEADER YANG SUDAH DIPERBAIKI === */
+/* === HEADER === */
 .header {
     position: fixed;
     top: 0;
@@ -116,13 +116,10 @@ body {
     justify-content: space-between;
     gap: 4rem;
     background: var(--bg-color);
-    position: relative;
-    overflow: hidden;
 }
 
 .home-content {
     flex: 1;
-    z-index: 2;
 }
 
 .home-content h3 {
@@ -203,8 +200,6 @@ body {
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
-    z-index: 2;
 }
 
 .home-img img {
@@ -213,7 +208,6 @@ body {
     border-radius: 2rem;
     box-shadow: 0 20px 50px var(--shadow-color);
     transition: all 0.3s ease;
-    cursor: pointer;
 }
 
 .home-img img:hover {
@@ -269,12 +263,6 @@ section {
     max-width: 280px;
     border-radius: 2rem;
     box-shadow: 0 20px 50px var(--shadow-color);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.about-img img:hover {
-    transform: scale(1.03);
 }
 
 .about-content {
@@ -317,8 +305,6 @@ section {
     box-shadow: 0 10px 30px var(--shadow-color);
     transition: all 0.3s ease;
     border-left: 4px solid var(--main-color);
-    position: relative;
-    overflow: hidden;
 }
 
 .education-box:hover {
@@ -410,7 +396,6 @@ section {
     overflow: hidden;
     box-shadow: 0 15px 40px var(--shadow-color);
     transition: all 0.4s ease;
-    position: relative;
 }
 
 .project-box:hover {
@@ -429,7 +414,6 @@ section {
     height: 100%;
     object-fit: cover;
     transition: all 0.4s ease;
-    cursor: pointer;
 }
 
 .project-box:hover img {
@@ -468,7 +452,6 @@ section {
     transition: all 0.3s ease;
     width: 100%;
     justify-content: center;
-    text-decoration: none;
 }
 
 .project-btn:hover {
@@ -496,7 +479,6 @@ section {
     overflow: hidden;
     box-shadow: 0 15px 40px var(--shadow-color);
     transition: all 0.4s ease;
-    position: relative;
 }
 
 .experience-card:hover {
@@ -515,7 +497,6 @@ section {
     height: 100%;
     object-fit: cover;
     transition: all 0.4s ease;
-    cursor: pointer;
 }
 
 .experience-card:hover img {
@@ -574,7 +555,6 @@ section {
     overflow: hidden;
     box-shadow: 0 15px 40px var(--shadow-color);
     transition: all 0.4s ease;
-    position: relative;
 }
 
 .activity-card:hover {
@@ -593,7 +573,6 @@ section {
     height: 100%;
     object-fit: cover;
     transition: all 0.4s ease;
-    cursor: pointer;
 }
 
 .activity-card:hover img {
@@ -636,7 +615,6 @@ section {
     overflow: hidden;
     box-shadow: 0 15px 40px var(--shadow-color);
     transition: all 0.4s ease;
-    position: relative;
 }
 
 .organization-box:hover {
@@ -649,7 +627,6 @@ section {
     height: 220px;
     object-fit: cover;
     transition: all 0.4s ease;
-    cursor: pointer;
 }
 
 .organization-box:hover img {
@@ -688,7 +665,6 @@ section {
     transition: all 0.3s ease;
     width: 100%;
     justify-content: center;
-    text-decoration: none;
 }
 
 .organization-btn:hover {
@@ -699,7 +675,7 @@ section {
     border: 2px solid var(--main-color);
 }
 
-/* === FOOTER YANG SUDAH DIPERBAIKI === */
+/* === FOOTER === */
 .footer {
     background: var(--main-color);
     color: var(--white-color);
@@ -757,7 +733,6 @@ section {
     justify-content: center;
     font-size: 20px;
     box-shadow: 0 6px 20px var(--shadow-color);
-    text-decoration: none;
     z-index: 1000;
     transition: all 0.3s ease;
 }
@@ -884,7 +859,7 @@ section {
 
 /* ==================== RESPONSIVE DESIGN ==================== */
 
-/* Tablet & Mobile Landscape */
+/* Tablet */
 @media (max-width: 991px) {
     .header {
         padding: 1.5rem 4%;
@@ -912,25 +887,24 @@ section {
     }
 }
 
-/* Mobile Devices */
+/* Mobile */
 @media (max-width: 768px) {
-    /* Menu icon */
     #menu-icon {
         display: block;
     }
 
-    /* Navbar mobile */
+    /* Navbar Mobile - FIXED */
     .navbar {
         position: absolute;
         top: 100%;
         left: 0;
         width: 100%;
         background: var(--second-bg-color);
-        padding: 1rem 3%;
-        box-shadow: 0 .5rem 1rem var(--shadow-color);
+        padding: 1rem 4%;
+        box-shadow: 0 5px 15px var(--shadow-color);
         display: none;
         flex-direction: column;
-        transition: all 0.3s ease;
+        gap: 0.5rem;
     }
 
     .navbar.active {
@@ -939,38 +913,28 @@ section {
 
     .navbar a {
         display: block;
-        font-size: 1.8rem;
-        margin: 1rem 0;
-        padding: 1rem;
         text-align: center;
+        padding: 1.2rem;
+        font-size: 1.6rem;
         border-radius: 0.5rem;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-     .navbar a:last-child {
-        border-bottom: none;
+        background: rgba(63, 99, 153, 0.05);
     }
 
     .navbar a:hover {
         background: var(--main-color);
         color: var(--white-color);
-        transform: translateX(5px);
     }
 
     .home {
-        margin-top: 70px;
-        padding: 5rem 4% 2rem;
         flex-direction: column;
         text-align: center;
-        gap: 3rem;
-    }
-
-    .home-content {
-        order: 2;
+        margin-top: 70px;
+        padding: 4rem 4% 2rem;
+        gap: 2rem;
     }
 
     .home-img {
-        order: 1;
+        order: -1;
         margin-bottom: 2rem;
     }
 
@@ -979,78 +943,44 @@ section {
     }
 
     .home-content h1 {
-        font-size: 3.5rem;
-    }
-
-    .home-content p {
-        font-size: 1.5rem;
+        font-size: 3.2rem;
     }
 
     .about {
         flex-direction: column;
         text-align: center;
-        gap: 3rem;
+        gap: 2rem;
     }
 
     .about-content h2 {
         text-align: center;
     }
 
-    .about-img img {
-        max-width: 250px;
-    }
-
-    section {
-        padding: 5rem 4% 2rem;
-    }
-
-    .heading {
-        font-size: 3rem;
-        margin-bottom: 3rem;
-    }
-
-    .project-container,
-    .activity-grid,
-    .experience-container,
-    .organization-container {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2rem;
-    }
-
-    /* Footer mobile */
     .footer {
         flex-direction: column;
         text-align: center;
         gap: 1.5rem;
         padding: 2rem 4%;
     }
-
-    .footer-text {
-        order: 2;
-    }
-
-    .footer-iconTop {
-        order: 1;
-    }
 }
 
-/* Small Mobile Devices */
-@media (max-width: 450px) {
-    html {
-        font-size: 55%;
+/* Small Mobile */
+@media (max-width: 480px) {
+    .header {
+        padding: 1rem 4%;
     }
 
-    .header {
-        padding: 1.2rem 3%;
+    .logo {
+        font-size: 1.8rem;
     }
 
     .home {
         margin-top: 60px;
-        padding: 4rem 3% 2rem;
+        padding: 3rem 4% 1rem;
     }
 
     .home-content h1 {
-        font-size: 3rem;
+        font-size: 2.8rem;
     }
 
     .home-content p {
@@ -1062,52 +992,34 @@ section {
     }
 
     section {
-        padding: 4rem 3% 2rem;
+        padding: 4rem 4% 2rem;
     }
 
     .heading {
-        font-size: 2.5rem;
-    }
-
-    .project-container,
-    .activity-grid,
-    .experience-container,
-    .organization-container {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+        font-size: 2.8rem;
     }
 
     .education-container,
-    .services-container {
+    .services-container,
+    .organization-container {
         grid-template-columns: 1fr;
-    }
-
-    .navbar {
-        padding: 8rem 1.5rem 1.5rem;
-    }
-
-    .navbar a {
-        font-size: 1.8rem;
-        margin: 0.8rem 0;
-        padding: 1.2rem;
-    }
-
-    .footer {
-        padding: 1.5rem 3%;
-    }
-
-    .footer-text {
-        font-size: 1.3rem;
     }
 
     .btn-group {
         flex-direction: column;
-        align-items: center;
     }
 
     .btn {
         width: 100%;
         justify-content: center;
+    }
+
+    .footer {
+        padding: 1.5rem 4%;
+    }
+
+    .footer-text {
+        font-size: 1.3rem;
     }
 
     .floating-back-btn {
@@ -1116,28 +1028,5 @@ section {
         width: 45px;
         height: 45px;
         font-size: 18px;
-    }
-}
-
-/* Very Small Devices */
-@media (max-width: 320px) {
-    .home-content h1 {
-        font-size: 2.5rem;
-    }
-
-    .home-img img {
-        max-width: 200px;
-    }
-
-    .project-container,
-    .activity-grid,
-    .experience-container,
-    .organization-container {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .about-img img {
-        max-width: 200px;
     }
 }
