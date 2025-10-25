@@ -1,430 +1,706 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Edit Konten - Admin YesZie</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    :root {
-      --primary-bg: #20232a;
-      --secondary-bg: #282c34;
-      --accent-color: #61dafb;
-      --purple-accent: #bb86fc;
-      --text-color: #ffffff;
-      --input-bg: #3a3f4b;
-      --button-primary: #03dac5;
-      --button-hover-primary: #018786;
-      --button-logout: #e53935;
-      --button-hover-logout: #b71c1c;
-    }
+<html lang="id"> <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Tambah Konten - Admin YesZie</title> <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* --- CSS DI COPY DARI edit.html --- */
+         :root {
+          --primary-bg: #20232a;
+          --secondary-bg: #282c34;
+          --accent-color: #61dafb;
+          --purple-accent: #bb86fc;
+          --text-color: #ffffff;
+          --input-bg: #3a3f4b;
+          --button-primary: #03dac5;
+          --button-hover-primary: #018786;
+          --button-logout: #e53935;
+          --button-hover-logout: #b71c1c;
+        }
 
-    * {
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      margin: 0;
-      background-color: var(--primary-bg);
-      color: var(--text-color);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+        body {
+            margin: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            line-height: 1.6;
+            display: flex;
+        }
 
-    header {
-      background-color: var(--secondary-bg);
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
+        #sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background-color: var(--secondary-bg);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: transform var(--transition-speed) ease;
+        }
 
-    header .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--accent-color);
-      text-decoration: none;
-    }
+        .sidebar-header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
 
-    nav.main-nav {
-      background-color: var(--primary-bg);
-      padding: 15px 0;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
+        .sidebar-header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    nav.main-nav a {
-      color: var(--text-color);
-      margin: 0 20px;
-      text-decoration: none;
-      font-weight: 500;
-      padding: 8px 16px;
-      border-radius: 6px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
+        #sidebar-close {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
 
-    nav.main-nav a:hover,
-    nav.main-nav a.active {
-      background-color: var(--accent-color);
-      color: #000;
-    }
+        nav.sidebar-nav {
+            flex-grow: 1;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .container {
-      flex-grow: 1;
-      padding: 40px 20px;
-      max-width: 1200px;
-      margin: 30px auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 24px;
-    }
+        nav.sidebar-nav a {
+            color: var(--text-muted);
+            margin: 0.25rem 0;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
 
-    section {
-      background-color: var(--secondary-bg);
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      display: flex;
-      flex-direction: column;
-    }
+        nav.sidebar-nav a i {
+            font-size: 0.9rem;
+            width: 20px;
+            text-align: center;
+        }
 
-    h2 {
-      color: var(--accent-color);
-      font-size: 1.5rem;
-      text-align: center;
-      margin-bottom: 20px;
-    }
+        nav.sidebar-nav a:hover {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            transform: translateX(5px);
+        }
 
-    input, textarea {
-      width: 100%;
-      margin-bottom: 12px;
-      padding: 12px 16px;
-      border-radius: 8px;
-      border: 1px solid var(--input-bg);
-      background-color: var(--input-bg);
-      color: var(--text-color);
-      font-size: 0.95rem;
-    }
+        nav.sidebar-nav a.active {
+            background-color: var(--accent-color);
+            color: #fff;
+            transform: none;
+            box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
+        }
 
-    input[type="file"] {
-      background-color: transparent;
-      border: 1px dashed var(--accent-color);
-      padding: 10px;
-      cursor: pointer;
-    }
+        nav.sidebar-nav a#logoutLink { /* Ganti ID logout */
+            margin-top: auto;
+            color: var(--button-logout);
+        }
+        nav.sidebar-nav a#logoutLink:hover {
+            background-color: var(--button-logout);
+            color: var(--text-color);
+            transform: translateX(5px);
+        }
 
-    input[type="file"]::file-selector-button {
-      background-color: var(--purple-accent);
-      color: #000;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+        .main-content {
+            flex-grow: 1;
+            margin-left: var(--sidebar-width);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-    input[type="file"]::file-selector-button:hover {
-      background-color: var(--button-hover-primary);
-    }
+        .mobile-header {
+            display: none;
+            background-color: var(--secondary-bg);
+            padding: 1rem 1.5rem;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    button {
-      width: 100%;
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      background-color: var(--button-primary);
-      color: #000;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
+        #hamburger-open {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
 
-    button:hover {
-      background-color: var(--button-hover-primary);
-      transform: translateY(-2px);
-    }
+        .container {
+            flex-grow: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            /* Menggunakan grid untuk layout form */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+        }
 
-    .delete-btn {
-      background-color: var(--button-logout);
-      color: #fff;
-    }
+        section {
+            background-color: var(--secondary-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
 
-    .delete-btn:hover {
-      background-color: var(--button-hover-logout);
-    }
+        h2 {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 0.5rem; /* Beri ruang untuk garis bawah */
+        }
 
-    .item {
-      background-color: var(--input-bg);
-      padding: 16px;
-      border-radius: 8px;
-      margin-top: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    }
+        h2::after { /* Garis bawah judul section */
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
 
-    .item img {
-      max-width: 100%;
-      border-radius: 6px;
-      margin-top: 10px;
-    }
+        /* Style Form Input */
+        .form-group { /* Wrapper optional untuk label+input */
+             margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
 
-    .button-group {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
+        input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color); /* Ganti border */
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            font-size: 0.95rem;
+            transition: all var(--transition-speed) ease;
+        }
 
-    footer {
-      background-color: var(--secondary-bg);
-      color: var(--text-color);
-      text-align: center;
-      padding: 20px;
-      margin-top: auto;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-    }
+        input:focus, textarea:focus {
+             outline: none;
+             border-color: var(--accent-color);
+             box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
+        }
 
-    @media (max-width: 768px) {
-      .container {
-        grid-template-columns: 1fr;
-        padding: 20px 10px;
-      }
+        textarea {
+            min-height: 100px; /* Tinggi minimum textarea */
+            resize: vertical;
+        }
 
-      header {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-      }
+        input[type="file"] {
+            background-color: transparent;
+            border: 1px dashed var(--accent-color);
+            padding: 10px;
+            cursor: pointer;
+            color: var(--text-muted); /* Warna teks placeholder */
+        }
 
-      nav.main-nav a {
-        display: inline-block;
-        margin: 10px 10px;
-        font-size: 0.9rem;
-      }
+        input[type="file"]::file-selector-button {
+            background-color: var(--button-primary); /* Warna disamakan */
+            color: #000;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px; /* Jarak dari teks */
+            transition: background-color 0.3s ease;
+        }
 
-      section {
-        padding: 20px 15px;
-      }
+        input[type="file"]::file-selector-button:hover {
+            background-color: var(--button-hover-primary);
+        }
 
-      input, textarea, button {
-        font-size: 0.9rem;
-      }
-    }
-  </style>
+        button {
+            width: 100%;
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: var(--button-primary); /* Warna disamakan */
+            color: #000; /* Teks hitam agar kontras */
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: var(--button-hover-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Tidak ada .delete-btn di halaman ini */
+
+        /* Tidak perlu .item atau .button-group di halaman ini */
+
+        footer {
+            background-color: var(--secondary-bg);
+            color: var(--text-muted); /* Warna footer disamakan */
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+            border-top: 1px solid var(--border-color); /* Tambah border atas */
+        }
+
+        /* --- RESPONSIVE CSS (DI COPY DARI edit.html) --- */
+        @media (max-width: 768px) {
+            #sidebar {
+                transform: translateX(-100%);
+                z-index: 2000;
+            }
+            #sidebar.open {
+                transform: translateX(0);
+                box-shadow: 10px 0 30px rgba(0,0,0,0.3);
+            }
+            #sidebar-close {
+                display: block;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .mobile-header {
+                display: flex;
+            }
+            .container {
+                /* Container tetap grid, tapi jadi 1 kolom */
+                grid-template-columns: 1fr;
+                padding: 1rem; /* Padding lebih kecil */
+                margin-top: 1rem; /* Jarak dari header mobile */
+            }
+            section {
+                padding: 1.2rem;
+            }
+            input, textarea, button {
+                font-size: 0.9rem; /* Font sedikit lebih kecil */
+            }
+            #sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 1999;
+            }
+            #sidebar-overlay.active {
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar-header .logo { font-size: 1.3rem; }
+            h2 { font-size: 1.3rem; }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <a href="admin_dashboard.html" class="logo">Admin YesZie</a>
-</header>
+<aside id="sidebar">
+    <div class="sidebar-header">
+        <a href="admin_dashboard.html" class="logo">
+            <i class="fas fa-user-shield"></i> YesZie
+        </a>
+        <button id="sidebar-close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
 
-<nav class="main-nav">
-  <a href="admin_dashboard.html">Dashboard</a>
-  <a href="edit.html" >Edit</a>
-  <a href="index.html"> Log Out</a>
-</nav>
+    <nav class="sidebar-nav">
+        <a href="admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="edit.html"><i class="fas fa-edit"></i> Edit Content</a>
+        <a href="tambah.html" class="active"><i class="fas fa-plus-circle"></i> Add Content</a>
+        <a href="form.html"><i class="fas fa-envelope"></i> Form Messages</a>
 
-<div class="container">
+        <a href="#" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+    </nav>
+</aside>
 
-  <!-- ABOUT -->
-  <section>
-    <h2>About Me</h2>
-    <input type="text" id="judul-about" placeholder="Judul">
-    <textarea id="deskripsi-about" placeholder="Deskripsi"></textarea>
-    <input type="file" id="gambar-about-file" accept="image/*">
-    <button onclick="updateAboutMe()">Update About Me</button>
-  </section>
+<div id="sidebar-overlay"></div>
 
-  <!-- PROJECT -->
-  <section>
-    <h2>Projects</h2>
-    <input type="text" id="judul-project" placeholder="Judul Project">
-    <textarea id="deskripsi-project" placeholder="Deskripsi Project"></textarea>
-    <input type="file" id="gambar-project-file" accept="image/*">
-    <input type="text" id="link-project" placeholder="Link Project">
-    <button onclick="tambahProject()">Add Project</button>
-  </section>
+<div class="main-content">
 
-  <!-- EXPERIENCE -->
-  <section>
-    <h2>Experience</h2>
-    <input type="text" id="judul-exp" placeholder="Judul Pengalaman">
-    <textarea id="deskripsi-exp" placeholder="Deskripsi Pengalaman"></textarea>
-    <input type="file" id="gambar-exp-file" accept="image/*">
-    <button onclick="tambahExperience()">Add Experience</button>
-  </section>
+    <header class="mobile-header">
+        <button id="hamburger-open">
+            <i class="fas fa-bars"></i>
+        </button>
+        <h1 style="margin-left: 1rem; font-size: 1.2rem; color: var(--accent-color);">Tambah Konten</h1>
+    </header>
 
-  <!-- ACTIVITY -->
-  <section>
-    <h2>My Activity</h2>
-    <input type="text" id="judul-activity" placeholder="Judul Aktivitas">
-    <textarea id="deskripsi-activity" placeholder="Deskripsi Aktivitas"></textarea>
-    <input type="file" id="gambar-activity-file" accept="image/*">
-    <button onclick="tambahActivity()">Add Activity</button>
-  </section>
+    <main class="container">
 
-  <!-- ARTICLE -->
-  <section>
-    <h2>Add New Article</h2>
-    <input type="text" id="judul-article" placeholder="Judul Artikel">
-    <textarea id="deskripsi-article" placeholder="Deskripsi Artikel"></textarea>
-    <input type="file" id="gambar-article-file" accept="image/*">
-    <input type="url" id="link-article" placeholder="Link Artikel (https://...)">
-    <button onclick="tambahArticle()">Add Article</button>
-  </section>
+        <section>
+            <h2>Update About Me</h2>
+            <div class="form-group">
+                <label for="judul-about">Judul</label>
+                <input type="text" id="judul-about" placeholder="e.g., About YesZie">
+            </div>
+            <div class="form-group">
+                <label for="deskripsi-about">Deskripsi</label>
+                <textarea id="deskripsi-about" placeholder="Ceritakan tentang diri Anda..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="gambar-about-file">Upload Gambar Profil</label>
+                <input type="file" id="gambar-about-file" accept="image/*">
+            </div>
+            <button onclick="updateAboutMe()">Update About Me</button>
+        </section>
 
-</div>
+        <section>
+            <h2>Add New Project</h2>
+            <div class="form-group">
+                <label for="judul-project">Judul Project</label>
+                <input type="text" id="judul-project" placeholder="Nama project Anda">
+            </div>
+             <div class="form-group">
+                <label for="deskripsi-project">Deskripsi Project</label>
+                <textarea id="deskripsi-project" placeholder="Jelaskan project ini..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="link-project">Link Project (Optional)</label>
+                <input type="url" id="link-project" placeholder="https://github.com/user/repo atau URL demo">
+             </div>
+            <div class="form-group">
+                <label for="gambar-project-file">Upload Gambar Project</label>
+                <input type="file" id="gambar-project-file" accept="image/*">
+            </div>
+            <button onclick="tambahProject()">Add Project</button>
+        </section>
 
-<footer>
-  &copy; 2025_YesZie Admin Panel &copy;
-</footer>
+        <section>
+            <h2>Add New Experience</h2>
+            <div class="form-group">
+                 <label for="judul-exp">Posisi/Jabatan</label>
+                 <input type="text" id="judul-exp" placeholder="e.g., Web Developer Intern">
+            </div>
+            <div class="form-group">
+                <label for="deskripsi-exp">Deskripsi Pengalaman</label>
+                <textarea id="deskripsi-exp" placeholder="Jelaskan tugas dan pencapaian Anda..."></textarea>
+            </div>
+             <div class="form-group">
+                <label for="gambar-exp-file">Upload Gambar/Logo Perusahaan (Optional)</label>
+                <input type="file" id="gambar-exp-file" accept="image/*">
+            </div>
+            <button onclick="tambahExperience()">Add Experience</button>
+        </section>
 
-<script>
-  const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        <section>
+            <h2>Add New Activity</h2>
+            <div class="form-group">
+                 <label for="judul-activity">Nama Aktivitas/Acara</label>
+                 <input type="text" id="judul-activity" placeholder="e.g., Lomba Coding Nasional">
+            </div>
+            <div class="form-group">
+                <label for="deskripsi-activity">Deskripsi Aktivitas</label>
+                <textarea id="deskripsi-activity" placeholder="Ceritakan tentang aktivitas ini..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="gambar-activity-file">Upload Gambar Aktivitas</label>
+                <input type="file" id="gambar-activity-file" accept="image/*">
+            </div>
+            <button onclick="tambahActivity()">Add Activity</button>
+        </section>
 
-  // Konstanta nama bucket
-  const BUCKETS = {
-    ABOUT: 'aboutimages',
-    PROJECT: 'projectimages',
-    EXPERIENCE: 'experienceimages',
-    ACTIVITY: 'activitybucket',
-    ARTICLE: 'articlesimage',
-  };
+        <section>
+            <h2>Add New Article</h2>
+             <div class="form-group">
+                <label for="judul-article">Judul Artikel</label>
+                <input type="text" id="judul-article" placeholder="Judul artikel Anda">
+             </div>
+            <div class="form-group">
+                <label for="deskripsi-article">Deskripsi Singkat</label>
+                <textarea id="deskripsi-article" placeholder="Ringkasan singkat tentang artikel..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="link-article">Link Artikel</label>
+                <input type="url" id="link-article" placeholder="https://medium.com/@user/artikel">
+            </div>
+            <div class="form-group">
+                 <label for="gambar-article-file">Upload Gambar Thumbnail Artikel</label>
+                <input type="file" id="gambar-article-file" accept="image/*">
+            </div>
+            <button onclick="tambahArticle()">Add Article</button>
+        </section>
 
-  supabaseClient.auth.getSession().then(({ data: { session } }) => {
-    if (!session || session.user.email !== "grayesi.silitonga@gmail.com") {
-      alert("Akses ditolak.");
-      window.location.href = "login.html";
-    }
-  });
+    </main> <footer>
+        &copy; 2025 YesZie Admin Panel | All Rights Reserved
+    </footer>
 
-  async function logout() {
-    await supabaseClient.auth.signOut();
-    alert("Berhasil logout!");
-    window.location.href = "index.html";
-  }
+</div> <script>
+    document.addEventListener('DOMContentLoaded', () => {
 
-  async function uploadImage(bucket, file) {
-    if (!file) {
-      console.warn("⚠️ Tidak ada file.");
-      return null;
-    }
+        /* --- LOGIKA SIDEBAR (COPY DARI edit.html) --- */
+        const sidebar = document.getElementById('sidebar');
+        const openBtn = document.getElementById('hamburger-open');
+        const closeBtn = document.getElementById('sidebar-close');
+        const overlay = document.getElementById('sidebar-overlay');
 
-    const fileName = `${Date.now()}-${file.name}`;
-    console.log(`📤 Uploading ${fileName} to bucket ${bucket}`);
+        function openSidebar() {
+            if(sidebar) sidebar.classList.add('open');
+            if(overlay) overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-    const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file);
-    if (error) {
-      console.error("❌ Upload error:", error);
-      alert("Upload gagal: " + error.message);
-      return null;
-    }
+        function closeSidebar() {
+            if(sidebar) sidebar.classList.remove('open');
+            if(overlay) overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
 
-    const { data: publicUrlData, error: urlErr } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
-    if (urlErr) {
-      console.error("❌ URL Error:", urlErr);
-      return null;
-    }
+        if (openBtn) openBtn.addEventListener('click', openSidebar);
+        if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+        if (overlay) overlay.addEventListener('click', closeSidebar);
 
-    console.log("🌐 Public URL:", publicUrlData.publicUrl);
-    return publicUrlData.publicUrl;
-  }
+        /* --- LOGIKA HALAMAN TAMBAH KONTEN ANDA --- */
+        const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  function clearInputs(ids) {
-    ids.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = '';
-    });
-  }
+        const BUCKETS = {
+            ABOUT: 'aboutimages',
+            PROJECT: 'projectimages',
+            EXPERIENCE: 'experienceimages',
+            ACTIVITY: 'activitybucket', // Pastikan nama bucket ini benar
+            ARTICLE: 'articlesimage', // Pastikan nama bucket ini benar
+        };
 
-  async function updateAboutMe() {
-    const title = document.getElementById('judul-about').value.trim();
-    const description = document.getElementById('deskripsi-about').value.trim();
-    const file = document.getElementById('gambar-about-file').files[0];
-    if (!title || !description || !file) return alert("Isi semua data About Me!");
+        // Cek sesi login
+        supabaseClient.auth.getSession().then(({ data: { session } }) => {
+            if (!session || session.user.email !== "grayesi.silitonga@gmail.com") {
+                alert("Akses ditolak. Silakan login kembali.");
+                window.location.href = "login.html"; // Arahkan ke login
+            }
+        }).catch(err => {
+             console.error("Error checking session:", err);
+             alert("Terjadi kesalahan saat verifikasi login.");
+             window.location.href = "login.html";
+        });
 
-    const image_url = await uploadImage(BUCKETS.ABOUT, file);
-    if (!image_url) return;
+        // Logout handler (pastikan ID #logoutLink ada di HTML sidebar)
+        const logoutButton = document.getElementById('logoutLink');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const { error } = await supabaseClient.auth.signOut();
+                if (error) {
+                     alert('Gagal logout: ' + error.message);
+                } else {
+                    alert("Berhasil logout!");
+                    window.location.href = "login.html"; // Arahkan ke login setelah logout
+                }
+            });
+        }
 
-    const { error } = await supabaseClient.from('about_me').upsert({ id: 1, title, description, image_url });
-    if (error) return alert("Gagal update About Me: " + error.message);
+        // Global scope untuk fungsi agar bisa dipanggil dari HTML onclick
+        window.uploadImage = async function(bucket, file) {
+            if (!file) {
+                console.warn("⚠️ Tidak ada file yang dipilih.");
+                return null;
+            }
+            const fileName = `${Date.now()}-${file.name.replace(/\s+/g, '_')}`; // Ganti spasi
+            console.log(`📤 Mengupload ${fileName} ke bucket ${bucket}...`);
 
-    alert("✅ About Me berhasil diperbarui!");
-    clearInputs(['judul-about', 'deskripsi-about', 'gambar-about-file']);
-  }
+            const { data, error } = await supabaseClient.storage.from(bucket).upload(fileName, file);
+            if (error) {
+                console.error("❌ Kesalahan Upload:", error);
+                alert("Upload gambar gagal: " + error.message);
+                return null;
+            }
+            const { data: publicUrlData } = supabaseClient.storage.from(bucket).getPublicUrl(fileName);
+            console.log("✅ Upload berhasil. URL:", publicUrlData.publicUrl);
+            return publicUrlData.publicUrl;
+        }
 
-  async function tambahProject() {
-    const title = document.getElementById('judul-project').value.trim();
-    const description = document.getElementById('deskripsi-project').value.trim();
-    const file = document.getElementById('gambar-project-file').files[0];
-    const link = document.getElementById('link-project').value.trim();
-    if (!title || !description || !file || !link) return alert("Isi semua data Project!");
+        window.clearInputs = function(ids) {
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (el.type === 'file') {
+                        el.value = null; // Cara reset input file
+                    } else {
+                        el.value = '';
+                    }
+                }
+            });
+        }
 
-    const image_url = await uploadImage(BUCKETS.PROJECT, file);
-    if (!image_url) return;
+        window.updateAboutMe = async function() {
+            const title = document.getElementById('judul-about').value.trim();
+            const description = document.getElementById('deskripsi-about').value.trim();
+            const fileInput = document.getElementById('gambar-about-file');
+            const file = fileInput.files[0];
 
-    const { error } = await supabaseClient.from('projects').insert({ title, description, image_url, link });
-    if (error) return alert("Gagal tambah project: " + error.message);
+            // Validasi hanya file (karena about_me mungkin sudah ada datanya)
+            if (!file) return alert("Pilih gambar untuk About Me!");
+            if (!title || !description) return alert("Isi Judul dan Deskripsi About Me!");
 
-    alert("✅ Project berhasil ditambahkan!");
-    clearInputs(['judul-project', 'deskripsi-project', 'gambar-project-file', 'link-project']);
-  }
 
-  async function tambahExperience() {
-    const title = document.getElementById('judul-exp').value.trim();
-    const description = document.getElementById('deskripsi-exp').value.trim();
-    const file = document.getElementById('gambar-exp-file').files[0];
-    if (!title || !description || !file) return alert("Isi semua data Experience!");
+            const image_url = await uploadImage(BUCKETS.ABOUT, file);
+            if (!image_url) return; // Upload gagal, jangan lanjutkan
 
-    const image_url = await uploadImage(BUCKETS.EXPERIENCE, file);
-    if (!image_url) return;
+            // Menggunakan upsert untuk update atau insert jika ID 1 belum ada
+            const { error } = await supabaseClient
+                .from('about_me')
+                .upsert({ id: 1, title, description, image_url }, { onConflict: 'id' }); // Update jika id=1 ada
 
-    const { error } = await supabaseClient.from('experience').insert({ title, description, image_url });
-    if (error) return alert("Gagal tambah experience: " + error.message);
+            if (error) {
+                console.error("Supabase error (About Me):", error);
+                return alert("Gagal update About Me: " + error.message);
+            }
 
-    alert("✅ Pengalaman berhasil ditambahkan!");
-    clearInputs(['judul-exp', 'deskripsi-exp', 'gambar-exp-file']);
-  }
+            alert("✅ About Me berhasil diperbarui!");
+            clearInputs(['judul-about', 'deskripsi-about', 'gambar-about-file']);
+        }
 
-  async function tambahActivity() {
-    const title = document.getElementById('judul-activity').value.trim();
-    const description = document.getElementById('deskripsi-activity').value.trim();
-    const file = document.getElementById('gambar-activity-file').files[0];
-    if (!title || !description || !file) return alert("Isi semua data Activity!");
+        window.tambahProject = async function() {
+            const title = document.getElementById('judul-project').value.trim();
+            const description = document.getElementById('deskripsi-project').value.trim();
+            const fileInput = document.getElementById('gambar-project-file');
+            const file = fileInput.files[0];
+            const link = document.getElementById('link-project').value.trim();
 
-    const image_url = await uploadImage(BUCKETS.ACTIVITY, file);
-    if (!image_url) return;
+            if (!title || !description || !file) return alert("Isi Judul, Deskripsi, dan Gambar Project!");
+            // Link bersifat opsional
 
-    const { error } = await supabaseClient.from('activity').insert({ title, description, image_url });
-    if (error) return alert("Gagal tambah activity: " + error.message);
+            const image_url = await uploadImage(BUCKETS.PROJECT, file);
+            if (!image_url && file) return; // Gagal upload gambar yg dipilih
 
-    alert("✅ Aktivitas berhasil ditambahkan!");
-    clearInputs(['judul-activity', 'deskripsi-activity', 'gambar-activity-file']);
-  }
+            const { error } = await supabaseClient
+                .from('projects')
+                .insert({ title, description, image_url: image_url, link: link || null }); // Kirim null jika link kosong
 
-  async function tambahArticle() {
-    const title = document.getElementById('judul-article').value.trim();
-    const description = document.getElementById('deskripsi-article').value.trim();
-    const file = document.getElementById('gambar-article-file').files[0];
-    const link = document.getElementById('link-article').value.trim();
-    if (!title || !description || !file || !link) return alert("Isi semua data Artikel!");
+            if (error) {
+                console.error("Supabase error (Project):", error);
+                return alert("Gagal tambah project: " + error.message);
+            }
 
-    const image_url = await uploadImage(BUCKETS.ARTICLE, file);
-    if (!image_url) return;
+            alert("✅ Project berhasil ditambahkan!");
+            clearInputs(['judul-project', 'deskripsi-project', 'gambar-project-file', 'link-project']);
+        }
 
-    const { error } = await supabaseClient.from('articles').insert({ title, description, image_url, link });
-    if (error) return alert("Gagal tambah artikel: " + error.message);
+        window.tambahExperience = async function() {
+            const title = document.getElementById('judul-exp').value.trim();
+            const description = document.getElementById('deskripsi-exp').value.trim();
+            const fileInput = document.getElementById('gambar-exp-file');
+            const file = fileInput.files[0]; // Gambar opsional
 
-    alert("✅ Artikel berhasil ditambahkan!");
-    clearInputs(['judul-article', 'deskripsi-article', 'gambar-article-file', 'link-article']);
-  }
+            if (!title || !description) return alert("Isi Judul dan Deskripsi Pengalaman!");
+
+            let image_url = null;
+            if (file) {
+                image_url = await uploadImage(BUCKETS.EXPERIENCE, file);
+                if (!image_url) return; // Gagal upload gambar yg dipilih
+            }
+
+            const { error } = await supabaseClient
+                .from('experience')
+                .insert({ title, description, image_url: image_url });
+
+            if (error) {
+                console.error("Supabase error (Experience):", error);
+                return alert("Gagal tambah pengalaman: " + error.message);
+            }
+
+            alert("✅ Pengalaman berhasil ditambahkan!");
+            clearInputs(['judul-exp', 'deskripsi-exp', 'gambar-exp-file']);
+        }
+
+        window.tambahActivity = async function() {
+            const title = document.getElementById('judul-activity').value.trim();
+            const description = document.getElementById('deskripsi-activity').value.trim();
+            const fileInput = document.getElementById('gambar-activity-file');
+            const file = fileInput.files[0];
+
+            if (!title || !description || !file) return alert("Isi Judul, Deskripsi, dan Gambar Aktivitas!");
+
+            const image_url = await uploadImage(BUCKETS.ACTIVITY, file);
+            if (!image_url) return;
+
+            const { error } = await supabaseClient
+                .from('activity')
+                .insert({ title, description, image_url: image_url });
+
+            if (error) {
+                 console.error("Supabase error (Activity):", error);
+                return alert("Gagal tambah aktivitas: " + error.message);
+            }
+
+            alert("✅ Aktivitas berhasil ditambahkan!");
+            clearInputs(['judul-activity', 'deskripsi-activity', 'gambar-activity-file']);
+        }
+
+        window.tambahArticle = async function() {
+            const title = document.getElementById('judul-article').value.trim();
+            const description = document.getElementById('deskripsi-article').value.trim();
+            const fileInput = document.getElementById('gambar-article-file');
+            const file = fileInput.files[0];
+            const link = document.getElementById('link-article').value.trim();
+
+             if (!title || !description || !file || !link) return alert("Isi Judul, Deskripsi, Gambar, dan Link Artikel!");
+             // Validasi URL sederhana
+             try {
+                 new URL(link);
+             } catch (_) {
+                 return alert("Format Link Artikel tidak valid. Pastikan menggunakan http:// atau https://");
+             }
+
+            const image_url = await uploadImage(BUCKETS.ARTICLE, file);
+            if (!image_url) return;
+
+            const { error } = await supabaseClient
+                .from('articles')
+                .insert({ title, description, image_url: image_url, link });
+
+            if (error) {
+                console.error("Supabase error (Article):", error);
+                return alert("Gagal tambah artikel: " + error.message);
+            }
+
+            alert("✅ Artikel berhasil ditambahkan!");
+            clearInputs(['judul-article', 'deskripsi-article', 'gambar-article-file', 'link-article']);
+        }
+
+    }); // Penutup DOMContentLoaded
 </script>
 </body>
 </html>
