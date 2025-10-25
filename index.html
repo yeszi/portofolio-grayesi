@@ -58,7 +58,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 5%;
+            padding: 1.5rem 5%;
             z-index: 1000;
             box-shadow: 0 2px 10px var(--shadow-color);
             transition: background 0.3s ease, box-shadow 0.3s ease;
@@ -70,7 +70,7 @@
         }
 
         .logo {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 700;
             color: var(--main-color);
         }
@@ -134,7 +134,7 @@
         /* === HOME SECTION === */
         .home {
             min-height: 100vh;
-            padding: 12rem 5% 5rem;
+            padding: 10rem 5% 5rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -150,14 +150,14 @@
         }
 
         .home-content h3 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: var(--main-color);
         }
 
         .home-content h1 {
-            font-size: 5rem;
+            font-size: 4rem;
             font-weight: 700;
             margin-bottom: 1rem;
             color: var(--text-color);
@@ -175,18 +175,19 @@
             display: flex;
             gap: 1.2rem;
             margin: 2.5rem 0;
+            flex-wrap: wrap;
         }
 
         .social-media a {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 5rem;
-            height: 5rem;
+            width: 4.5rem;
+            height: 4.5rem;
             background: var(--second-bg-color);
             border: 2px solid var(--main-color);
             border-radius: 50%;
-            font-size: 2.2rem;
+            font-size: 2rem;
             color: var(--main-color);
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px var(--shadow-color);
@@ -203,11 +204,11 @@
             display: inline-flex;
             align-items: center;
             gap: 0.8rem;
-            padding: 1.4rem 3rem;
+            padding: 1.2rem 2.5rem;
             background: var(--main-color);
             color: var(--white-color);
             border-radius: 1rem;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: 0 5px 20px rgba(63, 99, 153, 0.3);
@@ -232,7 +233,7 @@
 
         .home-img img {
             width: 100%;
-            max-width: 400px;
+            max-width: 350px;
             border-radius: 2rem;
             box-shadow: 0 20px 50px var(--shadow-color);
             transition: all 0.3s ease;
@@ -244,15 +245,15 @@
 
         /* === SECTIONS === */
         section {
-            min-height: 100vh;
-            padding: 10rem 5% 5rem;
+            min-height: auto;
+            padding: 8rem 5% 5rem;
             background: var(--second-bg-color);
         }
 
         .heading {
-            font-size: 4.5rem;
+            font-size: 3.5rem;
             text-align: center;
-            margin-bottom: 6rem;
+            margin-bottom: 4rem;
             position: relative;
         }
 
@@ -276,7 +277,7 @@
         .about {
             display: flex;
             align-items: center;
-            gap: 6rem;
+            gap: 4rem;
             background: var(--bg-color);
         }
 
@@ -288,7 +289,7 @@
 
         .about-img img {
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
             border-radius: 2rem;
             box-shadow: 0 20px 50px var(--shadow-color);
         }
@@ -322,13 +323,13 @@
 
         .education-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
         }
 
         .education-box {
             background: var(--second-bg-color);
-            padding: 3rem;
+            padding: 2.5rem;
             border-radius: 2rem;
             box-shadow: 0 10px 30px var(--shadow-color);
             transition: all 0.3s ease;
@@ -372,13 +373,13 @@
 
         .services-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
         }
 
         .services-box {
             background: var(--second-bg-color);
-            padding: 4rem 3rem;
+            padding: 3rem 2rem;
             border-radius: 2rem;
             text-align: center;
             box-shadow: 0 10px 30px var(--shadow-color);
@@ -392,13 +393,13 @@
         }
 
         .services-box i {
-            font-size: 5rem;
+            font-size: 4rem;
             color: var(--main-color);
             margin-bottom: 2rem;
         }
 
         .services-box h3 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin-bottom: 2rem;
             font-weight: 600;
         }
@@ -416,8 +417,8 @@
 
         .project-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         .project-box {
@@ -430,14 +431,14 @@
         }
 
         .project-box:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 25px 60px var(--shadow-color);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px var(--shadow-color);
         }
 
         .project-image {
             position: relative;
             overflow: hidden;
-            height: 250px;
+            height: 200px;
         }
 
         .project-box img {
@@ -452,21 +453,21 @@
         }
 
         .project-content {
-            padding: 2.5rem;
+            padding: 2rem;
         }
 
         .project-content h4 {
-            font-size: 2.2rem;
-            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            margin-bottom: 1rem;
             color: var(--main-color);
             font-weight: 600;
             line-height: 1.3;
         }
 
         .project-content p {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             line-height: 1.7;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             opacity: 0.9;
         }
 
@@ -474,11 +475,11 @@
             display: inline-flex;
             align-items: center;
             gap: 0.8rem;
-            padding: 1.2rem 2.5rem;
+            padding: 1rem 2rem;
             background: var(--main-color);
             color: var(--white-color);
             border-radius: 1rem;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 600;
             transition: all 0.3s ease;
             width: 100%;
@@ -501,8 +502,8 @@
 
         .article-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         .article-box {
@@ -521,7 +522,7 @@
 
         .article-box img {
             width: 100%;
-            height: 250px;
+            height: 200px;
             object-fit: cover;
             transition: all 0.4s ease;
         }
@@ -531,12 +532,12 @@
         }
 
         .article-content {
-            padding: 2.5rem;
+            padding: 2rem;
         }
 
         .article-content h4 {
-            font-size: 2.2rem;
-            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            margin-bottom: 1rem;
             color: var(--main-color);
             font-weight: 600;
             line-height: 1.3;
@@ -545,7 +546,7 @@
         .article-content p {
             font-size: 1.4rem;
             line-height: 1.7;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             opacity: 0.9;
         }
 
@@ -553,11 +554,11 @@
             display: inline-flex;
             align-items: center;
             gap: 0.8rem;
-            padding: 1.2rem 2.5rem;
+            padding: 1rem 2rem;
             background: var(--main-color);
             color: var(--white-color);
             border-radius: 1rem;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 600;
             transition: all 0.3s ease;
             width: 100%;
@@ -583,11 +584,11 @@
             align-items: center;
             flex-wrap: wrap;
             box-shadow: 0 -2px 8px var(--shadow-color);
-            min-height: 80px;
+            min-height: 70px;
         }
 
         .footer-text {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             color: var(--white-color);
         }
 
@@ -601,12 +602,12 @@
             border: .2rem solid var(--white-color);
             outline: .2rem solid transparent;
             transition: .5s ease;
-            width: 4.5rem;
-            height: 4.5rem;
+            width: 4rem;
+            height: 4rem;
         }
 
         .footer-iconTop a i {
-            font-size: 2.4rem;
+            font-size: 2rem;
             color: var(--main-color);
         }
 
@@ -622,17 +623,17 @@
         /* Floating Back Button */
         .floating-back-btn {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 55px;
-            height: 55px;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
             background: var(--main-color);
             color: white;
             border-radius: 50%;
             display: none;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
             box-shadow: 0 6px 20px var(--shadow-color);
             text-decoration: none;
             z-index: 1000;
@@ -656,7 +657,7 @@
         /* Loading States */
         .loading {
             text-align: center;
-            padding: 4rem;
+            padding: 3rem;
             font-size: 1.6rem;
             color: var(--main-color);
         }
@@ -673,14 +674,21 @@
             80%, 100% { text-shadow: .25em 0 0 var(--main-color), .5em 0 0 var(--main-color); }
         }
 
+        /* Error State */
+        .error-message {
+            text-align: center;
+            padding: 2rem;
+            background: #ffe6e6;
+            border-radius: 1rem;
+            color: #d63031;
+            font-size: 1.4rem;
+            margin: 1rem 0;
+        }
+
         /* === RESPONSIVE DESIGN === */
         @media (max-width: 1200px) {
             html {
                 font-size: 55%;
-            }
-            
-            .home-content h1 {
-                font-size: 4.5rem;
             }
         }
 
@@ -709,14 +717,15 @@
             
             .navbar a {
                 display: block;
-                font-size: 2rem;
-                margin: 1.5rem 0;
+                font-size: 1.8rem;
+                margin: 1rem 0;
                 text-align: center;
                 padding: 1rem;
                 border-radius: 0.5rem;
                 transition: all 0.3s ease;
                 color: var(--text-color);
                 border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                margin-left: 0;
             }
             
             .navbar a:last-child {
@@ -741,8 +750,8 @@
             .home {
                 flex-direction: column;
                 text-align: center;
-                padding: 10rem 5% 5rem;
-                gap: 3rem;
+                padding: 8rem 5% 3rem;
+                gap: 2rem;
             }
             
             .home-content {
@@ -752,14 +761,14 @@
             
             .home-img {
                 order: 1;
-                margin-bottom: 3rem;
+                margin-bottom: 2rem;
                 width: 100%;
             }
             
             .about {
                 flex-direction: column;
                 text-align: center;
-                gap: 4rem;
+                gap: 3rem;
             }
             
             .about-content h2 {
@@ -773,12 +782,12 @@
 
         @media (max-width: 768px) {
             .heading {
-                font-size: 3.5rem;
-                margin-bottom: 4rem;
+                font-size: 3rem;
+                margin-bottom: 3rem;
             }
             
             .home-content h1 {
-                font-size: 4rem;
+                font-size: 3.5rem;
             }
 
             .project-container,
@@ -804,7 +813,17 @@
             }
             
             section {
-                padding: 8rem 5% 3rem;
+                padding: 6rem 5% 3rem;
+            }
+
+            .home-content h3 {
+                font-size: 1.8rem;
+            }
+
+            .social-media a {
+                width: 4rem;
+                height: 4rem;
+                font-size: 1.8rem;
             }
         }
 
@@ -814,23 +833,23 @@
             }
             
             .header {
-                padding: 1.5rem 4%;
+                padding: 1rem 4%;
             }
             
             .home {
-                padding: 8rem 4% 3rem;
+                padding: 7rem 4% 2rem;
             }
             
             .home-content h1 {
-                font-size: 3.5rem;
+                font-size: 3rem;
             }
             
             .floating-back-btn {
-                bottom: 20px;
-                right: 20px;
-                width: 50px;
-                height: 50px;
-                font-size: 22px;
+                bottom: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
             }
             
             .education-container,
@@ -847,25 +866,36 @@
                 width: 100%;
                 justify-content: center;
             }
+
+            .project-content,
+            .article-content {
+                padding: 1.5rem;
+            }
         }
 
         @media (max-width: 360px) {
             .home-content h1 {
-                font-size: 3rem;
+                font-size: 2.8rem;
             }
             
             .home-content h3 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
             
             .heading {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
             
             .social-media a {
-                width: 4.5rem;
-                height: 4.5rem;
-                font-size: 2rem;
+                width: 3.5rem;
+                height: 3.5rem;
+                font-size: 1.6rem;
+            }
+
+            .project-container,
+            .article-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
         }
     </style>
@@ -1068,9 +1098,9 @@
             }
         }
 
-        // Load Projects from Supabase
+        // Load Projects from Supabase - REAL-TIME
         async function loadProjects() {
-            console.log('💼 Loading Projects...');
+            console.log('💼 Loading Projects from Supabase...');
             const projectContainer = document.querySelector('.project-container');
             
             if (!projectContainer) {
@@ -1079,14 +1109,22 @@
             }
             
             try {
+                // Clear loading state
+                projectContainer.innerHTML = '<div class="loading">Loading projects</div>';
+                
                 const { data, error } = await supabase
                     .from('projects')
                     .select('*')
                     .order('created_at', { ascending: false });
 
                 if (error) {
-                    console.log('ℹ️ No projects data, showing fallback projects');
-                    showFallbackProjects();
+                    console.error('❌ Error fetching projects:', error);
+                    projectContainer.innerHTML = `
+                        <div class="error-message">
+                            <p>Gagal memuat data proyek. Silakan refresh halaman.</p>
+                            <p><small>Error: ${error.message}</small></p>
+                        </div>
+                    `;
                     return;
                 }
 
@@ -1112,12 +1150,22 @@
                         </div>
                     `).join('');
                 } else {
-                    console.log('ℹ️ No projects found, showing fallback');
-                    showFallbackProjects();
+                    console.log('ℹ️ No projects found in database');
+                    projectContainer.innerHTML = `
+                        <div class="error-message">
+                            <p>Tidak ada proyek yang ditemukan di database.</p>
+                            <p><small>Silakan tambahkan data proyek di Supabase.</small></p>
+                        </div>
+                    `;
                 }
             } catch (error) {
                 console.error('❌ Error loading projects:', error);
-                showFallbackProjects();
+                projectContainer.innerHTML = `
+                    <div class="error-message">
+                        <p>Terjadi kesalahan saat memuat proyek.</p>
+                        <p><small>${error.message}</small></p>
+                    </div>
+                `;
             }
         }
 
@@ -1171,52 +1219,6 @@
         }
 
         // Fallback content functions
-        function showFallbackProjects() {
-            console.log('🔄 Showing fallback projects');
-            const projectContainer = document.querySelector('.project-container');
-            projectContainer.innerHTML = `
-                <div class="project-box">
-                    <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Web Development Project">
-                    </div>
-                    <div class="project-content">
-                        <h4>Personal Portfolio Website</h4>
-                        <p>Website portofolio pribadi yang responsif dengan desain modern dan interaktif.</p>
-                        <p><small><strong>Technologies:</strong> HTML, CSS, JavaScript</small></p>
-                        <a href="https://github.com/Yeszi" class="project-btn" target="_blank">
-                            View Project <i class='bx bx-right-arrow-alt'></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="project-box">
-                    <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="UI/UX Design Project">
-                    </div>
-                    <div class="project-content">
-                        <h4>E-Commerce Mobile App Design</h4>
-                        <p>Desain UI/UX untuk aplikasi mobile e-commerce dengan fokus pada user experience.</p>
-                        <p><small><strong>Technologies:</strong> Figma, Adobe XD</small></p>
-                        <a href="#project" class="project-btn">
-                            View Details <i class='bx bx-right-arrow-alt'></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="project-box">
-                    <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Music App Project">
-                    </div>
-                    <div class="project-content">
-                        <h4>Music Streaming App</h4>
-                        <p>Aplikasi streaming musik dengan fitur playlist, rekomendasi, dan social sharing.</p>
-                        <p><small><strong>Technologies:</strong> React Native, Firebase, Node.js</small></p>
-                        <a href="#project" class="project-btn">
-                            View Details <i class='bx bx-right-arrow-alt'></i>
-                        </a>
-                    </div>
-                </div>
-            `;
-        }
-
         function showFallbackOrganizations() {
             console.log('🔄 Showing fallback organizations');
             const organizationContainer = document.querySelector('.article-container');
@@ -1229,22 +1231,46 @@
                         <p>JIka anda penasaran dengan kegiatan apa saja yang dilakukan oleh kami,silahkan berkunjung klik menu dibawah ini ya gengss!!</p>
                         <a href="https://www.instagram.com/dpmfttk.umrah" class="article-btn" target="_blank">Site Profil <i class='bx bx-right-arrow-alt'></i></a>
                     </div>
+                </div>
             `;
         }
 
         function showFallbackContent() {
-            showFallbackProjects();
             showFallbackOrganizations();
         }
 
-        // Real-time updates (optional)
+        // Real-time updates for projects
         function setupRealTimeUpdates() {
-            // Listen for changes in all tables
-            const tables = ['about_me', 'projects', 'organizations'];
+            console.log('🔄 Setting up real-time updates...');
+            
+            // Listen for changes in projects table
+            const projectsChannel = supabase
+                .channel('projects-changes')
+                .on('postgres_changes', 
+                    { 
+                        event: '*', 
+                        schema: 'public', 
+                        table: 'projects' 
+                    },
+                    (payload) => {
+                        console.log('🔄 Real-time update received for projects:', payload);
+                        loadProjects(); // Reload projects when changes occur
+                    }
+                )
+                .subscribe((status) => {
+                    if (status === 'SUBSCRIBED') {
+                        console.log('✅ Successfully subscribed to real-time updates');
+                    } else {
+                        console.log('❌ Failed to subscribe to real-time updates');
+                    }
+                });
+
+            // Also listen for changes in other tables
+            const tables = ['about_me', 'organizations'];
             
             tables.forEach(table => {
                 supabase
-                    .channel(`public:${table}`)
+                    .channel(`${table}-changes`)
                     .on('postgres_changes', 
                         { event: '*', schema: 'public', table: table },
                         (payload) => {
@@ -1253,9 +1279,6 @@
                             switch(table) {
                                 case 'about_me':
                                     loadAboutMe();
-                                    break;
-                                case 'projects':
-                                    loadProjects();
                                     break;
                                 case 'organizations':
                                     loadOrganizations();
@@ -1314,13 +1337,21 @@
                     menuIcon.classList.remove('bx-x');
                 });
             });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navbar.contains(e.target) && !menuIcon.contains(e.target)) {
+                    navbar.classList.remove('active');
+                    menuIcon.classList.remove('bx-x');
+                }
+            });
         }
 
         // Scroll Reveal Animation
         function initScrollReveal() {
             const sr = ScrollReveal({
-                distance: '80px',
-                duration: 2000,
+                distance: '50px',
+                duration: 1500,
                 delay: 200,
                 reset: true
             });
@@ -1351,6 +1382,16 @@
                 });
             });
         }
+
+        // Handle image loading errors
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('img').forEach(img => {
+                img.addEventListener('error', function() {
+                    this.src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80';
+                    this.alt = 'Gambar tidak tersedia';
+                });
+            });
+        });
     </script>
 </body>
 </html>
