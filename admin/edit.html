@@ -493,6 +493,7 @@
 
             items.forEach(item => {
                 const title = item.querySelector('.item-title')?.textContent.toLowerCase() || '';
+                const desc = item.querySelector('.item-desc')?.textContent.toLowerCase() || '';
                 
                 const isMatch = title.includes(query) || desc.includes(query);
                 
