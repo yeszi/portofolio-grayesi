@@ -36,7 +36,6 @@
             console.log('👤 Loading About Me...');
             const aboutContent = document.getElementById('about-description');
             const aboutImage = document.getElementById('about-image');
-            const homeImage = document.getElementById('home-profile-image');
             
             if (!aboutContent) {
                 console.log('❌ About content element not found');
