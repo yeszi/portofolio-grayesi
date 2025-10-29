@@ -353,7 +353,7 @@
         }
 
         /* --- Responsive CSS (Copy dari form.html) --- */
-        @media (max-width: 768px) {
+        @media (max-width: 480px) {
             #sidebar {
                 transform: translateX(-100%);
                 z-index: 2000;
