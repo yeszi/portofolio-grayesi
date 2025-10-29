@@ -219,7 +219,8 @@
             font-size: 1.6rem;
             font-weight: 700;
             color: var(--text-color);
-            word-break: break-word; /* <-- TAMBAHKAN INI */
+            word-break: break-word;
+            overflow-wrap: break-word; 
         }
 
         .dashboard-section {
