@@ -1,20 +1,19 @@
-/* --- TEMA WARNA UNGU/PUTIH --- */
 :root {
-    --primary-bg: #f8f9fa;       /* Light Gray */
-    --secondary-bg: #ffffff;     /* White */
-    --accent-color: #8653e6;     /* Purple (Bootstrap Purple) */
-    --purple-accent: #906cd3;    /* Lighter Purple */
-    --text-color: #212529;       /* Dark Gray */
-    --text-muted: #6c757d;       /* Medium Gray */
-    --input-bg: #e9ecef;         /* Lighter input background */
-    --button-primary: #6f42c1;     /* Purple */
-    --button-hover-primary: #926dd8; /* Darker Purple */
-    --button-logout: #dc3545;       /* Red */
-    --button-hover-logout: #c82333; /* Darker Red */
-    --success-color: #28a745;       /* Green */
-    --error-color: #e74c3c;       /* Red */
+    --primary-bg: #f8f9fa;      
+    --secondary-bg: #ffffff;     
+    --accent-color: #8653e6; 
+    --purple-accent: #906cd3;   
+    --text-color: #212529;     
+    --text-muted: #6c757d;     
+    --input-bg: #e9ecef;       
+    --button-primary: #6f42c1; 
+    --button-hover-primary: #926dd8; 
+    --button-logout: #dc3545;      
+    --button-hover-logout: #c82333; 
+    --success-color: #28a745;      
+    --error-color: #e74c3c;     
     --transition-speed: 0.3s;
-    --border-color: #dee2e6;       /* Light Gray Border */
+    --border-color: #dee2e6;       
     --sidebar-width: 260px;
 }
 
@@ -126,7 +125,7 @@ nav.sidebar-nav a#logoutLink {
 }
 nav.sidebar-nav a#logoutLink:hover {
     background-color: var(--button-logout);
-    color: var(--white-color); /* Pastikan teks putih saat hover */
+    color: var(--white-color); 
     transform: translateX(5px);
 }
 
@@ -214,7 +213,7 @@ section {
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     margin-bottom: 2rem;
-    transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease; /* Transisi untuk hide/show */
+    transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease; 
 }
 
 h2 {
@@ -225,9 +224,6 @@ h2 {
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--border-color);
 }
-/* Hapus garis bawah tebal */
-/* h2::after { ... } */
-
 
 .content-list {
     display: grid;
@@ -271,18 +267,18 @@ h2 {
     color: var(--text-muted); font-size: 0.8rem; text-align: center; flex-shrink: 0;
     border: 2px dashed var(--border-color);
 }
+
 .item-title { font-weight: 600; margin-bottom: 0.5rem; word-break: break-word; color: var(--text-color);}
 
-/* Non-standard property for multi-line ellipsis, might cause warnings but needed */
 .item-desc {
     font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; word-break: break-word;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    flex-grow: 1; /* Make description fill space */
-    min-height: calc(1.6 * 0.9rem * 3); /* Approx height for 3 lines */
+    flex-grow: 1; 
+    min-height: calc(1.6 * 0.9rem * 3); 
 }
+
 .item-link { display: block; font-size: 0.8rem; color: var(--accent-color); margin-bottom: 1rem; word-break: break-all; }
  .item-link:hover { color: var(--button-hover-primary); }
 .item-actions { margin-top: auto; display: flex; gap: 0.8rem; }
