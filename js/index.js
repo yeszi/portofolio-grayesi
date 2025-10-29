@@ -1,4 +1,4 @@
-        const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -11,7 +11,7 @@
             
             initDarkMode();
             initMenuToggle();
-            initScrollReveal();
+            // initScrollReveal(); // <-- Dihapus
             initScrollToTop();
         });
 
@@ -28,7 +28,6 @@
                 console.log('✅ All data loaded successfully!');
             } catch (error) {
                 console.error('❌ Error loading data:', error);
-
                 showFallbackContent();
             }
         }
@@ -372,7 +371,7 @@
             });
         }
 
-        // Scroll Reveal Animation
+        /* // Scroll Reveal Animation - DIHAPUS
         function initScrollReveal() {
             const sr = ScrollReveal({
                 distance: '50px',
@@ -386,6 +385,7 @@
             sr.reveal('.home-content h1, .about-img', { origin: 'left' });
             sr.reveal('.home-content p, .about-content', { origin: 'right' });
         }
+        */
 
         // Scroll to Top Functionality
         function initScrollToTop() {
