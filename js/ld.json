@@ -1,0 +1,17 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Grayesi Silitonga",
+  "url": "https://grayesi.vercel.app",
+  "image": "https://grayesi.vercel.app/images/profile.png",
+  "sameAs": [
+    "https://github.com/Yeszi",
+    "https://www.tiktok.com/@oraelingrek",
+    "mailto:grayesi.silitonga@email.com"
+  ],
+  "jobTitle": "Front-End Developer & UI/UX Enthusiast",
+  "worksFor": {
+    "@type": "CollegeOrUniversity",
+    "name": "Raja Ali Haji Maritime University"
+  }
+}
