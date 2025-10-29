@@ -1,4 +1,4 @@
-const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
+        const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -362,7 +362,6 @@ const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
                 });
             });
 
-            // Close menu when clicking outside
             document.addEventListener('click', (e) => {
                 if (!navbar.contains(e.target) && !menuIcon.contains(e.target)) {
                     navbar.classList.remove('active');
@@ -371,23 +370,6 @@ const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
             });
         }
 
-        /* // Scroll Reveal Animation - DIHAPUS
-        function initScrollReveal() {
-            const sr = ScrollReveal({
-                distance: '50px',
-                duration: 1500,
-                delay: 200,
-                reset: true
-            });
-
-            sr.reveal('.home-content, .heading', { origin: 'top' });
-            sr.reveal('.home-img, .services-container, .project-box, .activity-card, .experience-card, .organization-box', { origin: 'bottom' });
-            sr.reveal('.home-content h1, .about-img', { origin: 'left' });
-            sr.reveal('.home-content p, .about-content', { origin: 'right' });
-        }
-        */
-
-        // Scroll to Top Functionality
         function initScrollToTop() {
             const backBtn = document.querySelector('.floating-back-btn');
             
