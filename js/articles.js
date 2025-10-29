@@ -1,4 +1,3 @@
- // Supabase Configuration
         const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -47,7 +46,7 @@
                     <div class="article-content">
                         <h4>${item.title || 'Untitled Article'}</h4>
                         <p>${item.description || 'No description provided.'}</p>
-                        <a href="${item.link || '#'}" class="article-btn">Read More</a>
+                        <a href="${item.link || '#'}" class="article-btn">Visit Link</a>
                     </div>
                 </div>`).join('');
         }
