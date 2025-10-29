@@ -1,25 +1,20 @@
-// Supabase Configuration - SAMA DENGAN ADMIN PANEL
         const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
         
-        // Initialize Supabase client
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         console.log('🚀 Supabase client initialized');
 
-        // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             console.log('📄 DOM Loaded - Starting data loading...');
             loadAllData();
             
-            // Initialize other functionality
             initDarkMode();
             initMenuToggle();
             initScrollReveal();
             initScrollToTop();
         });
 
-        // Load all data from Supabase - SESUAI DENGAN TABEL DI ADMIN
         async function loadAllData() {
             console.log('🔄 Loading all data from Supabase...');
             
@@ -33,12 +28,11 @@
                 console.log('✅ All data loaded successfully!');
             } catch (error) {
                 console.error('❌ Error loading data:', error);
-                // Show fallback content if there's an error
+
                 showFallbackContent();
             }
         }
 
-        // Load About Me from Supabase
         async function loadAboutMe() {
             console.log('👤 Loading About Me...');
             const aboutContent = document.getElementById('about-description');
@@ -58,7 +52,7 @@
 
                 if (error) {
                     console.log('ℹ️ No about_me data, using default content');
-                    return; // Keep default content
+                    return; 
                 }
 
                 if (data && data.description) {
