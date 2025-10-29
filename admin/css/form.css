@@ -230,6 +230,8 @@
             margin-bottom: 8px;
             line-height: 1.6;
             color: var(--text-color); /* Warna teks utama */
+            word-break: break-word;
+            overflow-wrap: break-word; 
         }
 
         .message-item strong {
