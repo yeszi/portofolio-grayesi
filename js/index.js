@@ -3,20 +3,16 @@
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        console.log('🚀 Supabase client initialized');
-
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('📄 DOM Loaded - Starting data loading...');
             loadAllData();
             
             initDarkMode();
             initMenuToggle();
-            // initScrollReveal(); // <-- Dihapus
+
             initScrollToTop();
         });
 
         async function loadAllData() {
-            console.log('🔄 Loading all data from Supabase...');
             
             try {
                 await Promise.all([
@@ -25,20 +21,16 @@
                     loadExperiences(),
                     loadActivities()
                 ]);
-                console.log('✅ All data loaded successfully!');
             } catch (error) {
-                console.error('❌ Error loading data:', error);
                 showFallbackContent();
             }
         }
 
         async function loadAboutMe() {
-            console.log('👤 Loading About Me...');
             const aboutContent = document.getElementById('about-description');
             const aboutImage = document.getElementById('about-image');
             
             if (!aboutContent) {
-                console.log('❌ About content element not found');
                 return;
             }
             
@@ -49,12 +41,10 @@
                     .single();
 
                 if (error) {
-                    console.log('ℹ️ No about_me data, using default content');
                     return; 
                 }
 
                 if (data && data.description) {
-                    console.log('✅ About Me loaded from Supabase');
                     aboutContent.textContent = data.description;
                     
                     // Update images if available
@@ -70,17 +60,14 @@
                     }
                 }
             } catch (error) {
-                console.error('❌ Error loading About Me:', error);
             }
         }
 
         // Load Projects from Supabase
         async function loadProjects() {
-            console.log('💼 Loading Projects from Supabase...');
             const projectContainer = document.querySelector('.project-container');
             
             if (!projectContainer) {
-                console.log('❌ Project container not found');
                 return;
             }
             
@@ -91,7 +78,6 @@
                     .order('created_at', { ascending: false });
 
                 if (error) {
-                    console.error('❌ Error fetching projects:', error);
                     projectContainer.innerHTML = `
                         <div class="error-message">
                             <p>Failed to load projects data.</p>
@@ -101,7 +87,6 @@
                 }
 
                 if (data && data.length > 0) {
-                    console.log(`✅ ${data.length} projects loaded from Supabase`);
                     projectContainer.innerHTML = data.map(project => `
                         <div class="project-box">
                             <div class="project-image">
@@ -121,7 +106,6 @@
                         </div>
                     `).join('');
                 } else {
-                    console.log('ℹ️ No projects found in database');
                     projectContainer.innerHTML = `
                         <div class="error-message">
                             <p>No projects found.</p>
@@ -129,7 +113,6 @@
                     `;
                 }
             } catch (error) {
-                console.error('❌ Error loading projects:', error);
                 projectContainer.innerHTML = `
                     <div class="error-message">
                         <p>Error loading projects.</p>
@@ -138,13 +121,10 @@
             }
         }
 
-        // Load Experiences from Supabase - DENGAN GAMBAR
         async function loadExperiences() {
-            console.log('💼 Loading Experiences from Supabase...');
             const experienceContainer = document.querySelector('.experience-container');
             
             if (!experienceContainer) {
-                console.log('❌ Experience container not found');
                 return;
             }
             
@@ -161,7 +141,6 @@
                 }
 
                 if (data && data.length > 0) {
-                    console.log(`✅ ${data.length} experiences loaded from Supabase`);
                     experienceContainer.innerHTML = data.map(exp => `
                         <div class="experience-card">
                             <div class="experience-image">
@@ -177,22 +156,18 @@
                         </div>
                     `).join('');
                 } else {
-                    console.log('ℹ️ No experiences found');
                     showFallbackExperiences();
                 }
             } catch (error) {
-                console.error('❌ Error loading experiences:', error);
                 showFallbackExperiences();
             }
         }
 
         // Load Activities from Supabase
         async function loadActivities() {
-            console.log('🎯 Loading Activities from Supabase...');
             const activityContainer = document.querySelector('.activity-grid');
             
             if (!activityContainer) {
-                console.log('❌ Activity container not found');
                 return;
             }
             
@@ -203,13 +178,11 @@
                     .order('created_at', { ascending: false });
 
                 if (error) {
-                    console.log('ℹ️ No activities data');
                     showFallbackActivities();
                     return;
                 }
 
                 if (data && data.length > 0) {
-                    console.log(`✅ ${data.length} activities loaded from Supabase`);
                     activityContainer.innerHTML = data.map(activity => `
                         <div class="activity-card">
                             <div class="activity-image">
@@ -224,18 +197,15 @@
                         </div>
                     `).join('');
                 } else {
-                    console.log('ℹ️ No activities found');
                     showFallbackActivities();
                 }
             } catch (error) {
-                console.error('❌ Error loading activities:', error);
                 showFallbackActivities();
             }
         }
 
         // Fallback content functions
         function showFallbackExperiences() {
-            console.log('🔄 Showing fallback experiences');
             const experienceContainer = document.querySelector('.experience-container');
             experienceContainer.innerHTML = `
                 <div class="experience-card">
@@ -252,7 +222,6 @@
         }
 
         function showFallbackActivities() {
-            console.log('🔄 Showing fallback activities');
             const activityContainer = document.querySelector('.activity-grid');
             activityContainer.innerHTML = `
                 <div class="activity-card">
@@ -274,7 +243,6 @@
 
         // Real-time updates for all tables
         function setupRealTimeUpdates() {
-            console.log('🔄 Setting up real-time updates...');
             
             // Listen for changes in all tables
             const tables = ['about_me', 'projects', 'experience', 'activity'];
@@ -285,7 +253,6 @@
                     .on('postgres_changes', 
                         { event: '*', schema: 'public', table: table },
                         (payload) => {
-                            console.log(`🔄 Real-time update received for ${table}:`, payload);
                             // Reload the corresponding section
                             switch(table) {
                                 case 'about_me':
