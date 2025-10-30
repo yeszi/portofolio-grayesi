@@ -1,7 +1,7 @@
  :root {
             --bg-color: #f5f5f5;
             --second-bg-color: #ffffff;
-            --main-color: #3f6399;
+            --main-color: #3f9968;
             --text-color: #333333;
             --shadow-color: rgba(0, 0, 0, .1);
             --white-color: #ffffff;
@@ -355,7 +355,7 @@
 
         .login-button {
             display: inline-block;
-            background-color: #8caed3;
+            background-color: #998d4b;
             color: white;
             padding: 1rem 2rem;
             border-radius: 0.8rem;
@@ -366,7 +366,7 @@
         }
 
         .login-button:hover {
-            background-color: #6a8cb8;
+            background-color: #754c1e;
             transform: translateY(-2px);
         }
 
@@ -598,3 +598,6 @@
                 max-width: 100%;
             }
         }
+
+
+        

@@ -1,24 +1,21 @@
-/* === ROOT VARIABLES === */
 :root {
-    --bg-color: #f5f5f5;          /* Latar belakang utama (light mode) */
-    --second-bg-color: #ffffff;  /* Latar belakang sekunder (kartu, header) */
-    --main-color: #3f6399;       /* Warna biru utama */
-    --text-color: #333333;       /* Warna teks utama (gelap) */
-    --shadow-color: rgba(0, 0, 0, .1); /* Bayangan halus */
-    --white-color: #ffffff;      /* Putih murni */
-    --accent-color: #6c63ff;     /* Ungu aksen (jika diperlukan) */
-    --transition-speed: 0.3s;    /* Kecepatan transisi umum */
+    --bg-color: #f5f5f5;          
+    --second-bg-color: #ffffff; 
+    --main-color: #3f9968;       
+    --text-color: #333333;      
+    --shadow-color: rgba(0, 0, 0, .1); 
+    --white-color: #ffffff;      
+    --accent-color: #201a96;     
+    --transition-speed: 0.3s;   
 }
 
-/* === DARK MODE VARIABLES === */
 .dark-mode {
-    --bg-color: #0b061f;          /* Latar belakang utama (dark mode) */
-    --second-bg-color: #1a1532;  /* Latar belakang sekunder (dark mode) */
-    --text-color: #fdfdfd;       /* Warna teks utama (putih) */
-    --shadow-color: rgba(0, 0, 0, .7); /* Bayangan lebih kuat */
+    --bg-color: #0b061f;         
+    --second-bg-color: #1a1532;  
+    --text-color: #fdfdfd;   
+    --shadow-color: rgba(0, 0, 0, .7); 
 }
 
-/* === GLOBAL RESET & FONT === */
 * {
     margin: 0;
     padding: 0;
@@ -31,8 +28,8 @@
 }
 
 html {
-    font-size: 62.5%; /* 1 rem = 10px */
-    overflow-x: hidden; /* Mencegah scroll horizontal global */
+    font-size: 62.5%;
+    overflow-x: hidden; 
 }
 
 body {
@@ -191,7 +188,7 @@ body {
     font-size: 1.4rem;
     font-weight: 600;
     transition: all var(--transition-speed) ease;
-    box-shadow: 0 5px 20px rgba(63, 99, 153, 0.3);
+    box-shadow: 0 5px 20px rgba(212, 218, 228, 0.3);
     border: 2px solid transparent; /* Border transparan untuk hover */
 }
 
@@ -202,7 +199,7 @@ body {
 
 .btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(63, 99, 153, 0.4);
+    box-shadow: 0 10px 30px rgba(184, 200, 223, 0.4);
     border-color: var(--main-color); /* Tampilkan border saat hover */
     background: transparent;
     color: var(--main-color);
@@ -826,11 +823,12 @@ section.bg-main {
 }
 
 .floating-back-btn.show {
+    color: whitesmoke;
     display: flex;
 }
 
 .floating-back-btn:hover {
-    background: var(--text-color); /* Warna hover bisa disesuaikan */
+    background: rgb(26, 156, 76); /* Warna hover bisa disesuaikan */
     transform: translateY(-3px);
 }
 
@@ -1138,4 +1136,70 @@ section.bg-main {
     /* Sesuaikan popup di layar kecil */
     .popup-close { top: 10px; right: 10px; width: 30px; height: 30px; font-size: 2rem;}
     .popup-nav { display: none; } /* Sembunyikan navigasi */
-}
+    }
+
+    /* Dark Mode Bintang*/
+
+    .dark-mode body,
+    .dark-mode .home,
+    .dark-mode .about,
+    .dark-mode .education,
+    .dark-mode .services,
+    .dark-mode .project,
+    .dark-mode .experience,
+    .dark-mode .activity-section,
+    .dark-mode .organization 
+
+    {
+
+    background-color: var(--bg-color); /* Ini akan mengambil #0b061f */
+    background-image: 
+        radial-gradient(1px 1px at 10% 30%, white, transparent),
+        radial-gradient(1px 1px at 80% 70%, white, transparent),
+        radial-gradient(2px 2px at 30% 80%, white, transparent),
+        radial-gradient(2px 2px at 50% 10%, white, transparent),
+        radial-gradient(3px 3px at 70% 40%, white, transparent),
+        radial-gradient(3px 3px at 20% 50%, white, transparent);
+
+
+    background-size: 
+        600px 600px, 
+        600px 600px,
+        400px 400px, 
+        400px 400px,
+        200px 200px, 
+        200px 200px;
+    background-repeat: repeat;
+    animation: moveStars 120s linear infinite;
+
+    }
+
+    .dark-mode .header,
+    .dark-mode .education-box,
+    .dark-mode .services-box,
+    .dark-mode .project-box,
+    .dark-mode .experience-card,
+    .dark-mode .activity-card,
+    .dark-mode .organization-box,
+    .dark-mode .navbar {
+    background: var(--second-bg-color);
+    animation: none;
+
+    }
+
+
+    @keyframes moveStars {
+    from {
+        background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+    }
+    to {
+
+        background-position: 
+            -10000px 2000px,  /* Lapisan 1 */
+            -10000px 2000px,
+            -15000px 3000px,  /* Lapisan 2 */
+            -15000px 3000px,
+            -25000px 5000px,  /* Lapisan 3 */
+            -25000px 5000px;
+         }
+    }
