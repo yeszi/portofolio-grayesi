@@ -326,7 +326,7 @@
             right: 25px;
             width: 55px;
             height: 55px;
-            background: var(--main-color);
+            background: #3f9968;
             color: white;
             border-radius: 50%;
             display: none;
@@ -349,7 +349,7 @@
         }
 
         .floating-back-btn:hover {
-            background: var(--text-color);
+            background: #3f9968;
             transform: translateY(-3px) scale(1.05);
         }
 
