@@ -16,6 +16,17 @@
     --shadow-color: rgba(0, 0, 0, .7); 
 }
 
+ .login-button {
+            display: inline-block;
+            background-color: #998d4b;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.8rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.4rem;
+            transition: 0.3s;
+        }
 * {
     margin: 0;
     padding: 0;
