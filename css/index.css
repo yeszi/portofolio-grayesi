@@ -984,13 +984,30 @@ section.bg-main {
 
 /* Mobile - INI BAGIAN YANG DIREVISI */
 @media (max-width: 768px) {
-    /* Pastikan tidak ada scroll horizontal */
-    html, body {
-        overflow-x: hidden;
+    .navbar {
+        display: flex; 
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--second-bg-color);
+        border-top: 1px solid var(--shadow-color);
+        /* Efek transisi */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+        z-index: 999;
+    }
+
+    .navbar.active {
+        max-height: 400px; /* Sesuaikan dengan tinggi total menu */
+        padding: 1rem 0;
     }
 
     #menu-icon {
-        display: block; /* Tampilkan ikon hamburger */
+        display: block;
+        cursor: pointer;
     }
 
     /* Navbar Mobile - Menggunakan max-height untuk toggle */

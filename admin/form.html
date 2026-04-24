@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pesan Masuk - Admin YesZie</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -9,57 +10,57 @@
     <link rel="stylesheet" href="css/form.css">
 </head>
 <body>
-<div class="main-container">
+    <div class="main-container">
 
-    <header class="mobile-header">
-        <button id="hamburger-open">
-            <i class="fas fa-bars"></i>
-        </button>
-        <h1 style="margin-left: 1rem; font-size: 1.2rem; color: var(--accent-color);">Pesan Masuk</h1>
-    </header>
-
-    <div id="sidebar-overlay"></div>
-
-    <aside id="sidebar">
-        <div class="sidebar-header">
-            <a href="admin_dashboard.html" class="logo">
-                <i class="fas fa-user-shield"></i> YesZie
-            </a>
-            <button id="sidebar-close">
-                <i class="fas fa-times"></i>
+        <header class="mobile-header">
+            <button id="hamburger-open">
+                <i class="fas fa-bars"></i>
             </button>
-        </div>
-        <nav class="sidebar-nav">
-            <a href="admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-            <a href="edit.html"><i class="fas fa-edit"></i> Edit Content</a>
-            <a href="tambah.html"><i class="fas fa-plus-circle"></i> Add Content</a>
-            <a href="form.html" class="active"><i class="fas fa-envelope"></i> Form Messages</a> 
-            <a href="../index.html" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Log Out</a>
-        </nav>
-    </aside>
+            <h1 style="margin-left: 1rem; font-size: 1.2rem; color: var(--accent-color);">Pesan Masuk</h1>
+        </header>
 
-    <div class="main-content" id="mainContent">
+        <div id="sidebar-overlay"></div>
 
-        <div class="page-header">
-            <h1><i class="fas fa-inbox"></i> Pesan Masuk</h1>
-        </div>
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <a href="admin_dashboard.html" class="logo">
+                    <i class="fas fa-user-shield"></i> YesZie
+                </a>
+                <button id="sidebar-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="edit.html"><i class="fas fa-edit"></i> Edit Content</a>
+                <a href="tambah.html"><i class="fas fa-plus-circle"></i> Add Content</a>
+                <a href="form.html" class="active"><i class="fas fa-envelope"></i> Form Messages</a>
+                <a href="../index.html" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+            </nav>
+        </aside>
 
-        <div class="container">
-            <div class="message-container">
-                <h2><i class="fas fa-envelope-open-text"></i> Daftar Pesan</h2>
-                <div class="message-list" id="contact-messages">
-                    <div class="empty-state" id="loading-state"> <i class="fas fa-spinner fa-spin"></i>
-                        <p>Memuat pesan...</p>
+        <div class="main-content" id="mainContent">
+            <div class="page-header">
+                <h1><i class="fas fa-inbox"></i> Pesan Masuk</h1>
+            </div>
+
+            <div class="container">
+                <div class="message-container">
+                    <h2><i class="fas fa-envelope-open-text"></i> Daftar Pesan</h2>
+                    <div class="message-list" id="contact-messages">
+                        <div class="empty-state" id="loading-state">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Memuat pesan...</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <footer>
-            <p>Made by 🩷 Grayesi Silitonga
-        </footer>
+            <footer>
+                <p>Made by 🩷 Grayesi Silitonga</p>
+            </footer>
+        </div>
     </div>
-</div>
 
     <script src="js/form.js"></script>
 </body>

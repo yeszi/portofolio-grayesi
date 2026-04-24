@@ -31,7 +31,6 @@
              });
         });
 
-        /* --- LOGIKA DASHBOARD --- */
         const SUPABASE_URL = 'https://owqdtbzhnxbxdsjrlzsa.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cWR0YnpobnhieGRzanJsenNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NzA1MjMsImV4cCI6MjA2NjQ0NjUyM30.cNmvpc_pBV89o9GHMU2CL0bSdgkdavAZuxB_w0Gv4gA';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -84,16 +83,13 @@
 
              try {
                  for (const table of contentTables) {
-                     // Kita hanya perlu count, head: true lebih efisien
-                     const { count, error } = await supabaseClient
+
+                    const { count, error } = await supabaseClient
                          .from(table)
                          .select('*', { count: 'exact', head: true });
 
                      if (error) {
                          console.warn(`Warning: Could not count table ${table}:`, error.message);
-                         // Anda bisa memilih untuk melanjutkan atau berhenti jika satu tabel error
-                         // errorOccurred = true;
-                         // break; // Uncomment jika ingin berhenti jika ada error
                      } else {
                          totalCount += count || 0;
                      }
@@ -117,7 +113,6 @@
 
      try {
 
-         // Hitung SEMUA pesan
 
          const { count, error } = await supabaseClient
 
