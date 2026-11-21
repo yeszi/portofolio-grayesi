@@ -2,68 +2,44 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Grayesi Silitonga</title>
-  <link rel="icon" href="https://grayesi.vercel.app/images/profile.png" type="image/png">
-  <meta name="description" content="Explore my projects, articles, and creative works as a UI/UX designer and front-end developer.">
+  <link rel="icon" href="https://grayesi.vercel.app/images/profile.png" type="image/png" />
+  <meta name="description" content="Explore my projects, articles, and creative works as a UI/UX designer and front-end developer." />
   <meta name="google-site-verification" content="KODE_VERIFIKASI_ANDA_DISINI" />
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Grayesi Silitonga | Portfolio">
-  <meta property="og:description" content="Web developer, designer, and creator.">
-  <meta property="og:image" content="https://grayesi.vercel.app/images/profile.png">
-  <meta property="og:url" content="https://grayesi.vercel.app">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Grayesi Silitonga | Portfolio" />
+  <meta property="og:description" content="Web developer, designer, and creator." />
+  <meta property="og:image" content="https://grayesi.vercel.app/images/profile.png" />
+  <meta property="og:url" content="https://grayesi.vercel.app" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link rel="stylesheet" href="css/index.css">
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/index.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Grayesi Silitonga",
+    "url": "https://grayesi.vercel.app",
+    "image": "https://grayesi.vercel.app/images/profile.png",
+    "sameAs": [
+      "https://github.com/Yeszi",
+      "https://www.tiktok.com/@oraelingrek",
+      "mailto:grayesi.silitonga@email.com"
+    ],
+    "jobTitle": "Front-End Developer & UI/UX Enthusiast",
+    "worksFor": {
+      "@type": "CollegeOrUniversity",
+      "name": "Raja Ali Haji Maritime University"
+    }
+  }
+  </script>
 </head>
 <body>
-    <header class="header">
-        <a href="contact.html" class="logo">YesZie</a>
-        <nav class="navbar">
-            <a href="#home" class="active">Home</a>
-            <a href="articles.html">Articles</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-        <div class="header-icons">
-            <i class='bx bx-moon' id="darkMode-icon"></i>
-            <i class="bx bx-menu" id="menu-icon"></i>
-        </div>
-    </header>
-
-    <section class="home" id="home">
-        <div class="home-content">
-            <h3>Hello, I am</h3>
-            <h1>Grayesi Silitonga</h1>
-            <p>Design UI/UX Enthusiast || Front-End Developer</p>
-            <p>Currently, I am a student at the Raja Ali Haji Maritime University, where I am pursuing a bachelor's degree in engineering.</p>
-            <div class="social-media">
-                <a href="https://github.com/Yeszi" target="_blank" rel="noopener"><i class='bx bxl-github'></i></a>
-                <a href="https://www.linkedin.com/in/grayesi-silitonga" target="_blank" rel="noopener"><i class='bx bxl-linkedin'></i></a>
-                <a href="mailto:grayesi.silitonga@email.com"><i class='bx bx-envelope'></i></a>
-            </div>
-            <a href="articles.html" class="btn">Actitivities<i class='bx bx-right-arrow-alt'></i></a>
-        </div> 
-        <div class="home-img">
-            <img src="images/profile.png" alt="Profile Picture Grayesi" id="home-profile-image">
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-text">
-            <p>Made by 🩷 Grayesi Silitonga </p>
-        </div>
-        <a href="contact.html" class="login-button">Contact Me</a>
-    </footer>
-
-    <a href="#" class="floating-back-btn" id="to-top">
-        <i class='bx bx-up-arrow-alt'></i>
-    </a>
-
-    <script src="js/index.js"></script>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>
